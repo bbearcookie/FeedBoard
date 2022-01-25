@@ -1,0 +1,38 @@
+@font-face {
+  font-family: "esamanru";
+  src: url("../public/fonts/esamanru_Light.ttf");
+}
+
+@font-face {
+  font-family: "esamanruMedium";
+  src: url("../public/fonts/esamanru_Medium.ttf");
+}
+
+@font-face {
+  font-family: "esamanruBold";
+  src: url("../public/fonts/esamanru_Bold.ttf");
+}
+
+@font-face {
+  font-family: "welcome";
+  src: url("../public/fonts/welcome_Regular.ttf");
+}
+
+@font-face {
+  font-family: "welcomeBold";
+  src: url("../public/fonts/welcome_Bold.ttf");
+}
+
+body {
+  margin: 0;
+  font-family: 'welcome', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
