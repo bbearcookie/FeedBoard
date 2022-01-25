@@ -15,13 +15,11 @@ const Home = () => {
           <Feed />
           <Feed />
           <Feed />
-          <p>게시글1</p>
-          <p>게시글2</p>
-          <p>게시글3</p>
+          <Feed />
         </section>
         <section className="side-area">
           <p>검색</p>
-          <div>요즘 피드</div>
+          <div>최근 태그</div>
         </section>
       </section>
       {/* <div style={{height: '100px'}} />
