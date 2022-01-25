@@ -1,19 +1,4 @@
 @font-face {
-  font-family: "esamanru";
-  src: url("../public/fonts/esamanru_Light.ttf");
-}
-
-@font-face {
-  font-family: "esamanruMedium";
-  src: url("../public/fonts/esamanru_Medium.ttf");
-}
-
-@font-face {
-  font-family: "esamanruBold";
-  src: url("../public/fonts/esamanru_Bold.ttf");
-}
-
-@font-face {
   font-family: "welcome";
   src: url("../public/fonts/welcome_Regular.ttf");
 }
