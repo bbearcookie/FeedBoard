@@ -1,0 +1,22 @@
+.TagList {
+  box-sizing: border-box;
+  width: 95%;
+  margin: 0 15px 15px 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  background: #F3F3F3;
+  border: 1px solid white;
+  border-radius: 15px;
+
+  .title-label {
+    margin: 15px 0 5px 15px;
+  }
+
+  .item-area {
+    width: 100%;
+    padding: 5px;
+    display: block;
+    text-align: left;
+  }
+}

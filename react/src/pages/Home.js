@@ -3,6 +3,7 @@ import { Outlet } from 'react-router-dom';
 import Feed from '../components/Feed';
 import NavBar from '../components/NavBar';
 import SearchBar from '../components/SearchBar';
+import TagList from '../components/TagList';
 import TitleBar from '../components/TitleBar';
 import './Home.scss';
 
@@ -20,7 +21,7 @@ const Home = () => {
         </section>
         <section className="side-area">
           <SearchBar />
-          <div>최근 태그</div>
+          <TagList />
         </section>
       </section>
       <Outlet />

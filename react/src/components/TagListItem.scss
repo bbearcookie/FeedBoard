@@ -1,0 +1,19 @@
+.TagListItem {
+  max-width: 90%;
+  margin: 3px;
+  padding: 0 5px;
+  display: inline-block;
+  border-radius: 5px;
+  color: white;
+  background: #818A91;
+  font-size: 12px;
+  line-height: 25px;
+  cursor: pointer;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.TagListItem:hover {
+  background: #687077;
+}

@@ -1,4 +1,34 @@
 .SearchBar {
-  width: 100%;
-  background: yellow;
+  width: 95%;
+  height: 50px;
+  margin: 15px;
+  padding: 0 20px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  background: #EFF3F4;
+  border: 1px solid white;
+  border-radius: 50px;
+
+  input {
+    width: 100%;
+    height: 70%;
+    margin-left: 10px;
+    border: none;
+    background: #EFF3F4;
+  }
+
+  input:focus {
+    outline: none;
+  }
+}
+
+.SearchBar.active {
+  color: black;
+  background: white;
+  border: 1px solid #ff7f50;
+
+  input {
+    background: white;
+  }
 }
