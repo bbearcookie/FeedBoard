@@ -2,6 +2,7 @@ import React from 'react';
 import { Outlet } from 'react-router-dom';
 import Feed from '../components/Feed';
 import NavBar from '../components/NavBar';
+import SearchBar from '../components/SearchBar';
 import TitleBar from '../components/TitleBar';
 import './Home.scss';
 
@@ -18,16 +19,10 @@ const Home = () => {
           <Feed />
         </section>
         <section className="side-area">
-          <p>검색</p>
+          <SearchBar />
           <div>최근 태그</div>
         </section>
       </section>
-      {/* <div style={{height: '100px'}} />
-      <h1>제목</h1>
-      <h2>h2</h2>
-      <div>
-        안녕하세요
-      </div> */}
       <Outlet />
     </div>
   );

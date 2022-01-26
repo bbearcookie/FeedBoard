@@ -1,29 +1,21 @@
 .Feed {
+  min-height: 100px;
   display: flex;
   flex-direction: column;
-  min-height: 100px;
 
   .top-area {
-    @media (max-width: 300px) {
-      flex-direction: column;
-
-      .button-area {
-        justify-content: flex-end;
-      }
-    }
-
-    display: flex;
     width: 100%;
+    display: flex;
     flex-direction: row;
 
     .user-area {
+      padding: 15px;
       display: flex;
       flex-grow: 1;
-      padding: 15px;
 
       img {
-        border-radius: 50px;
         margin-right: 10px;
+        border-radius: 50px;
       }
       
       .name-time-area {
@@ -31,20 +23,18 @@
         flex-direction: column;
 
         p {
-          align-self: flex-start;
-          padding: 0;
           margin: 0;
           text-align: left;
         }
 
         .author {
-          font-size: 20px;
           color: #ff7f50;
+          font-size: 20px;
         }
 
         .written-time {
-          font-size: 12px;
           color: #adb5bd;
+          font-size: 12px;
         }
       }
     }
@@ -80,14 +70,14 @@
   }
 
   .content-area {
+    margin-left: 15px;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    margin-left: 15px;
 
     h1 {
-      font-size: 28px;
       margin: 0;
+      font-size: 28px;
     }
 
     p {
@@ -97,11 +87,6 @@
     }
 
     .bottom-area {
-      @media (max-width: 300px) {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-
       width: 100%;
       margin-bottom: 10px;
       display: flex;
@@ -132,5 +117,22 @@
   .divider {
     height: 1px;
     background: gainsboro;
+  }
+
+  @media (max-width: 300px) {
+    .top-area {
+      flex-direction: column;
+  
+      .button-area {
+        justify-content: flex-end;
+      }
+    }
+
+    .content-area {
+      .bottom-area {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
   }
 }

@@ -13,44 +13,55 @@
 
     .feed-area {
       display: flex;
+      width: 70%;
       flex-direction: column;
     }
 
     .side-area {
       display: flex;
+      width: 30%;
       flex-direction: column;
     }
-
-    @include xxl {
+  }
+  
+  @include xxl {
+    .main-area {
       width: 1200px;
       flex-direction: row;
-
-      .feed-area {
-        width: 950px;
-      }
     }
-    @include xl {
+  }
+
+  @include xl {
+    .main-area {
       width: 1200px;
       flex-direction: row;
-
-      .feed-area {
-        width: 950px;
-      }
     }
-    @include lg {
+  }
+
+  @include lg {
+    .main-area {
       width: 900px;
       flex-direction: row;
-      
-      .feed-area {
-        width: 712px;
-      }
     }
-    @include md {
+  }
+
+  @include md {
+    .main-area {
       width: 700px;
       flex-direction: row;
+    }
+  }
+
+  @include sm {
+    .main-area {
+      width: 100%;
 
       .feed-area {
-        width: 554px;
+        width: 100%;
+      }
+  
+      .side-area {
+        width: 100%;
       }
     }
   }
