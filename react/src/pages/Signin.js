@@ -1,9 +1,10 @@
 import React from 'react';
 import NavBar from '../components/NavBar';
+import './Signin.scss';
 
 const Signin = () => {
   return (
-    <div>
+    <div className="Signin">
       <NavBar />
     </div>
   );

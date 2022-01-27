@@ -1,6 +1,8 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
 import Feed from '../components/Feed';
+import FeedTab from '../components/FeedTab';
+import Footer from '../components/Footer';
 import NavBar from '../components/NavBar';
 import SearchBar from '../components/SearchBar';
 import TagList from '../components/TagList';
@@ -14,6 +16,7 @@ const Home = () => {
       <TitleBar />
       <section className="main-area">
         <section className="feed-area">
+          <FeedTab />
           <Feed />
           <Feed />
           <Feed />
@@ -24,6 +27,7 @@ const Home = () => {
           <TagList />
         </section>
       </section>
+      <Footer />
       <Outlet />
     </div>
   );

@@ -1,0 +1,17 @@
+.FeedTab {
+  margin-top: 15px;
+  display: flex;
+  flex-direction: column;
+
+  .item-area {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+  }
+
+  .divider {
+    width: 100%;
+    height: 1px;
+    background: gainsboro;
+  }
+}
