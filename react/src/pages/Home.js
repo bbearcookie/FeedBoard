@@ -1,13 +1,13 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
 import NavBar from '../components/NavBar';
-import SearchBar from '../components/SearchBar';
 import Footer from '../components/Footer';
 import Feed from '../components/home/Feed';
-import TagTab from '../components/home/TagTab';
 import TrendTagList from '../components/home/TrendTagList';
 import TitleBar from '../components/TitleBar';
 import './Home.scss';
+import TagTabContainer from '../containers/home/TagTabContainer';
+import TagSearchBarContainer from '../containers/home/TagSearchBarContainer';
 
 const Home = () => {
   return (
@@ -16,14 +16,14 @@ const Home = () => {
       <TitleBar />
       <section className="main-area">
         <section className="feed-area">
-          <TagTab />
+          <TagTabContainer />
           <Feed />
           <Feed />
           <Feed />
           <Feed />
         </section>
         <section className="side-area">
-          <SearchBar />
+          <TagSearchBarContainer />
           <TrendTagList />
         </section>
       </section>
