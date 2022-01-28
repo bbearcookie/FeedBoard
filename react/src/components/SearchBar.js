@@ -6,6 +6,7 @@ import { faSearch } from '@fortawesome/free-solid-svg-icons';
 
 const SearchBar = () => {
   const [active, setActive] = useState(false);
+  const [value, setValue] = useState('');
 
   const onFocus = () => {
     setActive(true);
@@ -15,16 +16,21 @@ const SearchBar = () => {
     setActive(false);
   }
 
+  const onChange = (e) => {
+    setValue(e.target.value);
+  }
+
   return (
     <div className={classNames('SearchBar', {'active': active})}>
-      <FontAwesomeIcon className="icon" icon={faSearch}/>
       <input
         type="text"
         name="search"
         placeholder="검색"
         onFocus={onFocus}
         onBlur={onBlur}
+        onChange={onChange}
       />
+      <FontAwesomeIcon className="search-button" icon={faSearch}/>
     </div>
   );
 };

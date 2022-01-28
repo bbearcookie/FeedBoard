@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import './FeedTab.scss';
-import FeedTabItem from './FeedTabItem';
+import React, { useRef, useState } from 'react';
+import './TagTab.scss';
+import TagTabItem from './TagTabItem';
 
-const FeedTab = () => {
+const TagTab = () => {
   const [itemList, setItemList] = useState([
     {
       id: 0,
@@ -21,6 +21,8 @@ const FeedTab = () => {
     },
   ]);
 
+  const nextId = useRef(3);
+
   const onClick = (id) => {
     setItemList(itemList.map((item =>
       item.id === id ?
@@ -30,10 +32,10 @@ const FeedTab = () => {
   }
 
   return (
-    <div className="FeedTab">
+    <div className="TagTab">
       <div className="item-area">
         {itemList.map((item) => (
-          <FeedTabItem key={item.id} id={item.id} text={item.text} active={item.active} onClick={onClick} />
+          <TagTabItem key={item.id} id={item.id} text={item.text} active={item.active} onClick={onClick} />
         ))}
       </div>
       <div className="divider" />
@@ -41,4 +43,4 @@ const FeedTab = () => {
   );
 };
 
-export default FeedTab;
+export default TagTab;

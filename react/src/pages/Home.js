@@ -1,11 +1,11 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
-import Feed from '../components/Feed';
-import FeedTab from '../components/FeedTab';
-import Footer from '../components/Footer';
 import NavBar from '../components/NavBar';
 import SearchBar from '../components/SearchBar';
-import TagList from '../components/TagList';
+import Footer from '../components/Footer';
+import Feed from '../components/home/Feed';
+import TagTab from '../components/home/TagTab';
+import TrendTagList from '../components/home/TrendTagList';
 import TitleBar from '../components/TitleBar';
 import './Home.scss';
 
@@ -16,7 +16,7 @@ const Home = () => {
       <TitleBar />
       <section className="main-area">
         <section className="feed-area">
-          <FeedTab />
+          <TagTab />
           <Feed />
           <Feed />
           <Feed />
@@ -24,7 +24,7 @@ const Home = () => {
         </section>
         <section className="side-area">
           <SearchBar />
-          <TagList />
+          <TrendTagList />
         </section>
       </section>
       <Footer />

@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimesCircle } from '@fortawesome/free-solid-svg-icons';
-import "./FeedTabItem.scss";
+import "./TagTebItem.scss";
 import classnames from 'classnames';
 
-const FeedTabItem = ({id, text, active, onClick}) => {
+const TagTebItem = ({id, text, active, onClick}) => {
   return (
     <div
-      className={classnames("FeedTabItem", {'active': active})}
+      className={classnames("TagTebItem", {'active': active})}
       onClick={() => onClick(id)}
     >
       <div className="content-area">
@@ -19,4 +19,4 @@ const FeedTabItem = ({id, text, active, onClick}) => {
   );
 };
 
-export default FeedTabItem;
+export default TagTebItem;
