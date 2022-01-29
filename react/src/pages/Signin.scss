@@ -1,13 +1,14 @@
 @import '../lib/variables';
 
 .Signin {
+  width: 100%;
   display: flex;
   flex-direction: column;
-  align-items: center;
 
   .main-area {
     width: 100%;
     padding: 40px;
+    align-self: center;
     display: flex;
     flex-direction: column;
 
@@ -29,9 +30,14 @@
       text-decoration: underline;
     }
 
+    .Input {
+      width: calc(100% - 30px);
+    }
+
     .Button {
       width: 130px;
       height: 50px;
+      margin-right: 15px;
       align-self: flex-end;
     }
   }
@@ -64,6 +70,12 @@
   @include sm {
     .main-area {
       width: 400px;
+    }
+  }
+
+  @media (max-width: 500px) {
+    .main-area {
+      width: 100%;
     }
   }
 }

@@ -1,11 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPortrait, faAddressCard, faLock } from '@fortawesome/free-solid-svg-icons';
+import { faAddressCard, faLock } from '@fortawesome/free-solid-svg-icons';
 import NavBar from '../components/NavBar';
-import Input from '../components/signin/Input';
+import Input from '../components/Input';
 import './Signin.scss';
-import Button from '../components/signin/Button';
+import Button from '../components/Button';
 
 const Signin = () => {
   return (
