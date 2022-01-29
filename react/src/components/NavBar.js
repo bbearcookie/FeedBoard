@@ -6,7 +6,7 @@ const NavBar = () => {
   return (
     <section className="NavBar">
       <nav>
-        <div className="nav-logo">FeedBoard</div>
+        <Link className="nav-logo" to="/">FeedBoard</Link>
         <div className="nav-items">
           <NavLink to="/">메인</NavLink>
           <NavLink to="/signin">로그인</NavLink>

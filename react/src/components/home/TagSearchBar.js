@@ -17,8 +17,10 @@ const TagSearchBar = ({ input, onChangeInput, onInsert }) => {
   // 작성 완료시 태그탭에 새로운 태그 추가하고 input 값 초기화
   const onSubmit = useCallback((e) => {
     e.preventDefault();
-    onInsert(input);
-    onChangeInput('');
+    if (input) {
+      onInsert(input);
+      onChangeInput('');
+    }
   }, [input, onInsert, onChangeInput]);
 
   return (

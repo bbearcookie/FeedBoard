@@ -1,0 +1,23 @@
+.Button {
+  color: white;
+  background: #FA8072;
+  border: 0;
+  border-radius: 5px;
+  cursor: pointer;
+  user-select: none;
+  transition: background-color 0.2s;
+  transition: box-shadow 0.1s;
+}
+
+.Button:hover {
+  background: #E6766A;
+}
+
+.Button:active {
+  border: solid 1px rgb(139, 79, 79);
+  box-shadow: 0px 0px 3px 1px rgb(139, 79, 79);
+}
+
+.Button.focus {
+  background: blue;
+}
