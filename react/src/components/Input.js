@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import "./Input.scss";
 
-const Input = ({ type, icon, placeholder }) => {
+const Input = ({ type, name, icon, placeholder, autoComplete }) => {
   const [focus, setFocus] = useState(false); // input 포커싱 on/off
   const inputRef = useRef(null);
 
@@ -22,13 +22,23 @@ const Input = ({ type, icon, placeholder }) => {
       <span className="tooltip">{placeholder}</span>
       <input
         type={type}
+        name={name}
         placeholder={placeholder}
         onFocus={onFocus}
         onBlur={onBlur}
         ref={inputRef}
+        autoComplete={autoComplete}
       />
     </div>
   );
 };
+
+Input.defaultProps = {
+  type: 'text',
+  name: '',
+  icon: null,
+  placeholder: '',
+  autoComplete: 'on',
+}
 
 export default Input;

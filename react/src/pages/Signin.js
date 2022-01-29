@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom';
 import { faAddressCard, faLock } from '@fortawesome/free-solid-svg-icons';
 import NavBar from '../components/NavBar';
 import Input from '../components/Input';
-import './Signin.scss';
 import Button from '../components/Button';
+import './Signin.scss';
 
 const Signin = () => {
   return (
