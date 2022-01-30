@@ -68,3 +68,14 @@
     color: #ff7f50;
   }
 }
+
+.Input.error {
+  border: 1px solid red;
+  box-shadow: 0px 0px 1px 1px red;
+  color: red;
+  transition: all 0.25s;
+
+  .icon {
+    color: red;
+  }
+}

@@ -9,8 +9,8 @@
     width: 100%;
     padding: 40px;
     align-self: center;
-    display: flex;
-    flex-direction: column;
+    display: inherit;
+    flex-direction: inherit;
   }
 
   .title-label {
@@ -31,15 +31,20 @@
     text-decoration: underline;
   }
 
-  .Input {
-    width: calc(100% - 30px);
-  }
+  form {
+    display: inherit;
+    flex-direction: inherit;
 
-  .Button {
-    width: 130px;
-    height: 50px;
-    margin-right: 15px;
-    align-self: flex-end;
+    .Input {
+      width: calc(100% - 30px);
+    }
+  
+    .Button {
+      width: 130px;
+      height: 50px;
+      margin-right: 15px;
+      align-self: flex-end;
+    }
   }
 
   @include xxl {

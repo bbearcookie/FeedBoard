@@ -21,3 +21,5 @@ react/.env.production.local
 react/npm-debug.log*
 react/yarn-debug.log*
 react/yarn-error.log*
+
+express/node_modules
