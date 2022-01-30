@@ -1,0 +1,27 @@
+.SignForm {
+  display: inherit;
+  flex-direction: inherit;
+
+  .error-message {
+    margin: 0 25px 15px 25px;
+    align-self: flex-start;
+    color: #b85c5c;
+    user-select: none;
+  }
+
+  .Input {
+    width: calc(100% - 30px);
+  }
+
+  .Button {
+    width: 130px;
+    height: 50px;
+    margin-right: 15px;
+    align-self: flex-end;
+  }
+
+  .LoadingSpinner {
+    margin-bottom: 15px;
+    align-self: center;
+  }
+}

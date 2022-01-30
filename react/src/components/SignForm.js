@@ -1,10 +1,13 @@
 import React from 'react';
 import Input from './Input';
 import Button from './Button';
+import LoadingSpinner from './LoadingSpinner';
+import './SignForm.scss';
 
 const SignForm = ({ form, inputs, error, onChangeField, onSubmit }) => {
   return (
-    <form onSubmit={onSubmit}>
+    <form className="SignForm" onSubmit={onSubmit}>
+      <LoadingSpinner />
       {error ? <p className="error-message">{error}</p> : null}
       {inputs.map((input) => (
         <Input
