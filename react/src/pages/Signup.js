@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import NavBar from '../components/NavBar';
 import './Signup.scss';
-import SignupFormContainer from '../containers/SignupFormContainer';
+import SignupFormContainer from '../containers/sign/SignupFormContainer';
 
 const Signup = () => {
   return (

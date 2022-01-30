@@ -3,11 +3,10 @@ import classNames from 'classnames';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import "./Input.scss";
 
-const Input = ({ type, name, value, placeholder, icon, onChangeField }) => {
+const Input = ({ type, name, value, placeholder, icon, inputRef, onChangeField }) => {
   const [focus, setFocus] = useState(false); // input 포커싱 on/off
-  const inputRef = useRef(null);
 
-  const onClick = useCallback(() => inputRef.current.focus(), []); // 컴포넌트 클릭시 input 포커싱 처리
+  const onClick = useCallback(() => inputRef.current.focus(), [inputRef]); // 컴포넌트 클릭시 input 포커싱 처리
   const onFocus = useCallback(() => setFocus(true), []); // input 포커싱 on/off
   const onBlur = useCallback(() => setFocus(false), []); // input 포커싱 on/off
 
@@ -44,6 +43,7 @@ Input.defaultProps = {
   value: '',
   placeholder: '',
   icon: null,
+  inputRef: null,
   onChangeField: () => {},
 }
 

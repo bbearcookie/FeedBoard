@@ -35,6 +35,13 @@
     display: inherit;
     flex-direction: inherit;
 
+    .error-message {
+      margin: 0 25px 15px 25px;
+      align-self: flex-start;
+      color: #b85c5c;
+      user-select: none;
+    }
+
     .Input {
       width: calc(100% - 30px);
     }
