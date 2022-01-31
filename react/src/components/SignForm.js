@@ -4,10 +4,11 @@ import Button from './Button';
 import LoadingSpinner from './LoadingSpinner';
 import './SignForm.scss';
 
-const SignForm = ({ form, inputs, error, onChangeField, onSubmit }) => {
+const SignForm = ({ form, inputs, request, error, onChangeField, onSubmit }) => {
   return (
     <form className="SignForm" onSubmit={onSubmit}>
-      <LoadingSpinner />
+      {request.loading ? <LoadingSpinner /> : null}
+      {request.data ? <div>{request.data}</div> : null}
       {error ? <p className="error-message">{error}</p> : null}
       {inputs.map((input) => (
         <Input

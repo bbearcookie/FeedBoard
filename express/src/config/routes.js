@@ -1,5 +1,4 @@
-const root = require('../routes/root');
-
 module.exports = (app) => {
-  app.use("/", root);
+  app.use('/', require('../routes/root'));
+  app.use('/auth', require('../routes/auth'));
 }

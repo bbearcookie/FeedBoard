@@ -1,11 +1,15 @@
 import React, { useCallback, useRef, useState, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import axios from 'axios';
 import { changeField, initializeForm } from '../../modules/form';
 import SignForm from '../../components/SignForm';
 import { faAddressCard, faLock, faUser } from '@fortawesome/free-solid-svg-icons';
+import useRequest from '../../lib/useRequest';
+import * as api from '../../lib/api';
 
 const SignupFormContainer = () => {
-  const [error, setError] = useState(''); // 유효성 검사 메시지
+  const [error, setError] = useState(''); // 화면에 보여줄 오류 메시지
+  const submitRequest = useRequest();
 
   const formName = 'signup';
   const inputs = [
@@ -62,7 +66,7 @@ const SignupFormContainer = () => {
   }, [dispatch]);
 
   // 폼 전송 처리
-  const onSubmit = useCallback((e) => {
+  const onSubmit = useCallback(async (e) => {
     e.preventDefault();
 
     // 유효성 검사 에러 메시지 설정 후 해당 input을 focus시킴.
@@ -104,14 +108,20 @@ const SignupFormContainer = () => {
       return;
     }
 
-    dispatch(initializeForm(formName));
-    setError('');
-  }, [dispatch, form, inputs]);
+    try {
+      setError('');
+      await submitRequest.call(api.postSignup, form);
+      dispatch(initializeForm(formName));
+    } catch (err) {
+      setError('전송 실패');
+    }
+  }, [dispatch, form, inputs, submitRequest]);
 
   return (
     <SignForm
       form={form}
       inputs={inputs}
+      request={submitRequest}
       error={error}
       onChangeField={onChangeField}
       onSubmit={onSubmit}
