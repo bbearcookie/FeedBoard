@@ -1,19 +1,19 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import NavBar from '../components/NavBar';
-import './Signup.scss';
-import SignupFormContainer from '../containers/sign/SignupFormContainer';
+import SignupForm from '../components/sign/SignupForm';
+import SignTemplate from '../components/sign/SignTemplate';
 
 const Signup = () => {
   return (
-    <div className="Signup">
+    <SignTemplate>
       <NavBar />
       <div className="main-area">
         <p className="title-label">회원가입</p>
-        <Link className="signin-link" to="/signin">이미 가입하셨나요?</Link>
-        <SignupFormContainer />
+        <Link className="link" to="/signin">이미 가입하셨나요?</Link>
+        <SignupForm />
       </div>
-    </div>
+    </SignTemplate>
   );
 };
 

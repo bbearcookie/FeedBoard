@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import classNames from 'classnames';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import "./Input.scss";
@@ -26,7 +26,7 @@ const Input = ({ type, name, value, placeholder, icon, inputRef, onChangeField }
       <input
         type={type}
         name={name}
-        value={value}
+        value={value ? value : undefined}
         placeholder={placeholder}
         onFocus={onFocus}
         onBlur={onBlur}

@@ -4,12 +4,14 @@ const db = require('../config/database');
 const { passport } = require('../config/passport');
 
 router.post('/signin', async (req, res) => {
-  passport.authenticate('local', (err, user, info) => {
-    if (err) console.error(err);
-    console.log('inner authenticate');
+  console.log(req.body);
+  
+  // passport.authenticate('local', (err, user, info) => {
+  //   if (err) console.error(err);
+  //   console.log('inner authenticate');
 
-    res.send(user);
-  })(req, res); // authenticate 내부의 콜백 함수에 req, res 객체를 사용할수 있게 보냄.
+  //   res.send(user);
+  // })(req, res); // authenticate 내부의 콜백 함수에 req, res 객체를 사용할수 있게 보냄.
 });
 
 router.post('/signup', async (req, res) => {

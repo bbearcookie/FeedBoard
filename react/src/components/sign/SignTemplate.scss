@@ -1,6 +1,6 @@
-@import '../lib/variables';
+@import '../../lib/variables';
 
-.Signup {
+.SignTemplate {
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -19,7 +19,7 @@
     user-select: none;
   }
 
-  .signin-link {
+  .link {
     margin: 5px 0 20px 0;
     color: #FA8072;
     text-decoration: none;
@@ -27,7 +27,7 @@
     user-select: none;
   }
 
-  .signin-link:hover {
+  .link:hover {
     text-decoration: underline;
   }
 

@@ -1,10 +1,10 @@
 import React from 'react';
-import Input from './Input';
-import Button from './Button';
-import LoadingSpinner from './LoadingSpinner';
+import Input from '../Input';
+import Button from '../Button';
+import LoadingSpinner from '../LoadingSpinner';
 import './SignForm.scss';
 
-const SignForm = ({ form, inputs, request, error, onChangeField, onSubmit }) => {
+const SignForm = ({ inputs, request, error, onSubmit }) => {
   return (
     <form className="SignForm" onSubmit={onSubmit}>
       {request.loading ? <LoadingSpinner /> : null}
@@ -17,9 +17,7 @@ const SignForm = ({ form, inputs, request, error, onChangeField, onSubmit }) => 
           name={input.name}
           placeholder={input.placeholder}
           icon={input.icon}
-          value={form[input.name]}
           inputRef={input.ref}
-          onChangeField={onChangeField}
         />
       ))}
       <Button type="submit">전송</Button>
@@ -28,10 +26,9 @@ const SignForm = ({ form, inputs, request, error, onChangeField, onSubmit }) => 
 };
 
 SignForm.defaultProps = {
-  form: {},
   inputs: [],
+  request: {},
   error: '',
-  onChangeField: () => {},
   onSubmit: () => {}
 }
 
