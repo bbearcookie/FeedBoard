@@ -19,6 +19,6 @@ router.get('/', async (req, res) => {
 
 router.get('/test', async (req, res) => {
   res.send("test page");
-})
+});
 
 module.exports = router;

@@ -77,35 +77,32 @@ const SignupFormContainer = () => {
     
     let name = "username";
     if (form[name] === '') {
-      setErrorAndFocus('아이디가 비어있어요.', name);
-      return;
+      return setErrorAndFocus('아이디가 비어있어요.', name);
     }
     if (/[^a-zA-Z0-9]/.exec(form[name]) || form[name].length > 20) {
-      setErrorAndFocus('아이디는 영어와 숫자를 포함해서 20글자까지 입력할 수 있어요.', name);
-      return;
+      return setErrorAndFocus('아이디는 영어와 숫자를 포함해서 20글자까지 입력할 수 있어요.', name);
     };
     
     name = "password";
     if (form[name] === '') {
-      setErrorAndFocus('비밀번호가 비어있어요.', name);
-      return;
+      return setErrorAndFocus('비밀번호가 비어있어요.', name);
     }
 
     name = "passwordConfirm";
     if (form[name] === '') {
-      setErrorAndFocus('비밀번호 재확인이 비어있어요.', name);
-      return;
+      return setErrorAndFocus('비밀번호 재확인이 비어있어요.', name);
     }
-
     if (form.password !== form.passwordConfirm) {
-      setErrorAndFocus('비밀번호가 일치하지 않아요.', name);
-      return;
+     return setErrorAndFocus('비밀번호가 일치하지 않아요.', name);
     }
 
     name = "nickname";
     if (form[name] === '') {
-      setErrorAndFocus('닉네임이 비어있어요.', name);
-      return;
+      return setErrorAndFocus('닉네임이 비어있어요.', name);
+    }
+
+    if (/[^a-zA-Z0-9가-힣]/.exec(form[name]) || form[name].length > 20) {
+      return setErrorAndFocus('닉네임은 한글, 영어, 숫자를 포함해서 20글자까지 입력할 수 있어요.', name);
     }
 
     try {
@@ -113,7 +110,10 @@ const SignupFormContainer = () => {
       await submitRequest.call(api.postSignup, form);
       dispatch(initializeForm(formName));
     } catch (err) {
-      setError('전송 실패');
+      if (err.response)
+        if (err.response.data)
+          return setError(err.response.data);
+      return setError('요청 오류');
     }
   }, [dispatch, form, inputs, submitRequest]);
 
