@@ -9,7 +9,8 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 app.use(express.json()); // express 4.16 버전부터는 body-parser가 내장되었음
-app.use(express.urlencoded({ extended: true })) // application/x-www-form-urlencoded 형태의 데이터 파싱 가능하게 설정
+app.use(express.urlencoded({ extended: true })); // application/x-www-form-urlencoded 형태의 데이터 파싱 가능하게 설정
+require('./config/database');
 
 require('./config/routes')(app);
 
