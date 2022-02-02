@@ -8,7 +8,6 @@ const SignForm = ({ inputs, request, error, onSubmit }) => {
   return (
     <form className="SignForm" onSubmit={onSubmit}>
       {request.loading ? <LoadingSpinner /> : null}
-      {request.data ? <div>{request.data}</div> : null}
       {error ? <p className="error-message">{error}</p> : null}
       {inputs.map((input) => (
         <Input

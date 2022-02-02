@@ -80,13 +80,15 @@ const SignupFormContainer = () => {
       return setErrorAndFocus('닉네임은 한글, 영어, 숫자를 포함해서 20글자까지 입력할 수 있어요.', name);
 
     try {
-      setError('');
-      await request.call(api.postSignup, form);
+      const data = await request.call(api.postSignup, form);
       inputs.forEach(input => e.target[input.name].value = ''); // 폼 초기화
+      setError(data.message);
     } catch (err) {
       if (err.response)
-        if (err.response.status === 409)
-          return setErrorAndFocus(err.response.data, 'username');
+        if (err.response.status === 409) {
+          const { message, field } = err.response.data;
+          return setErrorAndFocus(message, field);
+        }
       return setError('요청 오류');
     }
   }, [request]);

@@ -1,6 +1,13 @@
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
+const crypto = require('crypto');
 const db = require('../config/database');
+
+// 암호화 하는 함수
+function encrypt(salt, plainText) {
+  const hashedText = crypto.pbkdf2Sync(plainText, salt, 51234, 32, "sha512").toString('hex');
+  return hashedText;
+}
 
 module.exports = (app) => {
   app.use(passport.initialize());
@@ -8,18 +15,19 @@ module.exports = (app) => {
 
   passport.serializeUser((user, done) => {
     console.log('serializeUser');
+    done(null, user);
   });
 
-  passport.deserializeUser((id, done) => {
+  passport.deserializeUser((user, done) => {
     console.log('deserializeUser');
+    done(null, user);
   });
 
   passport.use(new LocalStrategy({
     usernameField: 'username',
-    passportField: 'password'
+    passportField: 'password',
+    session: true,
   }, async (username, password, done) => {
-    console.log('inner local strategy validation check and return user');
-
     try {
       const conn = await db.getConnection();
       const query = 'SELECT * FROM user WHERE USERNAME = ?';
@@ -29,23 +37,22 @@ module.exports = (app) => {
 
       // 없는 아이디
       if (!user) {
-        return done(null, false);
+        return done(null, false, { message: '가입되지 않은 아이디에요.', field: 'username' } );
       }
 
       // 비밀번호 비교
-      if (user.password !== password) {
-        return done(null, false);
+      if (user.password !== encrypt(user.salt, password)) {
+        return done(null, false, { message: '비밀번호가 달라요.', field: 'password' });
       }
 
       conn.release();
       return done(null, user);
     } catch (err) {
       console.error(err);
-      return done(null, false);
+      return done(null, false, { message: '시스템 에러' });
     }
   }));
-
-  console.log('passport setup');
-}
+};
 
 module.exports.passport = passport;
+module.exports.encrypt = encrypt;

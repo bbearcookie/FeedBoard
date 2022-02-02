@@ -12,6 +12,7 @@ function useRequest() {
       const result = await requestThunk(...params);
       setData(result.data);
       setLoading(false);
+      return result.data;
     } catch (err) {
       console.error(err);
       setError(true);

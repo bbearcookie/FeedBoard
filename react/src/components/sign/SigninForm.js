@@ -10,14 +10,16 @@ const inputs = [
     type: 'text',
     name: 'username',
     placeholder: '아이디',
-    icon: faAddressCard
+    icon: faAddressCard,
+    ref: createRef()
   },
   {
     id: 1,
     type: 'password',
     name: 'password',
     placeholder: '비밀번호',
-    icon: faLock
+    icon: faLock,
+    ref: createRef()
   }
 ];
 
@@ -28,14 +30,26 @@ const SigninFormContainer = () => {
   const onSubmit = useCallback(async (e) => {
     e.preventDefault();
 
+    // 유효성 검사 에러 메시지 설정 후 해당 input을 focus시킴.
+    function setErrorAndFocus(error, fieldName) {
+      setError(error);
+      inputs.find(input => input.name === fieldName).ref.current.focus();
+    }
+
     // 폼 내용
     const form = {};
     inputs.forEach(input => form[input.name] = e.target[input.name].value);
 
     try {
       setError('');
-      await request.call(api.postSignin, form);
+      const data = await request.call(api.postSignin, form);
+      return setError(data.message);
     } catch (err) {
+      if (err.response)
+        if (err.response.status === 401) {
+          const { message, field } = err.response.data;
+          return setErrorAndFocus(message, field);
+        }
       return setError('요청 오류');
     }
 
