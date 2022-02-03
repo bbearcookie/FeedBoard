@@ -1,17 +1,20 @@
 import axios from "axios";
 
 const BACKEND = 'http://localhost:5000';
+const options = { withCredentials: true };
 
 export const getTest = () => axios.get(`${BACKEND}/test`);
 export const postSignin = (form) => axios.post(`${BACKEND}/auth/signin`,
   { username: form.username,
     password: form.password },
-  { withCredentials: true }
+    options
 );
 export const postSignup = (form) => axios.post(`${BACKEND}/auth/signup`,
   { username: form.username,
     password: form.password,
     passwordConfirm: form.passwordConfirm,
     nickname: form.nickname },
-  { withCredentials: true }
+    options
 );
+export const postLogout = () => axios.post(`${BACKEND}/auth/logout`, {}, options);
+export const getLoggedCheck = () => axios.get(`${BACKEND}/auth/check`, options);

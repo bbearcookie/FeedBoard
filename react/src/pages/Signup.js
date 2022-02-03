@@ -1,8 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import NavBar from '../components/NavBar';
-import SignupForm from '../components/sign/SignupForm';
 import SignTemplate from '../components/sign/SignTemplate';
+import SignupForm from '../components/sign/SignupForm';
 
 const Signup = () => {
   return (

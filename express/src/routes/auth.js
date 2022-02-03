@@ -4,6 +4,10 @@ const db = require('../config/database');
 const { encrypt, passport } = require('../config/passport');
 
 router.post('/signin', async (req, res) => {
+  if (req.isAuthenticated()) {
+    return res.status(400).json({message: '이미 로그인 되어있어요.'});
+  }
+
   passport.authenticate('local', (err, user, info) => {
     if (err) console.error(err);
     if (user) {
@@ -13,7 +17,6 @@ router.post('/signin', async (req, res) => {
         res.status(200).json({ message: '로그인 성공' });
       })
     } else {
-      console.log(info);
       console.log('로그인 실패 이유: ' + info.message);
       res.status(401).json(info);
     }
@@ -59,58 +62,17 @@ router.post('/signup', async (req, res) => {
   res.status(200).json({ message: '회원가입 성공' });
 });
 
-// 아래는 테스트용 ---
-router.get('/test/signin', async (req, res) => {
-  let html = 
-  `
-  <html>
-    <head>
-      <title>haha</title>
-    </head>
-    <body>
-    <form method="post" action="http://localhost:5000/auth/test/signin">
-      <input type="text" name="username" placeholder="아이디" />
-      <input type="password" name="password" placeholder="비밀번호" />
-      <button type="submit">전송</button>
-    </form>
-    </body>
-  </html>
-  `
-  res.send(html);
-});
-
-router.post('/test/signin', async (req, res, next) => {
-  console.log(req.body);
-
-  passport.authenticate('local', (err, user, info) => {
-    if (err) console.error(err);
-    if (user) {
-      req.login(user, (err) => {
-        if (err) console.error(err);
-        console.log('로그인 성공');
-        res.send('로그인 성공');
-      })
-    } else {
-      console.log('로그인 실패 이유: ' + info.message);
-      res.send('실패');
-    }
-
-  })(req, res, next); // authenticate 내부의 콜백 함수에 req, res 객체를 사용할수 있게 보냄.
-
-  // res.redirect('http://localhost:5000/auth/test/signin');
-});
-
-router.get('/test', async (req, res) => {
-  if (req.isAuthenticated()) {
-    res.send(req.user);
-  } else {
-    res.send("로그인 안한 상태");
-  };
-});
-
-router.get('/test/logout', async (req, res) => {
+router.post('/logout', async (req, res) => {
   req.logout();
-  res.send('bye');
+  res.send();
+});
+
+router.get("/check", async (req, res) => {
+  if (req.user) {
+    res.status(200).json({ message: '로그인이 되어있는 상태에요.', username: req.user.username });
+  } else {
+    res.status(401).json({ message: '로그인이 되어있지 않은 상태에요.' });
+  }
 });
 
 module.exports = router;

@@ -21,4 +21,10 @@ router.get('/test', async (req, res) => {
   res.send("test page");
 });
 
+router.get('/test/user', async (req, res) => {
+  console.log(req.user);
+
+  res.json({message: 'haha'});
+});
+
 module.exports = router;

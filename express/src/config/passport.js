@@ -37,7 +37,7 @@ module.exports = (app) => {
 
       // 없는 아이디
       if (!user) {
-        return done(null, false, { message: '가입되지 않은 아이디에요.', field: 'username' } );
+        return done(null, false, { message: '가입 되어있지 않은 아이디에요.', field: 'username' } );
       }
 
       // 비밀번호 비교

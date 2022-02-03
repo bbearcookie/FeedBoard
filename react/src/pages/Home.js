@@ -1,5 +1,4 @@
 import React from 'react';
-import NavBar from '../components/NavBar';
 import Footer from '../components/Footer';
 import Feed from '../components/home/Feed';
 import TrendTagList from '../components/home/TrendTagList';
@@ -7,6 +6,7 @@ import TitleBar from '../components/TitleBar';
 import './Home.scss';
 import TagTabContainer from '../containers/home/TagTabContainer';
 import TagSearchBarContainer from '../containers/home/TagSearchBarContainer';
+import NavBar from '../components/NavBar';
 
 const Home = () => {
   return (
