@@ -6,12 +6,11 @@ import TitleBar from '../components/TitleBar';
 import './Home.scss';
 import TagTabContainer from '../containers/home/TagTabContainer';
 import TagSearchBarContainer from '../containers/home/TagSearchBarContainer';
-import NavBar from '../components/NavBar';
+import PageTemplate from '../templates/PageTemplate';
 
 const Home = () => {
   return (
-    <div className="Home">
-      <NavBar />
+    <PageTemplate className="Home">
       <TitleBar />
       <section className="main-area">
         <section className="feed-area">
@@ -27,7 +26,7 @@ const Home = () => {
         </section>
       </section>
       <Footer />
-    </div>
+    </PageTemplate>
   );
 };
 

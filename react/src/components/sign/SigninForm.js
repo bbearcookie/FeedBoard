@@ -2,7 +2,6 @@ import React, { useState, useCallback, createRef } from 'react';
 import useRequest from '../../lib/useRequest';
 import { faAddressCard, faLock } from '@fortawesome/free-solid-svg-icons';
 import SignForm from './SignForm';
-import * as api from '../../lib/api';
 import * as auth from '../../lib/auth';
 import { useNavigate } from 'react-router-dom';
 
@@ -25,7 +24,7 @@ const inputs = [
   }
 ];
 
-const SigninFormContainer = () => {
+const SigninForm = () => {
   const [error, setError] = useState(''); // 화면에 보여줄 오류 메시지
   const request = useRequest();
   const navigate = useNavigate();
@@ -68,4 +67,4 @@ const SigninFormContainer = () => {
   );
 };
 
-export default React.memo(SigninFormContainer);
+export default SigninForm;

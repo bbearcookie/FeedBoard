@@ -41,7 +41,7 @@ const inputs = [
   },
 ];
 
-const SignupFormContainer = () => {
+const SignupForm = () => {
   const [error, setError] = useState(''); // 화면에 보여줄 오류 메시지
   const request = useRequest();
   const navigate = useNavigate();
@@ -108,4 +108,4 @@ const SignupFormContainer = () => {
   );
 };
 
-export default React.memo(SignupFormContainer);
+export default SignupForm;

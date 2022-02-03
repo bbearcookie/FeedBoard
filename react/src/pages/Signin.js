@@ -1,19 +1,20 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import SignTemplate from '../components/sign/SignTemplate';
 import SigninForm from '../components/sign/SigninForm';
-import NavBar from '../components/NavBar';
+import PageTemplate from '../templates/PageTemplate';
+import SignTemplate from '../templates/SignTemplate';
 
 const Signin = () => {
   return (
-    <SignTemplate>
-      <NavBar />
-      <div className="main-area">
-        <p className="title-label">로그인</p>
-        <Link className="link" to="/signup">가입이 필요하신가요?</Link>
-        <SigninForm />
-      </div>
-    </SignTemplate>
+    <PageTemplate>
+      <SignTemplate>
+        <div className="main-area">
+          <p className="title-label">로그인</p>
+          <Link className="link" to="/signup">가입이 필요하신가요?</Link>
+          <SigninForm />
+        </div>
+      </SignTemplate>
+    </PageTemplate>
   );
 };
 
