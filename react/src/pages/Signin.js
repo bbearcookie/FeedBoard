@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import './Signin.scss';
 import SignTemplate from '../components/sign/SignTemplate';
 import SigninForm from '../components/sign/SigninForm';
 import NavBar from '../components/NavBar';

@@ -1,24 +1,17 @@
 import React from 'react';
 import { NavLink, Link, useNavigate } from 'react-router-dom';
 import useRequest from '../lib/useRequest';
-import * as api from '../lib/api';
+import * as auth from '../lib/auth';
 import './NavBar.scss';
 
 const NavBar = () => {
-  const request = useRequest();
   const navigate = useNavigate();
-
-  let user = sessionStorage.getItem('user');
-  if (user) user = JSON.parse(user);
+  const request = useRequest();
+  const user = auth.getUser();
 
   const onLogout = async () => {
-    try {
-      const data = await request.call(api.postLogout);
-      sessionStorage.removeItem('user');
-      return navigate("/");
-    } catch (err) {
-      console.error(err);
-    }
+    await auth.logout(request);
+    return navigate("/");
   }
 
   return (
@@ -28,7 +21,7 @@ const NavBar = () => {
         <div className="nav-items">
           {user ?
           <>
-            <div>{user.username}</div>
+            <div>{user.nickname}</div>
             <NavLink to="./" onClick={onLogout}>로그아웃</NavLink>
           </> :
           <>
@@ -41,9 +34,5 @@ const NavBar = () => {
     </section>
   );
 };
-
-// NavBar.defaultProps = {
-//   username: ''
-// };
 
 export default NavBar;

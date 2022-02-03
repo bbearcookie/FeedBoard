@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const crypto = require('crypto');
 const db = require('../config/database');
-const { encrypt, passport } = require('../config/passport');
+const { makeSalt, encrypt, passport } = require('../config/passport');
 
 router.post('/signin', async (req, res) => {
   if (req.isAuthenticated()) {
@@ -14,7 +14,8 @@ router.post('/signin', async (req, res) => {
       req.login(user, (err) => {
         if (err) console.error(err);
         console.log('로그인 성공');
-        res.status(200).json({ message: '로그인 성공' });
+        console.log(user);
+        res.status(200).json({ message: '로그인 성공', nickname: user.nickname });
       })
     } else {
       console.log('로그인 실패 이유: ' + info.message);
@@ -51,15 +52,16 @@ router.post('/signup', async (req, res) => {
 
   // 암호화 및 DB 저장
   try {
-    const salt = crypto.randomBytes(32).toString('hex');
+    const salt = makeSalt();
     const hashedPassword = encrypt(salt, password);
-    const sql = 'INSERT INTO user (username, password, salt) VALUES (?, ?, ?)';
-    con.execute(sql, [username, hashedPassword, salt]);
+    const sql = 'INSERT INTO user (username, password, salt, nickname) VALUES (?, ?, ?, ?)';
+    await con.execute(sql, [username, hashedPassword, salt, nickname]);
+
+    res.status(200).json({ message: '회원가입 성공', nickname });
   } catch (err) {
     console.error(err);
+    res.status(500).json({ message: '데이터베이스 문제 발생' });
   }
-
-  res.status(200).json({ message: '회원가입 성공' });
 });
 
 router.post('/logout', async (req, res) => {

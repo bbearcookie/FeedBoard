@@ -3,7 +3,6 @@ import './App.css';
 import Home from './pages/Home';
 import Signin from './pages/Signin';
 import Signup from './pages/Signup';
-import Test from './pages/Test';
 
 function App() {
   return (
@@ -13,7 +12,6 @@ function App() {
         <Route path="/hello" element={<div>반갑습</div>} />
         <Route path="/signin" element={<Signin />} />
         <Route path="/signup" element={<Signup />} />
-        <Route path="/test" element={<Test />} />
       </Routes>
     </div>
   );

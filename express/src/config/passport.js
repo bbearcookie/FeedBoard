@@ -3,6 +3,11 @@ const LocalStrategy = require('passport-local').Strategy;
 const crypto = require('crypto');
 const db = require('../config/database');
 
+// salt 만드는 함수
+function makeSalt() {
+  return crypto.randomBytes(32).toString('hex');
+}
+
 // 암호화 하는 함수
 function encrypt(salt, plainText) {
   const hashedText = crypto.pbkdf2Sync(plainText, salt, 51234, 32, "sha512").toString('hex');
@@ -56,3 +61,4 @@ module.exports = (app) => {
 
 module.exports.passport = passport;
 module.exports.encrypt = encrypt;
+module.exports.makeSalt = makeSalt;

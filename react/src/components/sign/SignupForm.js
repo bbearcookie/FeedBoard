@@ -3,6 +3,8 @@ import SignForm from './SignForm';
 import { faAddressCard, faLock, faUser } from '@fortawesome/free-solid-svg-icons';
 import useRequest from '../../lib/useRequest';
 import * as api from '../../lib/api';
+import * as auth from '../../lib/auth';
+import { useNavigate } from 'react-router-dom';
 
 const inputs = [
   {
@@ -42,6 +44,7 @@ const inputs = [
 const SignupFormContainer = () => {
   const [error, setError] = useState(''); // 화면에 보여줄 오류 메시지
   const request = useRequest();
+  const navigate = useNavigate();
 
   // 폼 전송 처리
   const onSubmit = useCallback(async (e) => {
@@ -80,9 +83,11 @@ const SignupFormContainer = () => {
       return setErrorAndFocus('닉네임은 한글, 영어, 숫자를 포함해서 20글자까지 입력할 수 있어요.', name);
 
     try {
-      const data = await request.call(api.postSignup, form);
+      await request.call(api.postSignup, form); // 회원가입 처리
+      await auth.login(request, form); // 로그인 처리
       inputs.forEach(input => e.target[input.name].value = ''); // 폼 초기화
-      setError(data.message);
+      return navigate('/'); // 메인 화면으로 리다이렉션
+
     } catch (err) {
       if (err.response)
         if (err.response.status === 409) {
@@ -91,7 +96,7 @@ const SignupFormContainer = () => {
         }
       return setError('요청 오류');
     }
-  }, [request]);
+  }, [request, navigate]);
 
   return (
     <SignForm

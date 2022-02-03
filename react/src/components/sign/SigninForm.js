@@ -3,6 +3,7 @@ import useRequest from '../../lib/useRequest';
 import { faAddressCard, faLock } from '@fortawesome/free-solid-svg-icons';
 import SignForm from './SignForm';
 import * as api from '../../lib/api';
+import * as auth from '../../lib/auth';
 import { useNavigate } from 'react-router-dom';
 
 const inputs = [
@@ -44,9 +45,7 @@ const SigninFormContainer = () => {
 
     try {
       setError('');
-      const data = await request.call(api.postSignin, form);
-      sessionStorage.setItem('user', JSON.stringify({ username: form['username'] }));
-      setError(data.message);
+      await auth.login(request, form);
       return navigate("/"); // redirect
     } catch (err) {
       if (err.response)
@@ -57,24 +56,15 @@ const SigninFormContainer = () => {
       return setError('요청 오류');
     }
 
-  }, []);
-
-  const checkTest = async () => {
-    console.log(checkTest);
-    const data = await request.call(api.getLoggedCheck);
-    console.log(data);
-  }
+  }, [request, navigate]);
 
   return (
-    <>
-      <SignForm
-        inputs={inputs}
-        request={request}
-        error={error}
-        onSubmit={onSubmit}
-      />
-      <button type="button" onClick={checkTest}>내 아이디는?</button>
-    </>
+    <SignForm
+      inputs={inputs}
+      request={request}
+      error={error}
+      onSubmit={onSubmit}
+    />
   );
 };
 
