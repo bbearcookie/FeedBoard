@@ -5,7 +5,7 @@ const { makeSalt, encrypt, passport } = require('../config/passport');
 
 router.post('/signin', async (req, res) => {
   if (req.isAuthenticated()) {
-    return res.status(400).json({message: '이미 로그인 되어있어요.'});
+    return res.status(400).json({message: '이미 로그인 되어있어요.', nickname: req.user.nickname});
   }
 
   passport.authenticate('local', (err, user, info) => {

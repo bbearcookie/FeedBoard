@@ -4,8 +4,10 @@ import Home from './pages/Home';
 import MyPage from './pages/MyPage';
 import Signin from './pages/Signin';
 import Signup from './pages/Signup';
+import Writer from './pages/Writer';
 
 function App() {
+
   return (
     <div className="App">
       <Routes>
@@ -14,6 +16,7 @@ function App() {
         <Route path="/signin" element={<Signin />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/mypage" element={<MyPage />} />
+        <Route path="/writer" element={<Writer />} />
       </Routes>
     </div>
   );

@@ -53,11 +53,12 @@ const SigninForm = () => {
     } catch (err) {
       if (err.response) {
         const { status, data } = err.response;
-        const { message, field } = data;
+        const { message, field, nickname } = data;
 
         switch (status) {
-          case 400:
-            return setError(message);
+          case 400: // 이미 로그인 되어있는 경우
+            auth.setUser(nickname);
+            return navigate('/');
           case 401:
             return setErrorAndFocus(message, field);
           default:

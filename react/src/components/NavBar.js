@@ -1,5 +1,6 @@
-import React from 'react';
-import { NavLink, Link, useNavigate } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import classNames from 'classnames';
+import { NavLink, Link, useNavigate, useLocation } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit } from '@fortawesome/free-solid-svg-icons';
 import useRequest from '../lib/useRequest';
@@ -8,17 +9,13 @@ import './NavBar.scss';
 
 const NavBar = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const request = useRequest();
   const user = auth.getUser();
 
   const onLogout = async () => {
     await auth.logout(request);
     return navigate("/");
-  }
-
-  const test = (e) => {
-    e.preventDefault();
-    console.log("test click!");
   }
 
   return (
@@ -33,13 +30,13 @@ const NavBar = () => {
               <FontAwesomeIcon icon={faEdit} />
               <p className="label">글쓰기</p>
             </NavLink>
-            <NavLink className="dropdown" to="/mypage" onClick={test}>
+            <div className={classNames("dropdown", {"active": /^\/mypage/.exec(location.pathname)})}>
               <p className="dropdown-btn">{user.nickname}</p>
               <div className="dropdown-items">
                 <Link className="dropdown-item" to="/mypage">마이 페이지</Link>
                 <Link className="dropdown-item" to="./" onClick={onLogout}>로그아웃</Link>
               </div>
-            </NavLink>
+            </div>
           </> :
           <>
             <NavLink className="nav-item" to="/">메인</NavLink>
