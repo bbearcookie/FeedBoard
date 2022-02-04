@@ -59,6 +59,9 @@ const SignupForm = () => {
     // 폼 내용
     const form = {};
     inputs.forEach(input => form[input.name] = e.target[input.name].value);
+
+    // 이미 로그인 되어있으면 return.
+    if (auth.getUser()) return setError('로그인이 되어있는 상태에는 가입할 수 없어요.');
     
     let name = 'username';
     if (form[name] === '')
@@ -89,12 +92,24 @@ const SignupForm = () => {
       return navigate('/'); // 메인 화면으로 리다이렉션
 
     } catch (err) {
-      if (err.response)
+      if (err.response) {
+        const { status, data } = err.response;
+        const { message } = data;
+
+        switch (status) {
+          case 400:
+            return setError(message);
+          default:
+            break;
+        }
+
         if (err.response.status === 409) {
           const { message, field } = err.response.data;
           return setErrorAndFocus(message, field);
         }
+
       return setError('요청 오류');
+      }
     }
   }, [request, navigate]);
 

@@ -28,6 +28,10 @@ router.post('/signin', async (req, res) => {
 router.post('/signup', async (req, res) => {
   const { username, password, passwordConfirm, nickname } = req.body;
 
+  if (req.isAuthenticated()) {
+    return res.status(400).json({message: '로그인이 되어있는 상태에는 가입할 수 없어요.'});
+  }
+
   // 유효성 및 중복 검사
   const con = await db.getConnection();
   try {
@@ -71,7 +75,7 @@ router.post('/logout', async (req, res) => {
 
 router.get("/check", async (req, res) => {
   if (req.user) {
-    res.status(200).json({ message: '로그인이 되어있는 상태에요.', username: req.user.username });
+    res.status(200).json({ message: '로그인이 되어있는 상태에요.', nickname: req.user.nickname });
   } else {
     res.status(401).json({ message: '로그인이 되어있지 않은 상태에요.' });
   }

@@ -1,4 +1,4 @@
-import React, { useState, useCallback, createRef } from 'react';
+import React, { useState, useCallback, createRef, useEffect } from 'react';
 import useRequest from '../../lib/useRequest';
 import { faAddressCard, faLock } from '@fortawesome/free-solid-svg-icons';
 import SignForm from './SignForm';
@@ -29,6 +29,7 @@ const SigninForm = () => {
   const request = useRequest();
   const navigate = useNavigate();
 
+  // 폼 전송 처리
   const onSubmit = useCallback(async (e) => {
     e.preventDefault();
 
@@ -42,16 +43,27 @@ const SigninForm = () => {
     const form = {};
     inputs.forEach(input => form[input.name] = e.target[input.name].value);
 
+    // 이미 로그인 되어있으면 return.
+    if (auth.getUser()) return setError('이미 로그인 되어있어요.');
+
     try {
       setError('');
       await auth.login(request, form);
       return navigate("/"); // redirect
     } catch (err) {
-      if (err.response)
-        if (err.response.status === 401) {
-          const { message, field } = err.response.data;
-          return setErrorAndFocus(message, field);
+      if (err.response) {
+        const { status, data } = err.response;
+        const { message, field } = data;
+
+        switch (status) {
+          case 400:
+            return setError(message);
+          case 401:
+            return setErrorAndFocus(message, field);
+          default:
+            break;
         }
+      }
       return setError('요청 오류');
     }
 
