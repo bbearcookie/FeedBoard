@@ -14,11 +14,10 @@ router.post('/signin', async (req, res) => {
       req.login(user, (err) => {
         if (err) console.error(err);
         console.log('로그인 성공');
-        console.log(user);
         res.status(200).json({ message: '로그인 성공', nickname: user.nickname });
       })
     } else {
-      console.log('로그인 실패 이유: ' + info.message);
+      console.log('로그인 실패: ' + info.message);
       res.status(401).json(info);
     }
 

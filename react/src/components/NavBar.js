@@ -1,5 +1,7 @@
 import React from 'react';
 import { NavLink, Link, useNavigate } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEdit } from '@fortawesome/free-solid-svg-icons';
 import useRequest from '../lib/useRequest';
 import * as auth from '../lib/auth';
 import './NavBar.scss';
@@ -14,6 +16,11 @@ const NavBar = () => {
     return navigate("/");
   }
 
+  const test = (e) => {
+    e.preventDefault();
+    console.log("test click!");
+  }
+
   return (
     <section className="NavBar">
       <nav>
@@ -21,13 +28,23 @@ const NavBar = () => {
         <div className="nav-items">
           {user ?
           <>
-            <div>{user.nickname}</div>
-            <NavLink to="./" onClick={onLogout}>로그아웃</NavLink>
+            <NavLink className="nav-item" to="/">메인</NavLink>
+            <NavLink className="nav-item" to="/writer">
+              <FontAwesomeIcon icon={faEdit} />
+              <p className="label">글쓰기</p>
+            </NavLink>
+            <NavLink className="dropdown" to="/mypage" onClick={test}>
+              <p className="dropdown-btn">{user.nickname}</p>
+              <div className="dropdown-items">
+                <Link className="dropdown-item" to="/mypage">마이 페이지</Link>
+                <Link className="dropdown-item" to="./" onClick={onLogout}>로그아웃</Link>
+              </div>
+            </NavLink>
           </> :
           <>
-            <NavLink to="/">메인</NavLink>
-            <NavLink to="/signin">로그인</NavLink>
-            <NavLink to="/signup">회원가입</NavLink>
+            <NavLink className="nav-item" to="/">메인</NavLink>
+            <NavLink className="nav-item" to="/signin">로그인</NavLink>
+            <NavLink className="nav-item" to="/signup">회원가입</NavLink>
           </>}
         </div>
       </nav>

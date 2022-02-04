@@ -19,12 +19,10 @@ module.exports = (app) => {
   app.use(passport.session());
 
   passport.serializeUser((user, done) => {
-    console.log('serializeUser');
     done(null, user);
   });
 
   passport.deserializeUser((user, done) => {
-    console.log('deserializeUser');
     done(null, user);
   });
 

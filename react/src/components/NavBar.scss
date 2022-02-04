@@ -17,23 +17,84 @@
     }
 
     .nav-items {
+      width: 100%;
       display: flex;
       justify-content: flex-end;
-      width: 100%;
+      position: relative;
 
-      a {
+      .nav-item {
+        margin: 0;
         padding-left: 15px;
-        text-decoration: none;
+        display: flex;
         color: #ADB5BD;
+        text-decoration: none;
         user-select: none;
+
+        .label {
+          margin: 0 0 0 5px;
+        }
       }
 
-      a:hover {
+      .nav-item:hover {
         color: #343A40;
         transition-duration: 0.5s;
       }
 
-      a.active {
+      .nav-item.active {
+        color: black;
+      }
+
+      .dropdown {
+        padding-left: 15px;
+        position: relative;
+        color: #ADB5BD;
+        text-decoration: none;
+        user-select: none;
+
+        .dropdown-btn {
+          width: 100%;
+          margin: 0;
+          cursor: pointer;
+        }
+
+        .dropdown-items {
+          min-width: 110px;
+          display: none;
+          position: absolute;
+          left: 0px;
+          box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+          border: 1px solid gray;
+  
+          .dropdown-item {
+            width: 100%;
+            padding: 15px 15px 15px 15px;
+            box-sizing: border-box;
+            color: #343A40;
+            background: white;
+            text-align: left;
+            text-decoration: none;
+            cursor: pointer;
+            z-index: 1;
+          }
+  
+          .dropdown-item:hover {
+            background: #ddd;
+          }
+        }
+      }
+      
+      .dropdown:hover {
+        color: #343A40;
+        transition-duration: 0.5s;
+
+        .dropdown-items {
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+        }
+      }
+
+      .dropdown.active {
         color: black;
       }
     }
@@ -65,8 +126,35 @@
 
       .nav-items {
         flex-direction: column;
+        align-items: center;
 
-        a {
+        .dropdown {
+          width: 100%;
+          padding: 0 0 5px 0;
+          display: flex;
+          flex-direction: column;
+
+          .dropdown-items {
+            width: 100%;
+            border: 0;
+            position: static;
+            box-shadow: 0px 0px 0px 0px;
+  
+            .dropdown-item {
+              padding: 5px 0 0 0;
+              color: #ADB5BD;
+              text-align: center;
+            }
+
+            .dropdown-item:hover {
+              color: #343A40;
+              background: none;
+              transition-duration: 0.5s;
+            }
+          }
+        }
+
+        .nav-item {
           padding: 0 0 5px 0;
         }
       }
