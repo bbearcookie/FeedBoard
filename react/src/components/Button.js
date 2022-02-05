@@ -1,16 +1,20 @@
 import React from 'react';
+import classNames from 'classnames';
 import './Button.scss';
 
-const Button = ({ type, children }) => {
+const Button = ({ className, type, onClick, children }) => {
   return (
-    <button className="Button" type={type}>
+    <button className={classNames("Button", className)} type={type} onClick={onClick}>
       {children}
     </button>
   );
 };
 
 Button.defaultProps = {
-  type: 'button'
+  className: '',
+  type: 'button',
+  className: '',
+  onClick: () => {}
 };
 
 export default Button;

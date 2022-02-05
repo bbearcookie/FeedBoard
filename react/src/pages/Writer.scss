@@ -1,0 +1,56 @@
+@import '../lib/variables';
+
+.Test {
+  .main-area {
+    width: 100%;
+    align-self: center;
+    display: flex;
+    flex-direction: column;
+
+    .title-label {
+      user-select: none;
+    }
+
+    .label {
+      margin: 0 0 10px 20px;
+      align-self: flex-start;
+      font-size: 20px;
+      user-select: none;
+    }
+
+    .Input {
+      width: calc(100% - 30px);
+    }
+
+    .Button {
+      align-self: flex-end;
+      margin: 0px 15px;
+      width: 100px;
+      height: 50px;
+    }
+  }
+
+  @include xxl {
+    .main-area {
+      width: 1200px;
+    }
+  }
+
+  @include xl {
+    .main-area {
+      width: 1200px;
+    }
+  }
+
+  @include lg {
+    .main-area {
+      width: 900px;
+    }
+  }
+
+  @include md {
+    .main-area {
+      width: 700px;
+    }
+  }
+}

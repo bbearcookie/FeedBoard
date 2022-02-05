@@ -35,6 +35,7 @@ const NavBar = () => {
               <div className="dropdown-items">
                 <Link className="dropdown-item" to="/mypage">마이 페이지</Link>
                 <Link className="dropdown-item" to="./" onClick={onLogout}>로그아웃</Link>
+                <Link className="dropdown-item" to="/test">테스트</Link>
               </div>
             </div>
           </> :
