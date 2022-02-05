@@ -1,6 +1,8 @@
 @import '../lib/variables';
 
-.Test {
+.Writer {
+  margin-bottom: 15px;
+  
   .main-area {
     width: 100%;
     align-self: center;
@@ -22,11 +24,19 @@
       width: calc(100% - 30px);
     }
 
-    .Button {
+    .Textarea {
+      min-height: 500px;
+    }
+
+    .button-area {
+      margin-top: 5px;
       align-self: flex-end;
-      margin: 0px 15px;
-      width: 100px;
-      height: 50px;
+
+      .Button {
+        margin: 0px 15px;
+        width: 100px;
+        height: 50px;
+      }
     }
   }
 

@@ -13,7 +13,7 @@ const Writer = () => {
   };
 
   return (
-    <PageTemplate className="Test">
+    <PageTemplate className="Writer">
       <form className="main-area">
         <h1 className="title-label">글쓰기</h1>
         <label className="label">제목</label>
@@ -23,7 +23,10 @@ const Writer = () => {
           className="Input textarea"
           placeholder="내용을 입력해주세요"
         />
-        <Button type="submit" onClick={onSubmit}>전송</Button>
+        <div className="button-area">
+          <Button type="button" theme="secondary">취소</Button>
+          <Button type="submit" onClick={onSubmit}>완료</Button>
+        </div>
       </form>
     </PageTemplate>
   );

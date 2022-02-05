@@ -1,25 +1,35 @@
 .Button {
   font-family: inherit;
   font-size: 15px;
-  color: white;
-  background: #FA8072;
   border: 0;
-  border-radius: 5px;
+  box-shadow: 1px 1px 0 rgb(0,0,0,0.5);
   cursor: pointer;
   user-select: none;
-  transition: background-color 0.2s;
-  transition: box-shadow 0.1s;
-}
-
-.Button:hover {
-  background: #E6766A;
+  border-radius: 5px;
+  transition: background-color 0.1s;
 }
 
 .Button:active {
-  border: solid 1px rgb(139, 79, 79);
-  box-shadow: 0px 0px 3px 1px rgb(139, 79, 79);
+  position: relative;
+  top: 2px;
+  box-shadow: none;
+  transition: box-shadow 0.1s;
 }
 
-.Button.focus {
-  background: blue;
+.Button.primary {
+  color: white;
+  background: #FA8072;
 }
+
+.Button.primary:hover {
+  background: #E6766A;
+}
+
+.Button.secondary {
+  background: #ececec;
+}
+
+.Button.secondary:hover {
+  background: gainsboro;
+}
+

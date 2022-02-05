@@ -2,9 +2,9 @@ import React from 'react';
 import classNames from 'classnames';
 import './Button.scss';
 
-const Button = ({ className, type, onClick, children }) => {
+const Button = ({ className, type, theme, onClick, children }) => {
   return (
-    <button className={classNames("Button", className)} type={type} onClick={onClick}>
+    <button className={classNames("Button", className, theme)} type={type} onClick={onClick}>
       {children}
     </button>
   );
@@ -13,7 +13,7 @@ const Button = ({ className, type, onClick, children }) => {
 Button.defaultProps = {
   className: '',
   type: 'button',
-  className: '',
+  theme: 'primary',
   onClick: () => {}
 };
 
