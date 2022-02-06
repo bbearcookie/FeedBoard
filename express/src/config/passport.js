@@ -49,6 +49,13 @@ module.exports = (app) => {
       }
 
       conn.release();
+
+      // 세션에 저장이 필요한 사용자 정보들만 추출
+      user = {
+        username: user.username,
+        nickname: user.nickname
+      };
+
       return done(null, user);
     } catch (err) {
       console.error(err);

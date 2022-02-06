@@ -49,8 +49,9 @@ module.exports.signup = async (req, res) => {
     if (user) throw { statusCode: 409, message: '이미 존재하는 아이디에요.', field: 'username' };
 
   } catch (err) {
-    con.release();
     return res.status(err.statusCode).json({ message: err.message, field: err.field });
+  } finally {
+    con.release();
   }
 
   // 암호화 및 DB 저장

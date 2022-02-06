@@ -17,3 +17,8 @@ export const postSignup = (form) => axios.post(`${BACKEND}/auth/signup`,
 );
 export const postLogout = () => axios.post(`${BACKEND}/auth/logout`, {}, options);
 export const getCheckLogged = () => axios.get(`${BACKEND}/auth/check`, options);
+export const postWrite = (form) => axios.post(`${BACKEND}/writer`,
+  { title: form.title,
+    content: form.content },
+    options
+);

@@ -95,12 +95,12 @@ const SignupForm = () => {
       setError('닉네임은 한글, 영어, 숫자를 포함해서 20글자까지 입력할 수 있어요.');
       return formUtil.focus(inputs, name);
     }
+    
     try {
       await request.call(api.postSignup, form); // 회원가입 처리
       await auth.login(request, form); // 로그인 처리
       inputs.forEach(input => e.target[input.name].value = ''); // 폼 초기화
       return navigate('/'); // 메인 화면으로 리다이렉션
-
     } catch (err) {
       if (err.response) {
         const { status, data } = err.response;
@@ -109,17 +109,13 @@ const SignupForm = () => {
         switch (status) {
           case 400:
             return setError(message);
+          case 409:
+            const { field } = err.response.data;
+            formUtil.focus(inputs, field);
+            return setError(message);
           default:
-            break;
+            return setError('요청 오류');
         }
-
-        if (err.response.status === 409) {
-          const { message, field } = err.response.data;
-          setError(message);
-          return formUtil.focus(inputs, field);
-        }
-
-      return setError('요청 오류');
       }
     }
   }, [request, navigate, form]);

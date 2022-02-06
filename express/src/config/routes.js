@@ -7,4 +7,5 @@ module.exports = (app) => {
   app.post('/auth/signup', authCtrl.signup);
   app.post('/auth/logout', authCtrl.logout);
   app.get('/auth/check', authCtrl.check);
+  app.post('/writer', postCtrl.writePost);
 }
