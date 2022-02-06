@@ -24,7 +24,7 @@ const Input = ({ type, name, value, placeholder, autoComplete, icon, inputRef, o
       <input
         type={type}
         name={name}
-        value={value ? value : undefined}
+        value={value ? value : ''}
         placeholder={placeholder}
         autoComplete={autoComplete}
         onFocus={onFocus}

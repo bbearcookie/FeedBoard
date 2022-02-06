@@ -1,3 +1,4 @@
-// /** @type {import("express").RequestHandler} */
-// const hello = (req, res, next) => {
-// }
+/** @type {import("express").RequestHandler} */
+module.exports.writer = (req, res) => {
+  
+}

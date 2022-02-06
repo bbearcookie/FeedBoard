@@ -29,3 +29,4 @@ export const setUser = (nickname) => {
   saveToStoarage(user);
 }
 export const getUser = () => JSON.parse(sessionStorage.getItem(KEY_NAME));
+export const removeUser = removeFromStoarage;

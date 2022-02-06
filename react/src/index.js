@@ -20,6 +20,7 @@ import * as api from './lib/api';
     if (res.data.nickname) auth.setUser(res.data.nickname);
   } catch (err) {
     console.error(err);
+    auth.removeUser();
   }
   
   ReactDOM.render(
