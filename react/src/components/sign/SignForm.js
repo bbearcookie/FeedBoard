@@ -4,7 +4,7 @@ import Button from '../Button';
 import LoadingSpinner from '../LoadingSpinner';
 import './SignForm.scss';
 
-const SignForm = ({ inputs, request, error, onSubmit }) => {
+const SignForm = ({ form, inputs, request, error, onChange, onSubmit }) => {
   return (
     <form className="SignForm" onSubmit={onSubmit}>
       {request.loading ? <LoadingSpinner /> : null}
@@ -14,9 +14,11 @@ const SignForm = ({ inputs, request, error, onSubmit }) => {
           key={input.id}
           type={input.type}
           name={input.name}
+          value={form[input.name]}
           placeholder={input.placeholder}
           icon={input.icon}
           inputRef={input.ref}
+          onChange={onChange}
         />
       ))}
       <Button type="submit">전송</Button>
@@ -25,9 +27,11 @@ const SignForm = ({ inputs, request, error, onSubmit }) => {
 };
 
 SignForm.defaultProps = {
+  form: {},
   inputs: [],
   request: {},
   error: '',
+  onChange: () => {},
   onSubmit: () => {}
 }
 
