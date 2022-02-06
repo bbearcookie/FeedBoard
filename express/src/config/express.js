@@ -1,14 +1,18 @@
 const express = require('express');
 const session = require('express-session');
+const redis = require('redis');
+const RedisStore = require('connect-redis')(session);
 const cors = require('cors');
 const app = express();
 
 module.exports.config = () => {
-  // 세션 설정
+  // 세션 설정 (redis를 3.1.2 버전으로 해야 동작했음. 최신버전 오류)
+  const redisClient = redis.createClient();
   app.use(session({
     secret: 'my secret key',
     resave: false,
     saveUninitialized: false,
+    store: new RedisStore({ client: redisClient })
   }));
 
   // cors 설정

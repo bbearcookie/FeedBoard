@@ -10,12 +10,14 @@
   "author": "bearcookie",
   "license": "ISC",
   "dependencies": {
+    "connect-redis": "^6.1.0",
     "cors": "^2.8.5",
     "express": "^4.17.2",
     "express-session": "^1.17.2",
     "mysql2": "^2.3.3",
     "nodemon": "^2.0.15",
     "passport": "^0.5.2",
-    "passport-local": "^1.0.0"
+    "passport-local": "^1.0.0",
+    "redis": "^3.1.2"
   }
 }
