@@ -43,6 +43,18 @@ const SigninForm = () => {
     // 이미 로그인 되어있으면 return.
     if (auth.getUser()) return setError('이미 로그인 되어있어요.');
 
+    let name = 'username';
+    if (form[name] === '') {
+      setError('아이디가 비어있어요.');
+      return formUtil.focus(inputs, name);
+    }
+
+    name = 'password';
+    if (form[name] === '') {
+      setError('비밀번호가 비어있어요.');
+      return formUtil.focus(inputs, name);
+    }
+
     try {
       setError('');
       await auth.login(request, form);
