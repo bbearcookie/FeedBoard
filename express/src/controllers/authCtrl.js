@@ -1,9 +1,8 @@
-const router = require('express').Router();
-const crypto = require('crypto');
 const db = require('../config/database');
 const { makeSalt, encrypt, passport } = require('../config/passport');
 
-router.post('/signin', async (req, res) => {
+/** @type {import("express").RequestHandler} */
+module.exports.signin = async (req, res) => {
   if (req.isAuthenticated()) {
     return res.status(400).json({message: '이미 로그인 되어있어요.', nickname: req.user.nickname});
   }
@@ -22,9 +21,10 @@ router.post('/signin', async (req, res) => {
     }
 
   })(req, res); // authenticate 내부의 콜백 함수에 req, res 객체를 사용할수 있게 보냄.
-});
+}
 
-router.post('/signup', async (req, res) => {
+/** @type {import("express").RequestHandler} */
+module.exports.signup = async (req, res) => {
   const { username, password, passwordConfirm, nickname } = req.body;
 
   if (req.isAuthenticated()) {
@@ -65,19 +65,19 @@ router.post('/signup', async (req, res) => {
     console.error(err);
     res.status(500).json({ message: '데이터베이스 문제 발생' });
   }
-});
+};
 
-router.post('/logout', async (req, res) => {
+/** @type {import("express").RequestHandler} */
+module.exports.logout = async (req, res) => {
   req.logout();
   res.send();
-});
+}
 
-router.get("/check", async (req, res) => {
+/** @type {import("express").RequestHandler} */
+module.exports.check = async (req, res) => {
   if (req.user) {
     res.status(200).json({ message: '로그인이 되어있는 상태에요.', nickname: req.user.nickname });
   } else {
     res.status(401).json({ message: '로그인이 되어있지 않은 상태에요.' });
   }
-});
-
-module.exports = router;
+}
