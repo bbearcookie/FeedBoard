@@ -1,0 +1,26 @@
+.Tag {
+  max-width: 90%;
+  margin: 5px;
+  padding: 0 0.5em 0 0.4em;
+  display: inline-block;
+  border-radius: 5px;
+  color: white;
+  background: #818A91;
+  font-size: 16px;
+  line-height: 2em;
+  cursor: pointer;
+  user-select: none;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  // white-space: nowrap;
+
+  .close {
+    position: relative;
+    top: 1px;
+    margin-left: 0.5em;
+  }
+}
+
+.Tag:hover {
+  background: #687077;
+}

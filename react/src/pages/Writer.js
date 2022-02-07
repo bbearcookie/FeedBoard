@@ -1,7 +1,6 @@
 import React, { useState, createRef, useMemo, useCallback, useRef } from 'react';
 import PageTemplate from '../templates/PageTemplate';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTimes } from '@fortawesome/free-solid-svg-icons';
+import Tag from '../components/Tag';
 import Button from '../components/Button';
 import Input from '../components/Input';
 import * as api from '../lib/api';
@@ -36,23 +35,6 @@ const inputs = [
     ref: createRef()
   }
 ];
-
-const Tag = ({ tag, onRemove }) => {
-  const { id, value } = tag;
-
-  return (
-    <span className="tag" key={id}>
-      <span className="sign">#</span>
-      {value}
-      <FontAwesomeIcon
-        value={tag.id}
-        className="close"
-        icon={faTimes}
-        onClick={() => onRemove(id)}
-      />
-    </span>
-  );
-}
 
 // input의 type에 따라서 렌더링할 컴포넌트가 다르므로 래퍼로 묶어서 사용했음.
 const InputWrapper = ({ form, setForm, tags, setTags, input, onChange }) => {
@@ -125,7 +107,7 @@ const InputWrapper = ({ form, setForm, tags, setTags, input, onChange }) => {
                     >추가</Button>}
                 />
                 <div className='tag_area'>
-                  {tags.map((tag) => (<Tag key={tag.id} tag={tag} onRemove={onTagRemove} />))}
+                  {tags.map((tag) => (<Tag key={tag.id} tagId={tag.id} value={tag.value} onRemove={onTagRemove} />))}
                 </div>
               </>
             );
