@@ -31,6 +31,48 @@
       width: calc(100% - 30px);
     }
 
+    .tag_button {
+      width: 50px;
+      height: 30px;
+    }
+
+    .tag_area {
+      text-align: left;
+      width: 100%;
+      padding: 0 15px;
+
+      .tag {
+        max-width: 90%;
+        margin: 5px;
+        padding: 0 10px;
+        display: inline-block;
+        border-radius: 5px;
+        color: white;
+        background: #818A91;
+        font-size: 16px;
+        line-height: 30px;
+        cursor: pointer;
+        user-select: none;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+
+        .sign {
+          margin-right: 0.25em;
+        }
+
+        .close {
+          position: relative;
+          top: 1px;
+          margin-left: 0.5em;
+        }
+      }
+
+      .tag:hover {
+        background: #687077;
+      }
+    }
+
     .Textarea {
       min-height: 500px;
     }

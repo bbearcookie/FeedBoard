@@ -8,4 +8,7 @@ module.exports = (app) => {
   app.post('/auth/logout', authCtrl.logout);
   app.get('/auth/check', authCtrl.check);
   app.post('/writer', postCtrl.writePost);
+  app.get('/post', () => {}); // 전체 게시글 반환
+  app.get('/post/:postNo', () => {}); // 특정 게시글 반환
+  
 }
