@@ -3,6 +3,7 @@ import axios from "axios";
 const BACKEND = 'http://localhost:5000';
 const options = { withCredentials: true };
 
+// 사용자 인증 관련
 export const postSignin = (form) => axios.post(`${BACKEND}/auth/signin`,
   { username: form.username,
     password: form.password },
@@ -17,8 +18,12 @@ export const postSignup = (form) => axios.post(`${BACKEND}/auth/signup`,
 );
 export const postLogout = () => axios.post(`${BACKEND}/auth/logout`, {}, options);
 export const getCheckLogged = () => axios.get(`${BACKEND}/auth/check`, options);
-export const postWrite = (form) => axios.post(`${BACKEND}/writer`,
+
+// 게시글 관련
+export const postWrite = (form, tags) => axios.post(`${BACKEND}/writer`,
   { title: form.title,
-    content: form.content },
+    content: form.content,
+    tags },
     options
 );
+export const getPosts = () => axios.get(`${BACKEND}/post`, options);

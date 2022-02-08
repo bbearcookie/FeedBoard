@@ -1,6 +1,8 @@
 @import '../lib/variables';
 
 .Writer {
+  display: flex;
+  flex-direction: column;
   margin-bottom: 15px;
   
   .main-area {

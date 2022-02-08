@@ -1,31 +1,28 @@
 import React from 'react';
 import Footer from '../components/Footer';
-import Feed from '../components/home/Feed';
 import TrendTagList from '../components/home/TrendTagList';
 import TitleBar from '../components/TitleBar';
-import './Home.scss';
 import TagTabContainer from '../containers/home/TagTabContainer';
 import TagSearchBarContainer from '../containers/home/TagSearchBarContainer';
 import PageTemplate from '../templates/PageTemplate';
+import './Home.scss';
+import PostList from '../components/home/PostList';
 
 const Home = () => {
   return (
     <PageTemplate className="Home">
       <TitleBar />
       <section className="main-area">
-        <section className="feed-area">
+        <section className="post-area">
           <TagTabContainer />
-          <Feed />
-          <Feed />
-          <Feed />
-          <Feed />
+          <PostList />
         </section>
         <section className="side-area">
           <TagSearchBarContainer />
           <TrendTagList />
         </section>
       </section>
-      <Footer />
+      {/* <Footer /> */}
     </PageTemplate>
   );
 };

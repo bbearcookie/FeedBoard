@@ -7,7 +7,7 @@ import Button from './Button';
 
 const Input = ({
   className,
-  type, name, value,
+  type, name, value, maxLength,
   placeholder, autoComplete,
   icon,
   button,
@@ -36,6 +36,7 @@ const Input = ({
         type={type}
         name={name}
         value={value ? value : ''}
+        maxLength={maxLength ? maxLength : undefined}
         placeholder={placeholder}
         autoComplete={autoComplete}
         onFocus={onFocus}
@@ -54,6 +55,7 @@ Input.defaultProps = {
   type: 'text',
   name: '',
   value: '',
+  maxLength: null,
   placeholder: '',
   autoComplete: 'off',
   icon: null,

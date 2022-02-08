@@ -6,7 +6,7 @@ const initialState = {
   tags: [
     {
       id: 0,
-      text: "Global Feed",
+      text: "전체 게시글",
       active: true
     },
     {

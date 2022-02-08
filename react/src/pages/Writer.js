@@ -8,6 +8,7 @@ import * as formUtil from '../lib/form';
 import './Writer.scss';
 import Textarea from '../components/Textarea';
 import useRequest from '../lib/useRequest';
+import { useNavigate } from 'react-router-dom';
 
 const inputs = [
   {
@@ -20,28 +21,35 @@ const inputs = [
   },
   {
     id: 1,
+    type: 'textarea',
+    name: 'content',
+    label: '내용',
+    placeholder: '내용을 입력해주세요',
+    ref: createRef()
+  },
+  {
+    id: 2,
     type: 'tag',
     name: 'tag',
     label: '태그',
     placeholder: '태그를 입력해주세요.',
     ref: createRef()
   },
-  {
-    id: 2,
-    type: 'textarea',
-    name: 'content',
-    label: '내용',
-    placeholder: '내용을 입력해주세요',
-    ref: createRef()
-  }
 ];
 
 // input의 type에 따라서 렌더링할 컴포넌트가 다르므로 래퍼로 묶어서 사용했음.
-const InputWrapper = ({ form, setForm, tags, setTags, input, onChange }) => {
+const InputWrapper = ({ form, setForm, tags, setTags, input, onChange, setError }) => {
   const tagId = useRef(0);
 
   // 새 태그 추가하고 태그 input 초기화
   function addNewTag() {
+
+    // 태그는 10개까지만 추가 가능
+    if (tags.length >= 10) {
+      window.scrollTo(0, 0);
+      return setError('태그는 10개 까지만 사용할 수 있어요.');
+    }
+
     // 아직 해당 태그 없을때만 추가함
     if (!tags.some(tag => tag.value === form['tag'])) {
       const newTag = {
@@ -95,6 +103,7 @@ const InputWrapper = ({ form, setForm, tags, setTags, input, onChange }) => {
                 <Input
                   name={input.name}
                   value={form[input.name]}
+                  maxLength="30"
                   placeholder={input.placeholder}
                   inputRef={input.ref}
                   onChange={onChange}
@@ -134,6 +143,7 @@ const Writer = () => {
   const [form, setForm] = useState(useMemo(() => formUtil.getInitialValues(inputs), []));
   const [tags, setTags] = useState([]);
   const request = useRequest();
+  const navigate = useNavigate();
 
   // 폼 변경시 상태 업데이트
   const onChange = useCallback((e) => {
@@ -156,26 +166,23 @@ const Writer = () => {
       return formUtil.focus(inputs, name);
     }
 
-    console.log(form);
-    console.log(tags);
+    try {
+      await request.call(api.postWrite, form, tags.map(tag => tag.value));
+      return navigate('/');
+    } catch (err) {
+      if (err.response) {
+        const { status, data } = err.response;
+        const { message } = data;
 
-    // try {
-    //   const data = await request.call(api.postWrite, form);
-    //   setError(data.message); // 작성 성공
-    // } catch (err) {
-    //   if (err.response) {
-    //     const { status, data } = err.response;
-    //     const { message } = data;
-
-    //     switch (status) {
-    //       case 401:
-    //         return setError(message);
-    //       default:
-    //         console.error(err);
-    //         return setError('요청 오류');
-    //     }
-    //   }
-    // }
+        switch (status) {
+          case 401:
+            return setError(message);
+          default:
+            console.error(err);
+            return setError('요청 오류');
+        }
+      }
+    }
 
   };
 
@@ -192,7 +199,8 @@ const Writer = () => {
             setForm={setForm}
             tags={tags}
             setTags={setTags}
-            onChange={onChange} />)
+            onChange={onChange}
+            setError={setError} />)
         }
         <div className="button-area">
           <Button type="button" theme="secondary">취소</Button>

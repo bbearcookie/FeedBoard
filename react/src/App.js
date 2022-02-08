@@ -7,7 +7,6 @@ import Signup from './pages/Signup';
 import Writer from './pages/Writer';
 
 function App() {
-
   return (
     <div className="App">
       <Routes>

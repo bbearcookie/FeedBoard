@@ -1,16 +1,24 @@
 @import '../lib/variables';
 
 .Home {
+  display: flex;
+  flex-direction: column;
+
   .main-area {
     width: 100%;
     align-self: center;
     display: flex;
     flex-direction: column;
 
-    .feed-area {
+    .post-area {
       display: flex;
       width: 70%;
       flex-direction: column;
+    }
+
+    .LoadingSpinner {
+      margin: 25px 0;
+      align-self: center;
     }
 
     .side-area {

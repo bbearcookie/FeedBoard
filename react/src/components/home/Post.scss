@@ -1,4 +1,4 @@
-.Feed {
+.Post {
   min-height: 100px;
   display: flex;
   flex-direction: column;
@@ -102,16 +102,20 @@
         display: flex;
         list-style: none;
 
-        li {
-          border: 1px solid grey;
-          border-radius: 10px;
-          padding: 5px;
-          color: grey;
-          font-size: 12px;
-          font-weight: 100;
-          margin-right: 3px;
-          cursor: pointer;
+        .Tag {
+          font-size: 14px;
         }
+
+        // li {
+        //   border: 1px solid grey;
+        //   border-radius: 10px;
+        //   padding: 5px;
+        //   color: grey;
+        //   font-size: 12px;
+        //   font-weight: 100;
+        //   margin-right: 3px;
+        //   cursor: pointer;
+        // }
       }
     }
   }

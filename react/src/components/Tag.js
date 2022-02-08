@@ -24,7 +24,9 @@ const Tag = ({ className, tagId, value, onRemove }) => {
 
 Tag.defaultProps = {
   classNames: "",
+  tagId: undefined,
   value: "",
+  onRemove: undefined
 }
 
 export default Tag;
