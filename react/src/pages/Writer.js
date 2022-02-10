@@ -165,7 +165,7 @@ const Writer = () => {
       setError('내용이 비어있어요.');
       return formUtil.focus(inputs, name);
     }
-
+    
     try {
       await request.call(api.postWrite, form, tags.map(tag => tag.value));
       return navigate('/');
@@ -186,6 +186,11 @@ const Writer = () => {
 
   };
 
+  // 글 작성 취소 버튼 클릭시
+  const onCancelClick = () => {
+    return navigate(-1);
+  }
+
   return (
     <PageTemplate className="Writer">
       <form className="main-area" onSubmit={onSubmit}>
@@ -203,7 +208,7 @@ const Writer = () => {
             setError={setError} />)
         }
         <div className="button-area">
-          <Button type="button" theme="secondary">취소</Button>
+          <Button type="button" theme="secondary" onClick={onCancelClick}>취소</Button>
           <Button type="submit">작성</Button>
         </div>
       </form>

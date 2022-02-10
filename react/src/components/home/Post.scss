@@ -1,4 +1,5 @@
 .Post {
+  width: 100%;
   min-height: 100px;
   display: flex;
   flex-direction: column;
@@ -76,46 +77,42 @@
     flex-direction: column;
     align-items: flex-start;
 
-    h1 {
+    .post-title {
       margin: 0;
       font-size: 28px;
-    }
-
-    p {
-      margin: 10px 0;
-      color: gray;
       text-align: left;
     }
 
-    .bottom-area {
+    p {
+      margin: 10px 0 0 0;
+      color: gray;
+      text-align: left;
+      line-height: 1.5em;
+      overflow: hidden;
+      white-space: pre-wrap;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 15;
+      -webkit-box-orient: vertical;
+    }
+
+    .overflow-label {
+      margin: 0;
+      padding: 0;
+    }
+
+    .overflow-label:hover {
+      cursor: pointer;
+      text-decoration: underline;
+    }
+
+    .tag-area {
       width: 100%;
       margin-bottom: 10px;
-      display: flex;
-      flex-direction: row;
-      align-items: center;
+      text-align: right;
 
-      .show-detail-label {
-        flex-grow: 1;
-      }
-
-      .tag-area {
-        display: flex;
-        list-style: none;
-
-        .Tag {
-          font-size: 14px;
-        }
-
-        // li {
-        //   border: 1px solid grey;
-        //   border-radius: 10px;
-        //   padding: 5px;
-        //   color: grey;
-        //   font-size: 12px;
-        //   font-weight: 100;
-        //   margin-right: 3px;
-        //   cursor: pointer;
-        // }
+      .Tag {
+        font-size: 14px;
       }
     }
   }
@@ -125,19 +122,12 @@
     background: gainsboro;
   }
 
-  @media (max-width: 300px) {
+  @media (max-width: 400px) {
     .top-area {
       flex-direction: column;
   
       .button-area {
         justify-content: flex-end;
-      }
-    }
-
-    .content-area {
-      .bottom-area {
-        flex-direction: column;
-        align-items: flex-start;
       }
     }
   }

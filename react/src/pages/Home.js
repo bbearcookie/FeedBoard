@@ -1,5 +1,4 @@
 import React from 'react';
-import Footer from '../components/Footer';
 import TrendTagList from '../components/home/TrendTagList';
 import TitleBar from '../components/TitleBar';
 import TagTabContainer from '../containers/home/TagTabContainer';
@@ -22,7 +21,6 @@ const Home = () => {
           <TrendTagList />
         </section>
       </section>
-      {/* <Footer /> */}
     </PageTemplate>
   );
 };

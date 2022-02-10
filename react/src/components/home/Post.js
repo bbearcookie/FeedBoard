@@ -1,10 +1,32 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import './Post.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCommentDots, faHeart } from '@fortawesome/free-solid-svg-icons';
 import Tag from '../Tag';
+import classNames from 'classnames';
+
+function dateFormat(date) {
+  date = new Date(date);
+
+  let year = date.getFullYear();
+  let month = date.getMonth() + 1;
+  let day = date.getDate();
+
+  return `${year}년 ${month}월 ${day}일`;
+}
 
 const Post = ({ title, content, author, writtenTime, tags }) => {
+  const [overflowed, setOverflowed] = useState(false);
+  const contentRef = useRef(null);
+
+  function isOverflown(e) {
+    return e.scrollHeight > e.clientHeight || e.scrollWidth > e.clientWidth;
+  }
+
+  useEffect(() => {
+    setOverflowed(isOverflown(contentRef.current));
+  }, []);
+
   return (
     <article className="Post">
       <div className="top-area">
@@ -17,7 +39,7 @@ const Post = ({ title, content, author, writtenTime, tags }) => {
           />
           <div className="name-time-area">
             <p className="author">{author}</p>
-            <p className="written-time">{writtenTime}</p>
+            <p className="written-time">{dateFormat(writtenTime)}</p>
           </div>
         </div>
         <ul className="button-area">
@@ -32,17 +54,16 @@ const Post = ({ title, content, author, writtenTime, tags }) => {
         </ul>
       </div>
       <div className="content-area">
-        <h1>{title}</h1>
-        <p>{content}</p>
-        <div className="bottom-area">
-          <p className="show-detail-label">자세히 보기</p>
-          <div className="tag-area">
-            {tags.map(tag =>
-              <Tag
-                value={tag.value}
-              />
-            )}
-          </div>
+        <h1 className="post-title">{title}</h1>
+        <p ref={contentRef}>{content}</p>
+        {overflowed ? <p className="overflow-label">내용 더 보기</p> : null}
+        <div className="tag-area">
+          {tags.map(tag =>
+            <Tag
+              key={tag.sequence}
+              value={tag.value}
+            />
+          )}
         </div>
       </div>
       <div className="divider" />
