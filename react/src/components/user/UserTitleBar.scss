@@ -1,0 +1,64 @@
+@import '../../lib/variables';
+
+.UserTitleBar {
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #F3F3F3;
+
+  .content-area {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .user-icon {
+      width: 75px;
+      height: 75px;
+      margin: 25px 0 15px 0;
+    }
+
+    .nickname {
+      margin: 0;
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .edit-button {
+      height: 30px;
+      align-self: flex-end;
+      margin: 10px 15px 0 15px;
+    }
+  }
+
+  @include xxl {
+    .content-area {
+      width: 1200px;
+    }
+  }
+  @include xl {
+    .content-area {
+      width: 1200px;
+    }
+  }
+  @include lg {
+    .content-area {
+      width: 900px;
+    }
+  }
+  @include md {
+    .content-area {
+      width: 700px;
+    }
+  }
+  @include sm {
+    .content-area {
+      width: 500px;
+    }
+  }
+  @media (max-width: #{576px - 1px}) {
+    .content-area {
+      width: 100%;
+    }
+  }
+}

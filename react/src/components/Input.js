@@ -1,9 +1,7 @@
 import React, { useCallback, useRef, useState } from 'react';
 import classNames from 'classnames';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import "./Input.scss";
-import Button from './Button';
 
 const Input = ({
   className,

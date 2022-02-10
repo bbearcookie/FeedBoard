@@ -17,7 +17,7 @@ import * as api from './lib/api';
   // 앱 처음 실행시 서버로부터 로그인 상태를 확인함.
   try {
     const res = await api.getCheckLogged();
-    if (res.data.nickname) auth.setUser(res.data.nickname);
+    if (res.data.nickname) auth.setUser(res.data.username, res.data.nickname);
   } catch (err) {
     console.error(err);
     auth.removeUser();

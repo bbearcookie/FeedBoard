@@ -13,7 +13,7 @@ module.exports.signin = async (req, res) => {
       req.login(user, (err) => {
         if (err) console.error(err);
         console.log('로그인 성공');
-        res.status(200).json({ message: '로그인 성공', nickname: user.nickname });
+        res.status(200).json({ message: '로그인 성공', username: user.username, nickname: user.nickname });
       })
     } else {
       console.log('로그인 실패: ' + info.message);
@@ -77,7 +77,7 @@ module.exports.logout = async (req, res) => {
 /** @type {import("express").RequestHandler} */
 module.exports.check = async (req, res) => {
   if (req.user) {
-    res.status(200).json({ message: '로그인이 되어있는 상태에요.', nickname: req.user.nickname });
+    res.status(200).json({ message: '로그인이 되어있는 상태에요.', username: req.user.username, nickname: req.user.nickname });
   } else {
     res.status(401).json({ message: '로그인이 되어있지 않은 상태에요.' });
   }

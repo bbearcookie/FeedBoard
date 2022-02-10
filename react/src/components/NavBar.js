@@ -30,10 +30,10 @@ const NavBar = () => {
               <FontAwesomeIcon icon={faEdit} />
               <p className="label">글쓰기</p>
             </NavLink>
-            <div className={classNames("dropdown", {"active": /^\/mypage/.exec(location.pathname)})}>
+            <div className={classNames("dropdown", {"active": new RegExp(user.username).exec(location.pathname)})}>
               <p className="dropdown-btn">{user.nickname}</p>
               <div className="dropdown-items">
-                <Link className="dropdown-item" to="/mypage">마이 페이지</Link>
+                <Link className="dropdown-item" to={"/user/" + user.username}>마이 페이지</Link>
                 <Link className="dropdown-item" to="./" onClick={onLogout}>로그아웃</Link>
                 <Link className="dropdown-item" to="/test">테스트</Link>
               </div>

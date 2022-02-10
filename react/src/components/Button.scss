@@ -7,6 +7,10 @@
   user-select: none;
   border-radius: 5px;
   transition: background-color 0.1s;
+
+  .icon {
+    margin-right: 0.5em;
+  }
 }
 
 .Button:active {
@@ -39,4 +43,15 @@
 
 .Button.skyblue:hover {
   background: #6bbfe0;
+}
+
+.Button.primary-outline {
+  color: #FA8072;
+  border: 2px #FA8072 solid;
+  background: transparent;
+}
+
+.Button.primary-outline {
+  color: #E6766A;
+  border: 2px #E6766A solid;
 }
