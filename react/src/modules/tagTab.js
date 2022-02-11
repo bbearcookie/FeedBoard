@@ -7,19 +7,20 @@ const initialState = {
     {
       id: 0,
       text: "전체 게시글",
-      active: true
+      active: true,
     },
     {
       id: 1,
       text: "Two Feed",
-      active: false
+      active: false,
     },
     {
       id: 2,
       text: "Feed C",
-      active: false
+      active: false,
     },
-  ]
+  ],
+  activePos: 0 // tag 밑에 주황색 divider를 얼만큼 이동시킬지를 저장
 }
 let nextId = 3;
 
@@ -51,4 +52,4 @@ export default handleActions({
       { ...item, active: false }
     );
   })
-}, initialState);
+}, initialState, {forwardRef: true});

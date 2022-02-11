@@ -4,6 +4,8 @@ import UserTitleBar from '../components/user/UserTitleBar';
 import useRequest from '../lib/useRequest';
 import PageTemplate from '../templates/PageTemplate';
 import * as api from '../lib/api';
+import "./UserPage.scss";
+import UserTagTab from '../components/user/UserTagTab';
 
 const UserPage = () => {
   const { username } = useParams();
@@ -18,6 +20,9 @@ const UserPage = () => {
   return (
     <PageTemplate className="UserPage">
       <UserTitleBar nickname={nickname} />
+      <div className="main-area">
+        <UserTagTab />
+      </div>
     </PageTemplate>
   );
 };

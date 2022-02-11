@@ -7,7 +7,7 @@ import './UserTitleBar.scss';
 const UserTitleBar = ({ username, nickname }) => {
   return (
     <TitleBarTemplate className="UserTitleBar">
-      <div className="content-area">
+      <div className="user-area">
         <img
           className="user-icon"
           src="/user.png"

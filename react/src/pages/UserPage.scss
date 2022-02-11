@@ -1,0 +1,41 @@
+@import '../lib/variables';
+
+.UserPage {
+  .main-area {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+  }
+
+  @include xxl {
+    .main-area {
+      width: 1200px;
+    }
+  }
+  @include xl {
+    .main-area {
+      width: 1200px;
+    }
+  }
+  @include lg {
+    .main-area {
+      width: 900px;
+    }
+  }
+  @include md {
+    .main-area {
+      width: 700px;
+    }
+  }
+  @include sm {
+    .main-area {
+      width: 500px;
+    }
+  }
+  @media (max-width: 500px) {
+    .main-area {
+      width: calc(100% - 40px);
+    }
+  }
+}

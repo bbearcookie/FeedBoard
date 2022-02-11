@@ -7,7 +7,7 @@
   align-items: center;
   background-color: #F3F3F3;
 
-  .content-area {
+  .user-area {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -32,32 +32,32 @@
   }
 
   @include xxl {
-    .content-area {
+    .user-area {
       width: 1200px;
     }
   }
   @include xl {
-    .content-area {
+    .user-area {
       width: 1200px;
     }
   }
   @include lg {
-    .content-area {
+    .user-area {
       width: 900px;
     }
   }
   @include md {
-    .content-area {
+    .user-area {
       width: 700px;
     }
   }
   @include sm {
-    .content-area {
+    .user-area {
       width: 500px;
     }
   }
   @media (max-width: #{576px - 1px}) {
-    .content-area {
+    .user-area {
       width: 100%;
     }
   }

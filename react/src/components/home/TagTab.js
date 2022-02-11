@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './TagTab.scss';
 import TagTabItem from './TagTabItem';
 
-const TagTab = ({ tags, onRemove, onActive }) => {
+const TagTab = ({ tags, refs, activePos, onActive, onRemove }) => {
   return (
     <div className="TagTab">
       <div className="item-area">
@@ -12,6 +12,8 @@ const TagTab = ({ tags, onRemove, onActive }) => {
             id={item.id}
             text={item.text}
             active={item.active}
+            activePos={activePos}
+            itemRef={refs[item.id]}
             onActive={onActive}
             onRemove={onRemove}
           />
@@ -21,5 +23,13 @@ const TagTab = ({ tags, onRemove, onActive }) => {
     </div>
   );
 };
+
+TagTab.defaultProps = {
+  tags: [],
+  refs: [],
+  activePos: 0,
+  onActive: () => {},
+  onRemove: null,
+}
 
 export default TagTab;
