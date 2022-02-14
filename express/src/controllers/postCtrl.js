@@ -56,7 +56,8 @@ module.exports.getPosts = async (req, res) => {
         sql = `
         SELECT no, title, content, author, nickname, writtenTime
         FROM POST P, USER U
-        WHERE P.AUTHOR = U.USERNAME AND P.AUTHOR = ?`;
+        WHERE P.AUTHOR = U.USERNAME AND P.AUTHOR = ?
+        ORDER BY writtenTime DESC`;
         [posts] = await con.query(sql, author);
       }
 
@@ -68,39 +69,47 @@ module.exports.getPosts = async (req, res) => {
         SELECT postNo
         FROM tag
         WHERE value LIKE '%${tag}%'`;
+
         let [postNums] = await con.query(sql);
         postNums = postNums.map(item => item.postNo);
-
-        sql = `
-        SELECT no, title, content, author, nickname, writtenTime
-        FROM POST P, USER U
-        WHERE P.AUTHOR = U.USERNAME AND P.NO IN (?)`;
-        [posts] = await con.query(sql, [postNums]);
+        if (postNums.length > 0) {
+          sql = `
+          SELECT no, title, content, author, nickname, writtenTime
+          FROM POST P, USER U
+          WHERE P.AUTHOR = U.USERNAME AND P.NO IN (?)
+          ORDER BY writtenTime DESC`;
+          [posts] = await con.query(sql, [postNums]);
+        }
       // 모든 게시글 조회
       } else {
         sql = `
         SELECT no, title, content, author, nickname, writtenTime
         FROM POST P, USER U
-        WHERE P.AUTHOR = U.USERNAME`;
+        WHERE P.AUTHOR = U.USERNAME
+        ORDER BY writtenTime DESC`;
         [posts] = await con.query(sql);
       }
     }
 
     // 조회하려는 게시글에 포함된 태그들 가져옴
-    let postNums = posts.map(post => post.no);
-    sql = 'SELECT * FROM TAG WHERE postNo IN (?) ORDER BY sequence';
-    const [tags] = await con.query(sql, [postNums]);
-
-    // post 객체에 tag 정보를 포함시킨 형태의 배열 생성
-    let newArr = [];
-    for (i in posts) {
-      let newObj = posts[i];
-
-      newObj.tags = tags.filter(tag => tag.postNo === posts[i].no);
-      newArr.push(newObj);
+    if (posts) {
+      let postNums = posts.map(post => post.no);
+      sql = 'SELECT * FROM TAG WHERE postNo IN (?) ORDER BY sequence';
+      const [tags] = await con.query(sql, [postNums]);
+  
+      // post 객체에 tag 정보를 포함시킨 형태의 배열 생성
+      let newArr = [];
+      for (i in posts) {
+        let newObj = posts[i];
+  
+        newObj.tags = tags.filter(tag => tag.postNo === posts[i].no);
+        newArr.push(newObj);
+      }
+  
+      res.status(200).json({ message: '게시글 조회 성공', posts: newArr });
+    } else {
+      res.status(200).json({ message: '조건에 맞는 게시글이 없음' });
     }
-
-    res.status(200).json({ message: '게시글 조회 성공', posts: newArr });
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: '데이터베이스 문제 발생' });

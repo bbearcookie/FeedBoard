@@ -4,15 +4,16 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
-import { createStore } from 'redux';
+import { applyMiddleware, createStore } from 'redux';
 import { Provider } from 'react-redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import rootReducer from './modules';
+import ReduxThunk from 'redux-thunk';
 import * as auth from './lib/auth';
 import * as api from './lib/api';
 
 (async function () {
-  const store = createStore(rootReducer, composeWithDevTools());
+  const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(ReduxThunk)));
 
   // 앱 처음 실행시 서버로부터 로그인 상태를 확인함.
   try {

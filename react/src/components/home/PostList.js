@@ -8,28 +8,33 @@ const PostList = ({ api, params }) => {
   const [posts, setPosts] = useState([]);
 
   const getPosts = useCallback(async () => {
-    // const data = await request.call(api.getPosts);
-    const data = await request.call(api, params.username, params.tag);
-    setPosts(data.posts);
+    try {
+      const data = await request.call(api, params.username, params.tag);
+      setPosts(data.posts);
+    } catch (err) {
+      // setPosts([]);
+    }
   }, [request]);
 
   useEffect(() => {
     getPosts();
-  }, []);
+  }, [params]);
 
   return (
     <>
       {request.loading ? <LoadingSpinner /> : null}
-      {posts.map(post => 
-        <Post
-          key={post.no}
-          title={post.title}
-          content={post.content}
-          author={post.nickname}
-          writtenTime={post.writtenTime}
-          tags={post.tags}
-        />
-      )}
+      {posts ? 
+        posts.map(post => 
+          <Post
+            key={post.no}
+            title={post.title}
+            content={post.content}
+            author={post.nickname}
+            writtenTime={post.writtenTime}
+            tags={post.tags}
+          />
+        )
+      : null}
     </>
   );
 };

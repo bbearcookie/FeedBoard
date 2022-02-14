@@ -28,6 +28,7 @@ const CHANGE_INPUT = 'tabTab/CHANGE_INPUT';
 const INSERT = 'tagTab/INSERT';
 const REMOVE = 'tagTab/REMOVE';
 const ACTIVE = 'tagTab/ACTIVE';
+const INSERT_ACTIVE = 'tagTab/INSERT_ACTIVE';
 
 export const changeInput = createAction(CHANGE_INPUT, input => input);
 export const insert = createAction(INSERT, text => ({
@@ -37,10 +38,18 @@ export const insert = createAction(INSERT, text => ({
 }));
 export const remove = createAction(REMOVE, id => id);
 export const active = createAction(ACTIVE, id => id);
+export const insertActive = (text) => dispatch => {
+  const result = dispatch(insert(text));
+  return result.payload;
+}
 
 export default handleActions({
   [CHANGE_INPUT]: (state, { payload: input }) => ({ ...state, input }),
-  [INSERT]: (state, { payload: tag }) => ({ ...state, tags: state.tags.concat(tag) }),
+  [INSERT]: (state, { payload: tag }) => ({
+    ...state,
+    tags: state.tags.concat(tag),
+    activePos: 0
+  }),
   [REMOVE]: (state, { payload: id }) => ({
     ...state,
     tags: state.tags.filter(tag => tag.id !== id)
@@ -51,5 +60,9 @@ export default handleActions({
       { ...item, active: true } :
       { ...item, active: false }
     );
+  }),
+  [INSERT_ACTIVE]: (state, { payload: tag }) => produce(state, draft => {
+    draft.activePos = 0;
+    draft.tags = state.tags.map(item => ({ ...item, active: false })).concat(tag);
   })
 }, initialState, {forwardRef: true});
