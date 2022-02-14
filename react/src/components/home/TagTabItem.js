@@ -44,7 +44,7 @@ const TagTabItem = ({
     <Link
       className={classnames("TagTabItem", {'active': active}, {'first': id === 0})}
       to={getURL(id)}
-      onClick={() => { console.log('--------------'); onActive(id); } }
+      onClick={() => onActive(id)}
       ref={itemRef}
     >
       <div className="content-area">

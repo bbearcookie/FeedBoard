@@ -1,15 +1,15 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import useRequest from '../../lib/useRequest';
 import LoadingSpinner from '../../components/LoadingSpinner';
-import * as api from '../../lib/api';
 import Post from './Post';
 
-const PostList = () => {
+const PostList = ({ api, params }) => {
   const request = useRequest();
   const [posts, setPosts] = useState([]);
 
   const getPosts = useCallback(async () => {
-    const data = await request.call(api.getPosts);
+    // const data = await request.call(api.getPosts);
+    const data = await request.call(api, params.username, params.tag);
     setPosts(data.posts);
   }, [request]);
 
@@ -32,6 +32,11 @@ const PostList = () => {
       )}
     </>
   );
+};
+
+PostList.defaultProps = {
+  api: '',
+  params: []
 };
 
 export default PostList;

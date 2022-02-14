@@ -26,7 +26,10 @@ export const postWrite = (form, tags) => axios.post(`${BACKEND}/writer`,
     tags },
     options
 );
-export const getPosts = () => axios.get(`${BACKEND}/post`, options);
+export const getPosts = (author='', tag='', favorite='') =>
+  axios.get(`${BACKEND}/post?author=${author}&tag=${tag}&favorite=${favorite}`,
+  options
+);
 
 // 사용자 관련
 export const getNickname = (username) => axios.get(`${BACKEND}/nickname/${username}`, options);

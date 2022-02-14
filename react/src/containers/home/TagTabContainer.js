@@ -10,7 +10,6 @@ const TagTabContainer = () => {
   }));
   const [activePos, setActivePos] = useState(0);
   let tagRefs = tagTab.getRefs(tags);
-  console.log(tagRefs);
 
   const dispatch = useDispatch();
   const onRemove = useCallback(id => dispatch(remove(id)), [dispatch]);

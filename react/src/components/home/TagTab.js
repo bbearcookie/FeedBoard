@@ -3,8 +3,6 @@ import './TagTab.scss';
 import TagTabItem from './TagTabItem';
 
 const TagTab = ({ tags, refs, activePos, getURL, onActive, onRemove }) => {
-
-  console.log(tags);
   return (
     <div className="TagTab">
       <div className="item-area">
