@@ -1,16 +1,24 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import UserTitleBar from '../components/user/UserTitleBar';
 import useRequest from '../lib/useRequest';
 import PageTemplate from '../templates/PageTemplate';
 import * as api from '../lib/api';
 import "./UserPage.scss";
 import UserTagTab from '../components/user/UserTagTab';
+import PostList from '../components/home/PostList';
+import qs from 'qs';
 
 const UserPage = () => {
   const { username } = useParams();
+  const location = useLocation();
+  const query = qs.parse(location.search, { ignoreQueryPrefix: true });
   const [nickname, setNickname] = useState('');
   const request = useRequest();
+
+  if (query.option) {
+    console.log(query);
+  }
 
   useEffect(useCallback(async () => {
     const res = await request.call(api.getNickname, username);
@@ -22,6 +30,7 @@ const UserPage = () => {
       <UserTitleBar nickname={nickname} />
       <div className="main-area">
         <UserTagTab />
+        <PostList />
       </div>
     </PageTemplate>
   );

@@ -1,74 +1,40 @@
 import React, { useState } from 'react';
 import TagTab from '../home/TagTab';
 import * as tagTab from '../../lib/tagTab';
+import qs from 'qs';
+import { useLocation, useParams } from 'react-router-dom';
 
 const initial_tags = [
   {
     id: 0,
-    text: '첫번째',
+    text: '작성한 글',
     active: true,
+    queryKey: '',
   },
   {
     id: 1,
-    text: '두번째',
+    text: '관심 있는 글',
     active: false,
-  },
-  {
-    id: 2,
-    text: '세번째',
-    active: false,
-  },
-  {
-    id: 3,
-    text: 'BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB',
-    active: false,
-  },
-  {
-    id: 4,
-    text: '한글로길게게게게게게게게게게게게게게게게게게게게',
-    active: false,
-  },
-  {
-    id: 5,
-    text: 'a',
-    active: false,
-  },
-  {
-    id: 6,
-    text: 'a',
-    active: false,
-  },
-  {
-    id: 7,
-    text: 'a',
-    active: false,
-  },
-  {
-    id: 8,
-    text: 'a',
-    active: false,
-  },
-  {
-    id: 9,
-    text: 'a',
-    active: false,
-  },
-  {
-    id: 10,
-    text: 'a',
-    active: false,
-  },
-  {
-    id: 11,
-    text: 'a',
-    active: false,
+    queryKey: 'favorite'
   },
 ];
 const tagRefs = tagTab.getRefs(initial_tags);
 
 const UserTagTab = () => {
+  const { username } = useParams();
   const [tags, setTags] = useState(initial_tags);
   const [activePos, setActivePos] = useState(0); // 하단에 보여줄 주황색 divider의 애니메이션이 시작될 위치
+
+  // Link의 to에 넣어줄 URL 반환
+  const getURL = (id) => {
+    let url = `/user/${username}`;
+
+    if (tags[id].queryKey === 'favorite') {
+      url += `?${tags[id].queryKey}=1`
+    }
+
+    return url;
+  }
 
   const onActive = (id) => {
     setActivePos(tagTab.getActivePos(tags, tagRefs, id));
@@ -85,6 +51,7 @@ const UserTagTab = () => {
         tags={tags}
         refs={tagRefs}
         activePos={activePos}
+        getURL={getURL}
         onActive={onActive}
       />
     </div>

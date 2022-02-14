@@ -46,6 +46,7 @@ export default handleActions({
     tags: state.tags.filter(tag => tag.id !== id)
   }),
   [ACTIVE]: (state, { payload: id }) => produce(state, draft => {
+    console.log(id);
     draft.tags = state.tags.map(item =>
       item.id === id ?
       { ...item, active: true } :

@@ -14,21 +14,28 @@ export const getActivePos = (tags, refs, id) => {
   tags.forEach((tag, i) => {
     // 이전에 클릭했던 태그 정보
     if (tag.active) {
-      prevId = tag.id;
+      prevId = i;
     }
 
     // 현재 클릭한 태그 정보
     if (id === tag.id) {
-      nowId = id;
+      nowId = i;
     }
 
     // 이전에 클릭했던 태그와 현재 클릭했던 태그 사이의 거리 계산
     if (prevId <= -1 || nowId <= -1) {
       if (prevId >= 0 || nowId >= 0) {
-        distance += refs[i].current.offsetWidth;
+        if (refs[i].current) {
+          distance += refs[i].current.offsetWidth;
+        }
       }
     }
   });
+
+  // 이전에 클릭했던 태그가 없으면 distance는 0임.
+  if (prevId === -1) {
+    distance = 0;
+  }
 
   // 거리 양수 음수 계산
   if (prevId - nowId < 0) {

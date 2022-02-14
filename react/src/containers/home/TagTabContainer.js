@@ -9,7 +9,8 @@ const TagTabContainer = () => {
     tags: state.tagTab.tags
   }));
   const [activePos, setActivePos] = useState(0);
-  const tagRefs = tagTab.getRefs(tags);
+  let tagRefs = tagTab.getRefs(tags);
+  console.log(tagRefs);
 
   const dispatch = useDispatch();
   const onRemove = useCallback(id => dispatch(remove(id)), [dispatch]);
@@ -18,11 +19,22 @@ const TagTabContainer = () => {
     dispatch(active(id));
   }, [dispatch, tags, tagRefs]);
 
+  const getURL = (id) => {
+    let url = `/`;
+
+    if (id !== 0) {
+      url += `?tag=${tags.find(tag => tag.id === id).text}`;
+    }
+
+    return url;
+  }
+
   return (
     <TagTab
       tags={tags}
       refs={tagRefs}
       activePos={activePos}
+      getURL={getURL}
       onRemove={onRemove}
       onActive={onActive}
     />

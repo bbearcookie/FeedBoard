@@ -2,8 +2,10 @@ import React, { useCallback } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 import styled, { keyframes } from 'styled-components'
-import "./TagTebItem.scss";
+import "./TagTabItem.scss";
 import classnames from 'classnames';
+import qs from 'qs';
+import { Link } from 'react-router-dom';
 
 const active = (activePos) => keyframes`
   0% {
@@ -25,16 +27,24 @@ const ActiveDivider = styled(Divider)`
   animation: ${({activePos}) => active(activePos)} 0.5s;
 `;
 
-const TagTebItem = ({id, text, active, activePos, itemRef, onActive, onRemove}) => {
+const TagTabItem = ({
+  id,
+  text, active, activePos,
+  itemRef,
+  getURL,
+  onActive, onRemove}) => {
+
   const onClickRemoveButton = useCallback((e) => {
     e.stopPropagation(); // 삭제 버튼 눌렀을 때 삭제하려는 상위 div 요소의 onActive(id)가 동작하는걸 방지함
+    e.preventDefault();
     onRemove(id);
   }, [onRemove, id]);
 
   return (
-    <div
-      className={classnames("TagTebItem", {'active': active}, {'first': id === 0})}
-      onClick={() => onActive(id)}
+    <Link
+      className={classnames("TagTabItem", {'active': active}, {'first': id === 0})}
+      to={getURL(id)}
+      onClick={() => { console.log('--------------'); onActive(id); } }
       ref={itemRef}
     >
       <div className="content-area">
@@ -50,18 +60,19 @@ const TagTebItem = ({id, text, active, activePos, itemRef, onActive, onRemove}) 
       {active ?
       <ActiveDivider activePos={activePos} /> :
       <Divider />}
-    </div>
+    </Link>
   );
 };
 
-TagTebItem.defaultProps = {
+TagTabItem.defaultProps = {
   id: 0,
   text: '',
   active: false,
   activePos: 0,
   itemRef: null,
+  getURL: () => {},
   onActive: () => {},
   onRemove: null
 }
 
-export default TagTebItem;
+export default TagTabItem;
