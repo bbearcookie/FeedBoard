@@ -91,7 +91,6 @@ module.exports.getPosts = async (req, res) => {
           WHERE P.AUTHOR = U.USERNAME AND P.NO IN (?)
           ORDER BY writtenTime DESC`;
           [posts] = await con.query(sql, [postNums]);
-          console.log(posts);
         }
       // 모든 게시글 조회
       } else {

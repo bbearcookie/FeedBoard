@@ -25,8 +25,8 @@ const UserPage = () => {
     <PageTemplate className="UserPage">
       <UserTitleBar nickname={nickname} />
       <div className="main-area">
-        <UserTagTab />
-        <PostList api={api.getPosts} params={{username: username, favorite: query.favorite }} />
+        <UserTagTab username={username} params={{ favorite: query.favorite }} />
+        <PostList api={api.getPosts} params={{ username: username, favorite: query.favorite }} />
       </div>
     </PageTemplate>
   );

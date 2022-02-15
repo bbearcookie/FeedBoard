@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import TagTab from '../home/TagTab';
 import * as tagTab from '../../lib/tagTab';
-import qs from 'qs';
-import { useLocation, useParams } from 'react-router-dom';
+import { useEffect } from 'react';
 
 const initial_tags = [
   {
@@ -20,8 +19,7 @@ const initial_tags = [
 ];
 const tagRefs = tagTab.getRefs(initial_tags);
 
-const UserTagTab = () => {
-  const { username } = useParams();
+const UserTagTab = ({ username, params }) => {
   const [tags, setTags] = useState(initial_tags);
   const [activePos, setActivePos] = useState(0); // 하단에 보여줄 주황색 divider의 애니메이션이 시작될 위치
 
@@ -45,6 +43,16 @@ const UserTagTab = () => {
     ));
   }
 
+  useEffect(() => {
+    if (params.favorite) {
+      setTags(tags.map(tag =>
+        tag.queryKey === "favorite" ?
+        { ...tag, active: true } :
+        { ...tag, active: false }
+      ));
+    }
+  }, []);
+
   return (
     <div className="UserTagTab">
       <TagTab
@@ -56,6 +64,11 @@ const UserTagTab = () => {
       />
     </div>
   );
+};
+
+UserTagTab.defaultProps = {
+  username: '',
+  params: {}
 };
 
 export default UserTagTab;
