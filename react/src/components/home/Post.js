@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCommentDots, faHeart } from '@fortawesome/free-solid-svg-icons';
 import Tag from '../Tag';
 import classNames from 'classnames';
+import * as auth from '../../lib/auth';
 
 function dateFormat(date) {
   date = new Date(date);
@@ -15,15 +16,16 @@ function dateFormat(date) {
   return `${year}년 ${month}월 ${day}일`;
 }
 
-const Post = ({ title, content, author, writtenTime, tags }) => {
+const Post = ({ postNo, title, content, author, writtenTime, tags, favoriteUsers, onFavorite }) => {
   const [overflowed, setOverflowed] = useState(false);
   const contentRef = useRef(null);
 
-  function isOverflown(e) {
-    return e.scrollHeight > e.clientHeight || e.scrollWidth > e.clientWidth;
-  }
-
+  // 내용이 많아서 잘리면 내용 더보기 라벨을 보여줌.
   useEffect(() => {
+    function isOverflown(e) {
+      return e.scrollHeight > e.clientHeight || e.scrollWidth > e.clientWidth;
+    }
+
     setOverflowed(isOverflown(contentRef.current));
   }, []);
 
@@ -47,9 +49,15 @@ const Post = ({ title, content, author, writtenTime, tags }) => {
             <FontAwesomeIcon icon={faCommentDots} />
             <p>100</p>
           </li>
-          <li className="button">
+          <li
+            className={classNames(
+              'button',
+              {'active': favoriteUsers.includes(auth.getUsername())}
+            )}
+            onClick={() => onFavorite(postNo)}
+          >
             <FontAwesomeIcon icon={faHeart} />
-            <p>77</p>
+            <p>{favoriteUsers.length}</p>
           </li>
         </ul>
       </div>
@@ -76,7 +84,9 @@ Post.defaultProps = {
   content: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi deleniti nobis consequatur voluptates, a expedita, aut nulla optio temporibus iste cumque maiores fuga non. Consequuntur praesentium officiis ipsa culpa necessitatibus possimus, animi facilis amet ut non in impedit, facere dicta perspiciatis tempore, accusantium nobis? Beatae aliquam saepe illo, consequuntur aliquid voluptas cumque tempore labore ad culpa quod natus. Suscipit, ipsam.',
   author: '닉네임',
   writtenTime: '2021년 01월 25일',
-  tags: []
+  tags: [],
+  favoriteUsers: [],
+  onFavorite: () => {}
 };
 
 export default Post;

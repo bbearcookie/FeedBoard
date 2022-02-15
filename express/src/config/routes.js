@@ -11,5 +11,6 @@ module.exports = (app) => {
   app.post('/writer', postCtrl.writePost);
   app.get('/post', postCtrl.getPosts); // 전체 게시글 반환
   app.get('/post/:postNo', () => {}); // 특정 게시글 반환
+  app.patch('/favorite/:postNo', postCtrl.patchFavorite); // 특정 게시글의 좋아요 처리
   app.get('/nickname/:username', userCtrl.getNickname); // 해당 계정의 닉네임을 반환
 }

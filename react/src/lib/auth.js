@@ -29,4 +29,18 @@ export const setUser = (username, nickname) => {
   saveToStoarage(user);
 }
 export const getUser = () => JSON.parse(sessionStorage.getItem(KEY_NAME));
+export const getUsername = () => {
+  const user = getUser();
+  if (user)
+    return user.username;
+  else
+    return undefined;
+}
+export const getNickname = () => {
+  const user = getUser();
+  if (user)
+    return user.nickname;
+  else
+    return undefined;
+}
 export const removeUser = removeFromStoarage;
