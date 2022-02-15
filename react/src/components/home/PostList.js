@@ -11,7 +11,7 @@ const PostList = ({ api, params }) => {
 
   const getPosts = useCallback(async () => {
     try {
-      const data = await request.call(api, params.username, params.tag);
+      const data = await request.call(api, params.username, params.tag, params.favorite);
       setPosts(data.posts);
     } catch (err) {
       

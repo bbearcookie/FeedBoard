@@ -38,7 +38,6 @@ module.exports.writePost = async (req, res) => {
 /** @type {import("express").RequestHandler} */
 module.exports.getPosts = async (req, res) => {
   const { author, tag, favorite } = req.query;
-  console.log(req.query);
 
   const con = await db.getConnection();
 
@@ -50,7 +49,20 @@ module.exports.getPosts = async (req, res) => {
 
       // 특정 사용자가 좋아하는 게시글 조회
       if (favorite) {
-  
+
+        sql = `SELECT postNo FROM favorite WHERE username='${author}'`;
+        let [postNums] = await con.query(sql);
+        postNums = postNums.map(item => item.postNo);
+
+        if (postNums && postNums.length > 0) {
+          sql = `
+          SELECT no, title, content, author, nickname, writtenTime
+          FROM POST P, USER U
+          WHERE P.AUTHOR = U.USERNAME AND P.no IN (?)
+          ORDER BY writtenTime DESC`;
+          [posts] = await con.query(sql, [postNums]);
+        }
+
       // 특정 사용자가 작성한 게시글 조회
       } else {
         sql = `
@@ -79,6 +91,7 @@ module.exports.getPosts = async (req, res) => {
           WHERE P.AUTHOR = U.USERNAME AND P.NO IN (?)
           ORDER BY writtenTime DESC`;
           [posts] = await con.query(sql, [postNums]);
+          console.log(posts);
         }
       // 모든 게시글 조회
       } else {
@@ -91,7 +104,7 @@ module.exports.getPosts = async (req, res) => {
       }
     }
 
-    if (posts) {
+    if (posts && posts.length > 0) {
 
       // [조회하려는 게시글에 포함된 태그들 가져옴]
       let postNums = posts.map(post => post.no);
