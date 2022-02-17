@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import TagTab from '../TagTab';
-import * as tagTab from '../../lib/tagTab';
+import TagTab from './TagTab';
+import * as tagTab from '../../../lib/tagTab';
 import { useEffect } from 'react';
 
 const initial_tags = [

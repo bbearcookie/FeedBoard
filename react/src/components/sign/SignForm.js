@@ -1,6 +1,6 @@
 import React from 'react';
-import Input from '../Input';
-import Button from '../Button';
+import Input from '../input/Input';
+import Button from '../input/Button';
 import LoadingSpinner from '../LoadingSpinner';
 import './SignForm.scss';
 

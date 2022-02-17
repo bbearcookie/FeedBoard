@@ -1,13 +1,13 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
-import UserTitleBar from '../components/user/UserTitleBar';
+import UserTitleBar from '../components/titlebar/UserTitleBar';
 import useRequest from '../lib/useRequest';
 import qs from 'qs';
 import PageTemplate from '../templates/PageTemplate';
 import * as api from '../lib/api';
 import "./UserPage.scss";
-import UserTagTab from '../components/user/UserTagTab';
-import PostList from '../components/PostList';
+import UserTagTab from '../components/tag/tab/UserTagTab';
+import PostList from '../components/post/PostList';
 
 const UserPage = () => {
   const { username } = useParams();

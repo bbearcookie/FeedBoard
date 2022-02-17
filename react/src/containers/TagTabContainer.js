@@ -1,8 +1,8 @@
 import React, { useCallback, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import TagTab from '../../components/TagTab';
-import { active, remove, insertActive, setActivePos } from '../../modules/tagTab';
-import * as tagTab from '../../lib/tagTab';
+import TagTab from '../components/tag/tab/TagTab';
+import { active, remove, insertActive, setActivePos } from '../modules/tagTab';
+import * as tagTab from '../lib/tagTab';
 import { useEffect } from 'react';
 
 const TagTabContainer = ({ params }) => {

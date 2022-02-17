@@ -1,8 +1,8 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import useRequest from '../lib/useRequest';
-import LoadingSpinner from './LoadingSpinner';
+import useRequest from '../../lib/useRequest';
+import LoadingSpinner from '../LoadingSpinner';
 import Post from './Post';
-import { patchFavorite } from '../lib/api';
+import { patchFavorite } from '../../lib/api';
 import './PostList.scss';
 
 const PostList = ({ api, params }) => {

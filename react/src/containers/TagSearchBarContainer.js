@@ -2,8 +2,8 @@ import React, { useCallback } from 'react';
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import TagSearchBar from '../../components/home/TagSearchBar';
-import { changeInput, insertActive } from '../../modules/tagTab';
+import TagSearchBar from '../components/tag/search/TagSearchBar';
+import { changeInput, insertActive, setActivePos } from '../modules/tagTab';
 
 const TagSearchBarContainer = () => {
   const navigate = useNavigate();
@@ -17,6 +17,7 @@ const TagSearchBarContainer = () => {
   const onChangeInput = useCallback(input => dispatch(changeInput(input)), [dispatch]);
   const onInsert = useCallback(text => {
     dispatch(insertActive(tags, text));
+    dispatch(setActivePos(0));
     return navigate(`?tag=${text}`);
   }, [dispatch, tags, navigate]);
 

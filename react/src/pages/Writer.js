@@ -1,14 +1,14 @@
 import React, { useState, createRef, useMemo, useCallback, useRef } from 'react';
 import PageTemplate from '../templates/PageTemplate';
-import Tag from '../components/Tag';
-import Button from '../components/Button';
-import Input from '../components/Input';
+import Tag from '../components/tag/Tag';
+import Button from '../components/input/Button';
+import Input from '../components/input/Input';
+import Textarea from '../components/input/Textarea';
 import * as api from '../lib/api';
 import * as formUtil from '../lib/form';
-import './Writer.scss';
-import Textarea from '../components/Textarea';
 import useRequest from '../lib/useRequest';
 import { useNavigate } from 'react-router-dom';
+import './Writer.scss';
 
 const inputs = [
   {

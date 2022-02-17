@@ -3,9 +3,10 @@ import { Link } from 'react-router-dom';
 import './Post.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCommentDots, faHeart } from '@fortawesome/free-solid-svg-icons';
-import Tag from './Tag';
+import Tag from '../tag/Tag';
 import classNames from 'classnames';
-import * as auth from '../lib/auth';
+import * as auth from '../../lib/auth';
+import TagContainer from '../../containers/TagContainer';
 
 function dateFormat(date) {
   date = new Date(date);
@@ -70,11 +71,21 @@ const Post = ({ postNo, title, content, author, nickname, writtenTime, tags, fav
         {overflowed ? <p className="overflow-label">내용 더 보기</p> : null}
       </Link>
       <div className="tag-area">
-        {tags.map(tag =>
-          <Tag
-            key={tag.sequence}
-            value={tag.value}
-          />
+        {/* 메인 페이지에서만 태그 클릭시 태그탭에 추가시킴. */}
+        {tags.map(tag => {
+          if (window.location.pathname === '/')
+            return (
+              <TagContainer
+                key={tag.sequence}
+                value={tag.value}
+              />
+            );
+          else return (
+            <Tag
+              key={tag.sequence}
+              value={tag.value}
+            />
+          )}
         )}
       </div>
       <div className="divider" />

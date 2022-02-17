@@ -1,10 +1,10 @@
 import React from 'react';
-import TrendTagList from '../components/home/TrendTagList';
-import HomeTitleBar from '../components/home/HomeTitleBar';
-import TagTabContainer from '../containers/home/TagTabContainer';
-import TagSearchBarContainer from '../containers/home/TagSearchBarContainer';
+import TrendTagList from '../components/tag/TrendTagList';
+import HomeTitleBar from '../components/titlebar/HomeTitleBar';
+import TagTabContainer from '../containers/TagTabContainer';
+import TagSearchBarContainer from '../containers/TagSearchBarContainer';
 import PageTemplate from '../templates/PageTemplate';
-import PostList from '../components/PostList';
+import PostList from '../components/post/PostList';
 import qs from 'qs';
 import * as api from '../lib/api';
 import { useLocation } from 'react-router-dom';

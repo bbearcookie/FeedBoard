@@ -1,7 +1,7 @@
 import React from 'react';
 import TitleBarTemplate from '../../templates/TitleBarTemplate';
 import { faPen } from '@fortawesome/free-solid-svg-icons';
-import Button from '../Button';
+import Button from '../input/Button';
 import './UserTitleBar.scss';
 
 const UserTitleBar = ({ username, nickname }) => {
