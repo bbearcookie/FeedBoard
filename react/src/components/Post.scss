@@ -31,6 +31,11 @@
         .author {
           color: #ff7f50;
           font-size: 20px;
+          text-decoration: none;
+        }
+
+        .author:hover {
+          text-decoration: underline;
         }
 
         .written-time {
@@ -82,12 +87,19 @@
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    text-decoration: none;
 
     .post-title {
+      color: black;
       margin: 0;
       font-size: 28px;
       font-weight: normal;
       text-align: left;
+    }
+
+    .overflow-label {
+      margin: 0;
+      padding: 0;
     }
 
     p {
@@ -102,25 +114,21 @@
       -webkit-line-clamp: 15;
       -webkit-box-orient: vertical;
     }
+  }
 
-    .overflow-label {
-      margin: 0;
-      padding: 0;
-    }
-
-    .overflow-label:hover {
-      cursor: pointer;
+  .content-area:hover {
+    .post-title {
       text-decoration: underline;
     }
+  }
 
-    .tag-area {
-      width: 100%;
-      margin-bottom: 10px;
-      text-align: right;
+  .tag-area {
+    width: 100%;
+    min-height: 30px;
+    text-align: right;
 
-      .Tag {
-        font-size: 14px;
-      }
+    .Tag {
+      font-size: 14px;
     }
   }
 

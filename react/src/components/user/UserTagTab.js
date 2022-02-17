@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import TagTab from '../home/TagTab';
+import TagTab from '../TagTab';
 import * as tagTab from '../../lib/tagTab';
 import { useEffect } from 'react';
 

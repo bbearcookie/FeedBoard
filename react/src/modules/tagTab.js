@@ -18,9 +18,7 @@ const CHANGE_INPUT = 'tabTab/CHANGE_INPUT';
 const INSERT = 'tagTab/INSERT';
 const REMOVE = 'tagTab/REMOVE';
 const ACTIVE = 'tagTab/ACTIVE';
-const INSERT_ACTIVE = 'tagTab/INSERT_ACTIVE';
 const SET_ACTIVE_POS = 'tagTab/SET_ACTIVE_POS';
-const INIT_TAGS = 'tagTab/INIT_TAGS';
 
 export const changeInput = createAction(CHANGE_INPUT, input => input);
 export const insert = createAction(INSERT, text => ({
@@ -30,12 +28,22 @@ export const insert = createAction(INSERT, text => ({
 }));
 export const remove = createAction(REMOVE, id => id);
 export const active = createAction(ACTIVE, id => id);
-export const insertActive = (text) => dispatch => {
-  const result = dispatch(insert(text));
-  return result.payload;
+
+// 태그를 추가하고 활성화 처리함. 중복된 태그는 추가하지 않음.
+export const insertActive = (tags, text) => dispatch => {
+  if (tags) {
+    const index = tags.findIndex(item => item.text === text);
+    if (index > 0) {
+      dispatch(active(tags[index].id));
+    } else {
+      dispatch(insert(text));
+      dispatch(active(nextId - 1));
+    }
+  } else {
+    dispatch(insert(text));
+  }
 };
 export const setActivePos = createAction(SET_ACTIVE_POS, activePos => activePos);
-export const initTags = createAction(INIT_TAGS);
 
 export default handleActions({
   [CHANGE_INPUT]: (state, { payload: input }) => ({ ...state, input }),
@@ -55,12 +63,8 @@ export default handleActions({
       { ...item, active: false }
     );
   }),
-  [INSERT_ACTIVE]: (state, { payload: tag }) => produce(state, draft => {
-    draft.tags = state.tags.map(item => ({ ...item, active: false })).concat(tag);
-  }),
   [SET_ACTIVE_POS]: (state, { payload: activePos }) => ({
     ...state,
     activePos
   }),
-  [INIT_TAGS]: (state) => ({ ...state, tags: initialState.tags })
 }, initialState, {forwardRef: true});

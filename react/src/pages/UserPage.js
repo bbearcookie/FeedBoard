@@ -7,7 +7,7 @@ import PageTemplate from '../templates/PageTemplate';
 import * as api from '../lib/api';
 import "./UserPage.scss";
 import UserTagTab from '../components/user/UserTagTab';
-import PostList from '../components/home/PostList';
+import PostList from '../components/PostList';
 
 const UserPage = () => {
   const { username } = useParams();
