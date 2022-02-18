@@ -65,7 +65,7 @@ const Post = ({ postNo, title, content, author, nickname, writtenTime, tags, fav
           </li>
         </ul>
       </div>
-      <Link className="content-area" to="/">
+      <Link className="content-area" to="/post">
         <h1 className="post-title">{title}</h1>
         <p ref={contentRef}>{content}</p>
         {overflowed ? <p className="overflow-label">내용 더 보기</p> : null}

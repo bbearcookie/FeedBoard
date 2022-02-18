@@ -5,6 +5,7 @@ import UserPage from './pages/UserPage';
 import Signin from './pages/Signin';
 import Signup from './pages/Signup';
 import Writer from './pages/Writer';
+import PostPage from './pages/PostPage';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/user/:username" element={<UserPage />} />
         <Route path="/writer" element={<Writer />} />
+        <Route path="/post" element={<PostPage />} />
       </Routes>
     </div>
   );
