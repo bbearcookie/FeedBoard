@@ -51,6 +51,7 @@ const PostList = ({ api, params }) => {
             writtenTime={post.writtenTime}
             tags={post.tags}
             favoriteUsers={post.favoriteUsers}
+            commentCnt={post.commentCnt}
             onFavorite={onFavorite}
           />
         )

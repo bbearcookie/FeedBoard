@@ -18,7 +18,7 @@ function dateFormat(date) {
   return `${year}년 ${month}월 ${day}일`;
 }
 
-const Post = ({ postNo, title, content, author, nickname, writtenTime, tags, favoriteUsers, onFavorite }) => {
+const Post = ({ postNo, title, content, author, nickname, writtenTime, tags, favoriteUsers, commentCnt, onFavorite }) => {
   const [overflowed, setOverflowed] = useState(false);
   const contentRef = useRef(null);
 
@@ -51,7 +51,7 @@ const Post = ({ postNo, title, content, author, nickname, writtenTime, tags, fav
         <ul className="button-area">
           <li className="button">
             <FontAwesomeIcon icon={faCommentDots} />
-            <p>100</p>
+            <p>{commentCnt}</p>
           </li>
           <li
             className={classNames(
@@ -65,7 +65,7 @@ const Post = ({ postNo, title, content, author, nickname, writtenTime, tags, fav
           </li>
         </ul>
       </div>
-      <Link className="content-area" to="/post">
+      <Link className="content-area" to={`/post/${postNo}`}>
         <h1 className="post-title">{title}</h1>
         <p ref={contentRef}>{content}</p>
         {overflowed ? <p className="overflow-label">내용 더 보기</p> : null}
@@ -101,6 +101,7 @@ Post.defaultProps = {
   writtenTime: '2021년 01월 25일',
   tags: [],
   favoriteUsers: [],
+  commentCnt: 0,
   onFavorite: () => {}
 };
 

@@ -146,7 +146,25 @@ module.exports.getPosts = async (req, res) => {
       //   return post;
       // });
 
-      // 댓글 수 가져옴
+      // [댓글 수 가져옴]
+      sql =
+      `SELECT postNo, COUNT(*) AS commentCnt
+      FROM comment
+      WHERE postNo IN (?)
+      GROUP BY postNo`
+      const [commentCnt] = await con.query(sql, [postNums]);
+
+      // 댓글 수를 post 객체에 추가
+      posts = posts.map(post => {
+        [post.commentCnt] = commentCnt.filter(item => item.postNo === post.no);
+
+        if (post.commentCnt)
+          post.commentCnt = post.commentCnt.commentCnt
+        else
+          post.commentCnt = 0;
+
+        return post;
+      });
   
       res.status(200).json({ message: '게시글 조회 성공', posts: posts });
     } else {
@@ -159,6 +177,42 @@ module.exports.getPosts = async (req, res) => {
     con.release();
   }
 }
+
+/** @type {import("express").RequestHandler} */
+module.exports.getPost = async (req, res) => {
+  const { postNo } = req.params;
+
+  const con = await db.getConnection();
+  try {
+    // 게시글 내용 조회
+    let sql =
+    `SELECT no, title, content, author, nickname, writtenTime
+    FROM POST P, USER U
+    WHERE P.author=U.username AND no = ?`;
+    let [[post]] = await con.query(sql, postNo);
+
+    if (!post) {
+      return res.status(404).json({ message: "없는 게시글입니다." });
+    }
+
+    // 태그 조회
+    sql = `SELECT * FROM TAG WHERE postNo = ?`;
+    let [tags] = await con.query(sql, postNo);
+    post.tags = tags;
+
+    // 댓글 조회
+    sql = `SELECT no, content, author, postNo, writtenTime, nickname FROM COMMENT C, USER U WHERE postNo = ? AND C.author = U.username`;
+    let [comments] = await con.query(sql, postNo);
+    post.comments = comments;
+
+    return res.status(200).json({ message: '게시글 조회 성공', post });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ message: '데이터베이스 문제 발생' });
+  } finally {
+    con.release();
+  }
+};
 
 /** @type {import("express").RequestHandler} */
 module.exports.patchFavorite = async (req, res) => {
@@ -210,5 +264,26 @@ module.exports.patchFavorite = async (req, res) => {
   } finally {
     con.release();
   }
-
 }
+
+/** @type {import("express").RequestHandler} */
+module.exports.writeComment = async (req, res) => {
+  const { postNo, content } = req.body;
+
+  if (!req.isAuthenticated()) {
+    return res.status(401).json({ message: '로그인 상태가 아니에요.' });
+  }
+
+  const con = await db.getConnection();
+  try {
+    let sql = `INSERT INTO comment (content, author, postNo) VALUES ('${content}', '${req.user.username}', ${postNo})`;
+    await con.execute(sql);
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ message: '데이터베이스 문제 발생' });
+  } finally {
+    con.release();
+  }
+
+  res.status(200).json({ message: '댓글 작성 처리' });
+};

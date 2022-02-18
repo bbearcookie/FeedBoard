@@ -30,6 +30,11 @@ export const getPosts = (author='', tag='', favorite='') =>
   axios.get(`${BACKEND}/post?author=${author}&tag=${tag}&favorite=${favorite}`,
   options
 );
+export const getPost = (postNo) => axios.get(`${BACKEND}/post/${postNo}`, options);
+export const postComment = (postNo, content) => axios.post(`${BACKEND}/comment`,
+  { postNo, content },
+  options
+);
 export const patchFavorite = (postNo) => axios.patch(`${BACKEND}/favorite/${postNo}`, {}, options);
 
 // 사용자 관련

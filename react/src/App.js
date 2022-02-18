@@ -17,7 +17,7 @@ function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/user/:username" element={<UserPage />} />
         <Route path="/writer" element={<Writer />} />
-        <Route path="/post" element={<PostPage />} />
+        <Route path="/post/:postNo" element={<PostPage />} />
       </Routes>
     </div>
   );

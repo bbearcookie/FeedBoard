@@ -2,11 +2,11 @@ import React from 'react';
 import TitleBarTemplate from '../../templates/TitleBarTemplate';
 import './PostTitleBar.scss';
 
-const PostTitleBar = () => {
+const PostTitleBar = ({ title, nickname, writtenTime }) => {
   return (
     <TitleBarTemplate className="PostTitleBar">
       <div className="title-area">
-        <h1 className="title-label">게시글의 제목</h1>
+        <h1 className="title-label">{title}</h1>
         <div className="author-area">
           <img
             src="/user.png"
@@ -15,8 +15,8 @@ const PostTitleBar = () => {
             alt="user-img"
           />
           <div className="name-time-area">
-            <p className="nickname">닉네임</p>
-            <p className="written-time">2022년 2월 17일</p>
+            <p className="nickname">{nickname}</p>
+            <p className="written-time">{writtenTime}</p>
           </div>
         </div>
       </div>

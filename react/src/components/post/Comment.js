@@ -1,12 +1,10 @@
 import React from 'react';
 import './Comment.scss';
 
-const Comment = () => {
+const Comment = ({ author, nickname, content, writtenTime }) => {
   return (
     <div className="Comment">
-      <div className="content-area">
-        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Laboriosam consequatur aut accusantium, fugiat ex quae esse voluptatum adipisci nihil dolor optio tenetur cumque reiciendis provident architecto fugit est doloribus. Iusto.
-      </div>
+      <div className="content-area">{content}</div>
       <div className="bottom-area">
         <img
           src="/user.png"
@@ -14,11 +12,18 @@ const Comment = () => {
           height="40px"
           alt="user-img"
         />
-        <p className="nickname">닉네임</p>
-        <p className="written-time">2022년 2월 18일</p>
+        <p className="nickname">{nickname}</p>
+        <p className="written-time">{writtenTime}</p>
       </div>
     </div>
   );
+};
+
+Comment.defaultProps = {
+  author: '',
+  nickname: '',
+  content: '',
+  writtenTime: ''
 };
 
 export default Comment;
