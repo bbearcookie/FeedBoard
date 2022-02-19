@@ -8,6 +8,7 @@ import { useParams } from 'react-router-dom';
 import "./PostPage.scss";
 import useRequest from '../lib/useRequest';
 import * as api from '../lib/api';
+import * as auth from '../lib/auth';
 
 function dateFormat(date) {
   date = new Date(date);
@@ -56,7 +57,7 @@ const PostPage = () => {
         <hr className="divider" />
         <div className="comment-area">
           <h2 className="label">댓글 목록</h2>
-          <CommentWriter />
+          {auth.getUser() ? <CommentWriter nickname={auth.getNickname()} /> : null}
           {post.comments && post.comments.map(comment => 
             (<Comment
               key={comment.no}

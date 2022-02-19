@@ -1,0 +1,80 @@
+@import '../lib/variables';
+
+.UserSettingPage {
+  
+  .main-area {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+
+    .title-label {
+      user-select: none;
+    }
+
+    .label {
+      margin: 0 0 10px 20px;
+      align-self: flex-start;
+      font-size: 20px;
+      user-select: none;
+    }
+
+    .Input {
+      width: calc(100% - 30px);
+    }
+
+    .image-area {
+      display: flex;
+
+      img {
+        margin: 0 0 10px 20px;
+      }
+
+      .image-btn-area {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+
+        .image-button {
+          margin: 0 0 10px 10px;
+          width: 80px;
+          height: 30px;
+        }
+      }
+    }
+
+    .button-area {
+      align-self: flex-end;
+
+      .Button {
+        margin: 5px 15px;
+        width: 100px;
+        height: 50px;
+      }
+    }
+  }
+
+  @include xxl {
+    .main-area {
+      width: 1200px;
+    }
+  }
+
+  @include xl {
+    .main-area {
+      width: 1200px;
+    }
+  }
+
+  @include lg {
+    .main-area {
+      width: 900px;
+    }
+  }
+
+  @include md {
+    .main-area {
+      width: 700px;
+    }
+  }
+}

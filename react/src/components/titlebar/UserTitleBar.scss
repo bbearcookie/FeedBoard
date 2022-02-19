@@ -1,7 +1,7 @@
 @import '../../lib/variables';
 
 .UserTitleBar {
-  height: 200px;
+  min-height: 200px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -24,10 +24,18 @@
       font-weight: bold;
     }
 
+    .introduce {
+      margin: 5px 0 0 0;
+    }
+
     .edit-button {
-      height: 30px;
+      margin-bottom: 15px;
       align-self: flex-end;
-      margin: 10px 15px 0 15px;
+
+      .Button {
+        height: 30px;
+        margin: 10px 15px 0 15px;
+      }
     }
   }
 

@@ -8,7 +8,7 @@ import useRequest from '../../lib/useRequest';
 import * as api from '../../lib/api';
 import { useNavigate, useParams } from 'react-router-dom';
 
-const CommentWriter = () => {
+const CommentWriter = ({ nickname }) => {
   const { postNo } = useParams();
   const [focus, setFocus] = useState(false);
   const [content, setContent] = useState('');
@@ -51,7 +51,7 @@ const CommentWriter = () => {
           height="40px"
           alt="user-img"
         />
-        <p className="nickname">닉네임</p>
+        <p className="nickname">{nickname}</p>
         <div className="right-area">
           {request.loading && <LoadingSpinner />}
           <Button type="submit">작성</Button>
@@ -59,6 +59,10 @@ const CommentWriter = () => {
       </div>
     </form>
   );
+};
+
+CommentWriter.defaultProps = {
+  nickname: ''
 };
 
 export default CommentWriter;

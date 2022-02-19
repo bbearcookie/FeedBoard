@@ -1,16 +1,15 @@
 @import '../lib/variables';
 
 .PostPage {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: left;
-
   .inner-area {
     margin-top: 30px;
-    font-size: 20px;
+    align-self: center;
+    display: flex;
+    flex-direction: column;
     color: #333333;
+    font-size: 20px;
     line-height: 1.4em;
+    text-align: left;
 
     p {
       margin: 0;

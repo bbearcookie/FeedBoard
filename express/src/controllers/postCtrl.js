@@ -128,24 +128,6 @@ module.exports.getPosts = async (req, res) => {
         return post;
       });
 
-      // sql =
-      // `SELECT postNo, COUNT(*) AS favoriteCnt
-      // FROM favorite
-      // WHERE postNo IN (?)
-      // GROUP BY postNo`;
-      // const [favoriteCnt] = await con.query(sql, [postNums]);
-
-      // // 좋아요 수를 post 객체에 추가
-      // posts = posts.map(post => {
-      //   [post.favoriteCnt] = favoriteCnt.filter(item => item.postNo === post.no);
-      //   if (post.favoriteCnt)
-      //     post.favoriteCnt = post.favoriteCnt.favoriteCnt;
-      //   else
-      //     post.favoriteCnt = 0;
-        
-      //   return post;
-      // });
-
       // [댓글 수 가져옴]
       sql =
       `SELECT postNo, COUNT(*) AS commentCnt
@@ -201,7 +183,11 @@ module.exports.getPost = async (req, res) => {
     post.tags = tags;
 
     // 댓글 조회
-    sql = `SELECT no, content, author, postNo, writtenTime, nickname FROM COMMENT C, USER U WHERE postNo = ? AND C.author = U.username`;
+    sql =
+    `SELECT no, content, author, postNo, writtenTime, nickname
+    FROM COMMENT C, USER U
+    WHERE postNo = ? AND C.author = U.username
+    ORDER BY writtenTime`;
     let [comments] = await con.query(sql, postNo);
     post.comments = comments;
 
