@@ -28,6 +28,11 @@
 
       img {
         margin: 0 0 10px 20px;
+        border-radius: 50px;
+      }
+
+      input[type="file"] {
+        display: none;
       }
 
       .image-btn-area {
