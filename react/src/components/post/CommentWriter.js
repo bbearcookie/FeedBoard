@@ -5,10 +5,11 @@ import LoadingSpinner from '../LoadingSpinner';
 import './CommentWriter.scss';
 import Button from '../input/Button';
 import useRequest from '../../lib/useRequest';
+import { BACKEND } from '../../lib/api';
 import * as api from '../../lib/api';
 import { useNavigate, useParams } from 'react-router-dom';
 
-const CommentWriter = ({ nickname }) => {
+const CommentWriter = ({ nickname, imgFileName }) => {
   const { postNo } = useParams();
   const [focus, setFocus] = useState(false);
   const [content, setContent] = useState('');
@@ -46,7 +47,8 @@ const CommentWriter = ({ nickname }) => {
       <TextArea placeholder="댓글을 입력해주세요" onFocus={onFocus} onBlur={onBlur} onChange={onChange}/>
       <div className="bottom-area">
         <img
-          src="/user.png"
+          src={imgFileName ? `${BACKEND}/user/image/${imgFileName}` : '/user.png'}
+          onError={(e) => e.target.src = '/user.png'}
           width="40px"
           height="40px"
           alt="user-img"
@@ -62,7 +64,8 @@ const CommentWriter = ({ nickname }) => {
 };
 
 CommentWriter.defaultProps = {
-  nickname: ''
+  nickname: '',
+  imgFileName: ''
 };
 
 export default CommentWriter;

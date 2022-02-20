@@ -56,7 +56,7 @@ module.exports.getPosts = async (req, res) => {
 
         if (postNums && postNums.length > 0) {
           sql = `
-          SELECT no, title, content, author, nickname, writtenTime
+          SELECT no, title, content, author, nickname, writtenTime, imgFileName
           FROM POST P, USER U
           WHERE P.AUTHOR = U.USERNAME AND P.no IN (?)
           ORDER BY writtenTime DESC`;
@@ -66,7 +66,7 @@ module.exports.getPosts = async (req, res) => {
       // 특정 사용자가 작성한 게시글 조회
       } else {
         sql = `
-        SELECT no, title, content, author, nickname, writtenTime
+        SELECT no, title, content, author, nickname, writtenTime, imgFileName
         FROM POST P, USER U
         WHERE P.AUTHOR = U.USERNAME AND P.AUTHOR = ?
         ORDER BY writtenTime DESC`;
@@ -86,7 +86,7 @@ module.exports.getPosts = async (req, res) => {
         postNums = postNums.map(item => item.postNo);
         if (postNums.length > 0) {
           sql = `
-          SELECT no, title, content, author, nickname, writtenTime
+          SELECT no, title, content, author, nickname, writtenTime, imgFileName
           FROM POST P, USER U
           WHERE P.AUTHOR = U.USERNAME AND P.NO IN (?)
           ORDER BY writtenTime DESC`;
@@ -95,7 +95,7 @@ module.exports.getPosts = async (req, res) => {
       // 모든 게시글 조회
       } else {
         sql = `
-        SELECT no, title, content, author, nickname, writtenTime
+        SELECT no, title, content, author, nickname, writtenTime, imgFileName
         FROM POST P, USER U
         WHERE P.AUTHOR = U.USERNAME
         ORDER BY writtenTime DESC`;
@@ -168,7 +168,7 @@ module.exports.getPost = async (req, res) => {
   try {
     // 게시글 내용 조회
     let sql =
-    `SELECT no, title, content, author, nickname, writtenTime
+    `SELECT no, title, content, author, nickname, writtenTime, imgFileName
     FROM POST P, USER U
     WHERE P.author=U.username AND no = ?`;
     let [[post]] = await con.query(sql, postNo);
@@ -184,7 +184,7 @@ module.exports.getPost = async (req, res) => {
 
     // 댓글 조회
     sql =
-    `SELECT no, content, author, postNo, writtenTime, nickname
+    `SELECT no, content, author, postNo, writtenTime, nickname, imgFileName
     FROM COMMENT C, USER U
     WHERE postNo = ? AND C.author = U.username
     ORDER BY writtenTime`;

@@ -1,7 +1,6 @@
 @import '../lib/variables';
 
 .UserSettingPage {
-  
   .main-area {
     width: 100%;
     display: flex;
@@ -29,6 +28,7 @@
       img {
         margin: 0 0 10px 20px;
         border-radius: 50px;
+        object-fit: cover;
       }
 
       input[type="file"] {

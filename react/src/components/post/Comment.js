@@ -1,13 +1,15 @@
 import React from 'react';
 import './Comment.scss';
+import { BACKEND } from '../../lib/api';
 
-const Comment = ({ author, nickname, content, writtenTime }) => {
+const Comment = ({ author, nickname, content, writtenTime, imgFileName }) => {
   return (
     <div className="Comment">
       <div className="content-area">{content}</div>
       <div className="bottom-area">
         <img
-          src="/user.png"
+          src={imgFileName ? `${BACKEND}/user/image/${imgFileName}` : '/user.png'}
+          onError={(e) => e.target.src = '/user.png'}
           width="40px"
           height="40px"
           alt="user-img"
@@ -23,7 +25,8 @@ Comment.defaultProps = {
   author: '',
   nickname: '',
   content: '',
-  writtenTime: ''
+  writtenTime: '',
+  imgFileName: '',
 };
 
 export default Comment;

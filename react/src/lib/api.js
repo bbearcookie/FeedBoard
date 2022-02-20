@@ -20,10 +20,12 @@ export const postLogout = () => axios.post(`${BACKEND}/auth/logout`, {}, options
 export const getCheckLogged = () => axios.get(`${BACKEND}/auth/check`, options);
 export const getLoggedUser = () => axios.get(`${BACKEND}/auth/user`, options);
 export const putLoggedUser = (form) => {
+  console.log(form);
   let formData = new FormData();
   formData.append('nickname', form.nickname);
   formData.append('introduce', form.introduce);
   formData.append('image', form.image);
+  if (form.imageReset) formData.append('imageReset', form.imageReset);
 
   return axios.put(`${BACKEND}/auth/user`, formData,
     {

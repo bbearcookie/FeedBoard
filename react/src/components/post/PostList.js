@@ -48,6 +48,7 @@ const PostList = ({ api, params }) => {
             content={post.content}
             author={post.author}
             nickname={post.nickname}
+            imgFileName={post.imgFileName}
             writtenTime={post.writtenTime}
             tags={post.tags}
             favoriteUsers={post.favoriteUsers}

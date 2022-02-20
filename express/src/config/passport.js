@@ -53,7 +53,8 @@ module.exports = (app) => {
       // 세션에 저장이 필요한 사용자 정보들만 추출
       user = {
         username: user.username,
-        nickname: user.nickname
+        nickname: user.nickname,
+        imgFileName: user.imgFileName
       };
 
       return done(null, user);

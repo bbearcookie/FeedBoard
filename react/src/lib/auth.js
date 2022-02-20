@@ -8,7 +8,7 @@ function removeFromStoarage() { sessionStorage.removeItem(KEY_NAME); }
 export const login = async (request, form) => {
   try {
     const data = await request.call(api.postSignin, form);
-    const user = { username: data.username, nickname: data.nickname };
+    const user = { username: data.username, nickname: data.nickname, imgFileName: data.imgFileName };
     saveToStoarage(user);
   } catch (err) {
     throw err;
@@ -24,8 +24,8 @@ export const logout = async (request) => {
   }
 }
 
-export const setUser = (username, nickname) => {
-  const user = { username, nickname };
+export const setUser = (username, nickname, imgFileName) => {
+  const user = { username, nickname, imgFileName };
   saveToStoarage(user);
 }
 export const getUser = () => JSON.parse(sessionStorage.getItem(KEY_NAME));
@@ -40,6 +40,13 @@ export const getNickname = () => {
   const user = getUser();
   if (user)
     return user.nickname;
+  else
+    return undefined;
+}
+export const getImgFileName = () => {
+  const user = getUser();
+  if (user)
+    return user.imgFileName;
   else
     return undefined;
 }

@@ -2,11 +2,13 @@ import React, { createRef, useCallback, useEffect, useMemo, useRef, useState } f
 import Button from '../components/input/Button';
 import Input from '../components/input/Input';
 import PageTemplate from '../templates/PageTemplate';
+import produce from 'immer';
 import * as formUtil from '../lib/form';
 import * as api from '../lib/api';
 import * as auth from '../lib/auth';
 import './UserSettingPage.scss';
 import useRequest from '../lib/useRequest';
+import LoadingSpinner from '../components/LoadingSpinner';
 import { useNavigate } from 'react-router-dom';
 
 const inputs = [
@@ -41,7 +43,6 @@ const inputs = [
 ];
 
 const InputWrapper = ({ input, form, setForm, onChange }) => {
-
   // 이미지 파일 업로드시
   const onChangeImage = (e) => {
     e.preventDefault();
@@ -51,6 +52,11 @@ const InputWrapper = ({ input, form, setForm, onChange }) => {
       setForm({ ...form, image: file, previewURL: reader.result});
     };
     reader.readAsDataURL(file);
+  }
+
+  // 이미지 파일 초기화 버튼 클릭시
+  const onClickImageReset = (e) => {
+    setForm({ ...form, image: '', previewURL: '/user.png', imageReset: true });
   }
 
   // 이미지 파일 업로드 버튼 클릭시
@@ -71,6 +77,7 @@ const InputWrapper = ({ input, form, setForm, onChange }) => {
                     width="100px"
                     height="100px"
                     src={form['previewURL'] ? form['previewURL'] : '/user.png'}
+                    onError={(e) => e.target.src = '/user.png'}
                     alt="사용자 아이콘"
                   />
                   <input
@@ -81,8 +88,15 @@ const InputWrapper = ({ input, form, setForm, onChange }) => {
                     onChange={onChangeImage}
                   />
                   <div className="image-btn-area">
-                    <Button className="image-button" theme="secondary">초기화</Button>
-                    <Button className="image-button" onClick={onClickImageSelect}>업로드</Button>
+                    <Button
+                      className="image-button"
+                      theme="secondary"
+                      onClick={onClickImageReset}
+                    >초기화</Button>
+                    <Button
+                      className="image-button"
+                      onClick={onClickImageSelect}
+                    >업로드</Button>
                   </div>
                 </div>
               </>
@@ -119,17 +133,30 @@ const UserSettingPage = () => {
   const onLoad = async () => {
     const data = await request.call(api.getLoggedUser);
     const { nickname, introduce, imgFileName } = data.user;
-    setForm({ ...form, nickname, introduce, previewURL: `${api.BACKEND}/user/image/${imgFileName}` });
+
+    setForm(produce(draft => {
+      draft.nickname = nickname;
+      draft.introduce = introduce;
+      if (imgFileName) {
+        draft.previewURL = `${api.BACKEND}/user/image/${imgFileName}`;
+      } else {
+        draft.previewURL = ''
+      }
+    }))
   }
   useEffect(() => {
     onLoad();
   }, []);
 
+  // 폼 작성 취소시
+  const onClickCancel = (e) => {
+    return navigate(-1);
+  }
+
   // 폼 전송시
   const onSubmit = async (e) => {
     e.preventDefault();
     const data = await request.call(api.putLoggedUser, form);
-    console.log(data);
     return navigate(`/user/${auth.getUsername()}`);
   }
 
@@ -137,6 +164,7 @@ const UserSettingPage = () => {
     <PageTemplate className="UserSettingPage">
       <form className="main-area" onSubmit={onSubmit}>
         <h1 className="title-label">프로필 수정</h1>
+        {request.loading ? <LoadingSpinner /> : null}
 
         {inputs.map(input => 
           <InputWrapper
@@ -149,7 +177,7 @@ const UserSettingPage = () => {
         )}
 
         <div className="button-area">
-          <Button type="button" theme="secondary">취소</Button>
+          <Button type="button" theme="secondary" onClick={onClickCancel}>취소</Button>
           <Button type="submit">작성</Button>
         </div>
       </form>

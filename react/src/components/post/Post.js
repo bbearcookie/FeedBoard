@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import './Post.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCommentDots, faHeart } from '@fortawesome/free-solid-svg-icons';
+import { BACKEND } from '../../lib/api';
 import Tag from '../tag/Tag';
 import classNames from 'classnames';
 import * as auth from '../../lib/auth';
@@ -18,7 +19,7 @@ function dateFormat(date) {
   return `${year}년 ${month}월 ${day}일`;
 }
 
-const Post = ({ postNo, title, content, author, nickname, writtenTime, tags, favoriteUsers, commentCnt, onFavorite }) => {
+const Post = ({ postNo, title, content, author, nickname, writtenTime, imgFileName, tags, favoriteUsers, commentCnt, onFavorite }) => {
   const [overflowed, setOverflowed] = useState(false);
   const contentRef = useRef(null);
 
@@ -36,7 +37,8 @@ const Post = ({ postNo, title, content, author, nickname, writtenTime, tags, fav
       <div className="top-area">
         <div className="user-area">
           <img
-            src="/bears.jpg"
+            src={imgFileName ? `${BACKEND}/user/image/${imgFileName}` : '/user.png'}
+            onError={(e) => {console.log(e); e.target.src = '/user.png'}}
             width="40px"
             height="40px"
             alt="user-img"
@@ -99,6 +101,7 @@ Post.defaultProps = {
   author: '',
   nickname: '닉네임',
   writtenTime: '2021년 01월 25일',
+  imgFileName: '',
   tags: [],
   favoriteUsers: [],
   commentCnt: 0,

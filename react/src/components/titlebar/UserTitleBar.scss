@@ -13,9 +13,11 @@
     align-items: center;
 
     .user-icon {
+      margin: 25px 0 15px 0;
       width: 75px;
       height: 75px;
-      margin: 25px 0 15px 0;
+      border-radius: 50px;
+      object-fit: cover;
     }
 
     .nickname {

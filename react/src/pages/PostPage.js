@@ -44,6 +44,7 @@ const PostPage = () => {
         title={post.title}
         nickname={post.nickname}
         writtenTime={dateFormat(post.writtenTime)}
+        imgFileName={post.imgFileName}
       />
       <div className="inner-area">
         <p className="content">
@@ -57,7 +58,7 @@ const PostPage = () => {
         <hr className="divider" />
         <div className="comment-area">
           <h2 className="label">댓글 목록</h2>
-          {auth.getUser() ? <CommentWriter nickname={auth.getNickname()} /> : null}
+          {auth.getUser() ? <CommentWriter nickname={auth.getNickname()} imgFileName={auth.getImgFileName()} /> : null}
           {post.comments && post.comments.map(comment => 
             (<Comment
               key={comment.no}
@@ -65,6 +66,7 @@ const PostPage = () => {
               nickname={comment.nickname}
               content={comment.content}
               writtenTime={dateFormat(comment.writtenTime)}
+              imgFileName={comment.imgFileName}
             />)
           )}
         </div>

@@ -12,8 +12,12 @@ module.exports.signin = async (req, res) => {
     if (user) {
       req.login(user, (err) => {
         if (err) console.error(err);
-        console.log('로그인 성공');
-        res.status(200).json({ message: '로그인 성공', username: user.username, nickname: user.nickname });
+        res.status(200).json({
+          message: '로그인 성공',
+          username: user.username,
+          nickname: user.nickname,
+          imgFileName: user.imgFileName
+        });
       })
     } else {
       console.log('로그인 실패: ' + info.message);
@@ -110,7 +114,7 @@ module.exports.getLoggedUser = async (req, res) => {
 
 /** @type {import("express").RequestHandler} */
 module.exports.putLoggedUser = async (req, res) => {
-  const { nickname, introduce } = req.body;
+  const { nickname, introduce, imageReset } = req.body;
 
   if (!req.isAuthenticated()) {
     return res.status(401).json({ message: '로그인 상태가 아니에요.' });
@@ -124,6 +128,9 @@ module.exports.putLoggedUser = async (req, res) => {
     // 다운로드된 프로필 이미지 파일 있으면 파일 경로 수정
     if (req.file) {
       sql += `, imgFileName='${req.file.filename}'`;
+    // 프로필 이미지의 초기화를 원하면 초기화
+    } else if (imageReset) {
+      sql += `, imgFileName=NULL `;
     }
     
     sql += `WHERE username='${req.user.username}'`;

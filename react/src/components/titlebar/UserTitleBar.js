@@ -16,6 +16,7 @@ const UserTitleBar = ({ user }) => {
         <img
           className="user-icon"
           src={user.imgFileName ? `${BACKEND}/user/image/${user.imgFileName}` : '/user.png'}
+          onError={(e) => e.target.src = '/user.png'}
           alt="사용자 아이콘"
         />
         <p className="nickname">{user.nickname}</p>
