@@ -65,6 +65,8 @@ module.exports.signup = async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: '데이터베이스 문제 발생' });
+  } finally {
+    con.release();
   }
 };
 
@@ -80,5 +82,59 @@ module.exports.check = async (req, res) => {
     res.status(200).json({ message: '로그인이 되어있는 상태에요.', username: req.user.username, nickname: req.user.nickname });
   } else {
     res.status(401).json({ message: '로그인이 되어있지 않은 상태에요.' });
+  }
+}
+
+/** @type {import("express").RequestHandler} */
+module.exports.getLoggedUser = async (req, res) => {
+  if (!req.isAuthenticated()) {
+    return res.status(401).json({ message: '로그인 상태가 아니에요.' });
+  }
+
+  const con = await db.getConnection();
+  try {
+    const sql =
+    `SELECT username, nickname, introduce, imgFileName, registeredTime
+    FROM user
+    WHERE username = ?`;
+    const [[user]] = await con.query(sql, req.user.username);
+
+    return res.status(200).json({ message: '하하', user });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ message: '데이터베이스 문제 발생' });
+  } finally {
+    con.release();
+  }
+}
+
+/** @type {import("express").RequestHandler} */
+module.exports.putLoggedUser = async (req, res) => {
+  const { nickname, introduce } = req.body;
+
+  if (!req.isAuthenticated()) {
+    return res.status(401).json({ message: '로그인 상태가 아니에요.' });
+  }
+
+  const con = await db.getConnection();
+  try {
+    let sql =
+    `UPDATE user SET nickname='${nickname}', introduce='${introduce}'`;
+
+    // 다운로드된 프로필 이미지 파일 있으면 파일 경로 수정
+    if (req.file) {
+      sql += `, imgFileName='${req.file.filename}'`;
+    }
+    
+    sql += `WHERE username='${req.user.username}'`;
+
+    await con.execute(sql);
+
+    return res.status(200).json({ message: '하하' });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ message: '데이터베이스 문제 발생' });
+  } finally {
+    con.release();
   }
 }

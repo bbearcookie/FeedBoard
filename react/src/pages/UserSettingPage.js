@@ -1,15 +1,19 @@
-import React, { createRef, useCallback, useMemo, useRef, useState } from 'react';
+import React, { createRef, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Button from '../components/input/Button';
 import Input from '../components/input/Input';
 import PageTemplate from '../templates/PageTemplate';
 import * as formUtil from '../lib/form';
+import * as api from '../lib/api';
+import * as auth from '../lib/auth';
 import './UserSettingPage.scss';
+import useRequest from '../lib/useRequest';
+import { useNavigate } from 'react-router-dom';
 
 const inputs = [
   {
     id: 0,
     type: 'file',
-    name: 'imageFile',
+    name: 'image',
     label: '프로필 이미지',
     ref: createRef()
   },
@@ -39,12 +43,12 @@ const inputs = [
 const InputWrapper = ({ input, form, setForm, onChange }) => {
 
   // 이미지 파일 업로드시
-  const onChangeImageFile = (e) => {
+  const onChangeImage = (e) => {
     e.preventDefault();
     let reader = new FileReader();
     let file = e.target.files[0];
     reader.onloadend = () => {
-      setForm({ ...form, imageFile: file, previewURL: reader.result});
+      setForm({ ...form, image: file, previewURL: reader.result});
     };
     reader.readAsDataURL(file);
   }
@@ -70,11 +74,11 @@ const InputWrapper = ({ input, form, setForm, onChange }) => {
                     alt="사용자 아이콘"
                   />
                   <input
-                    name="imageFile"
+                    name="image"
                     type="file"
                     accept=".jpg, .png"
                     ref={input.ref}
-                    onChange={onChangeImageFile}
+                    onChange={onChangeImage}
                   />
                   <div className="image-btn-area">
                     <Button className="image-button" theme="secondary">초기화</Button>
@@ -103,15 +107,35 @@ const InputWrapper = ({ input, form, setForm, onChange }) => {
 
 const UserSettingPage = () => {
   const [form, setForm] = useState(useMemo(() => formUtil.getInitialValues(inputs), []));
+  const navigate = useNavigate();
+  const request = useRequest();
   
   // 폼 변경시 상태 업데이트
   const onChange = useCallback((e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   }, [form]);
 
+  // 페이지 로드시
+  const onLoad = async () => {
+    const data = await request.call(api.getLoggedUser);
+    const { nickname, introduce, imgFileName } = data.user;
+    setForm({ ...form, nickname, introduce, previewURL: `${api.BACKEND}/user/image/${imgFileName}` });
+  }
+  useEffect(() => {
+    onLoad();
+  }, []);
+
+  // 폼 전송시
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    const data = await request.call(api.putLoggedUser, form);
+    console.log(data);
+    return navigate(`/user/${auth.getUsername()}`);
+  }
+
   return (
     <PageTemplate className="UserSettingPage">
-      <form className="main-area">
+      <form className="main-area" onSubmit={onSubmit}>
         <h1 className="title-label">프로필 수정</h1>
 
         {inputs.map(input => 
@@ -124,34 +148,9 @@ const UserSettingPage = () => {
           />
         )}
 
-        {/* <label className="label">프로필 이미지</label>
-        <div className="image-area">
-          <img
-            width="100px"
-            height="100px"
-            src={imageFile.previewURL}
-            alt="사용자 아이콘"
-          />
-          <input
-            name="imageFile"
-            type="file"
-            accept=".jpg, .png"
-            ref={imageInputRef}
-            onChange={onChangeImageFile}
-          />
-          <div className="image-btn-area">
-            <Button className="image-button" theme="secondary">초기화</Button>
-            <Button className="image-button" onClick={onClickImageSelect}>업로드</Button>
-          </div>
-        </div>
-        <label className="label">닉네임</label>
-        <Input placeholder="닉네임을 입력해주세요" />
-        <label className="label">나의 소개</label>
-        <Input placeholder="나의 소개를 입력해주세요" /> */}
-
         <div className="button-area">
           <Button type="button" theme="secondary">취소</Button>
-          <Button>작성</Button>
+          <Button type="submit">작성</Button>
         </div>
       </form>
     </PageTemplate>

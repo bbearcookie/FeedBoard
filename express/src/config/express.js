@@ -3,6 +3,7 @@ const session = require('express-session');
 const redis = require('redis');
 const RedisStore = require('connect-redis')(session);
 const cors = require('cors');
+const path = require('path');
 const app = express();
 
 module.exports.config = () => {
@@ -25,6 +26,7 @@ module.exports.config = () => {
   // 기타 설정
   app.use(express.json()); // express 4.16 버전부터는 body-parser가 내장되었음
   app.use(express.urlencoded({ extended: true })); // application/x-www-form-urlencoded 형태의 데이터 파싱 가능하게 설정
+  app.use(express.static(path.join(process.env.INIT_CWD, "/public"))); // 정적 파일들 기본 폴더 설정
 }
 
 module.exports.app = app;

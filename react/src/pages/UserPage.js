@@ -13,17 +13,21 @@ const UserPage = () => {
   const { username } = useParams();
   const location = useLocation();
   const query = qs.parse(location.search, { ignoreQueryPrefix: true });
-  const [nickname, setNickname] = useState('');
+  const [user, setUser] = useState({});
   const request = useRequest();
 
-  useEffect(useCallback(async () => {
-    const res = await request.call(api.getNickname, username);
-    setNickname(res.nickname);
-  }, [request, username]), []);
+  const onLoad = useCallback(async () => {
+    const res = await request.call(api.getUser, username);
+    setUser(res.user);
+  }, [request, username]);
+
+  useEffect(() => {
+    onLoad();
+  }, []);
 
   return (
     <PageTemplate className="UserPage">
-      <UserTitleBar nickname={nickname} />
+      <UserTitleBar user={user} />
       <div className="main-area">
         <UserTagTab username={username} params={{ favorite: query.favorite }} />
         <PostList api={api.getPosts} params={{ username: username, favorite: query.favorite }} />
