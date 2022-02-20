@@ -2,7 +2,7 @@
 
 .PostPage {
   .inner-area {
-    margin-top: 30px;
+    margin-top: 20px;
     align-self: center;
     display: flex;
     flex-direction: column;
@@ -13,6 +13,12 @@
 
     p {
       margin: 0;
+    }
+
+    .content {
+      text-align: left;
+      line-height: 1.5em;
+      white-space: pre-wrap;
     }
 
     .divider {

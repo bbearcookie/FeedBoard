@@ -1,9 +1,8 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import TagTab from '../components/tag/tab/TagTab';
 import { active, remove, insertActive, setActivePos } from '../modules/tagTab';
 import * as tagTab from '../lib/tagTab';
-import { useEffect } from 'react';
 
 const TagTabContainer = ({ params }) => {
   let { tags, activePos } = useSelector(state => ({
@@ -20,7 +19,7 @@ const TagTabContainer = ({ params }) => {
     dispatch(active(id));
   }, [dispatch, tags, tagRefs]);
 
-  const getURL = (id) => {
+  const getURL = useCallback((id) => {
     let url = `/`;
 
     if (id !== 0) {
@@ -28,7 +27,7 @@ const TagTabContainer = ({ params }) => {
     }
 
     return url;
-  }
+  }, [tags]);
 
   // 임의로 URL 주거나 새로고침 했을때 그에 맞는 태그 추가하고 활성화
   useEffect(() => {

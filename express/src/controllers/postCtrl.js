@@ -178,7 +178,7 @@ module.exports.getPost = async (req, res) => {
     }
 
     // 태그 조회
-    sql = `SELECT * FROM TAG WHERE postNo = ?`;
+    sql = `SELECT * FROM TAG WHERE postNo = ? ORDER BY sequence`;
     let [tags] = await con.query(sql, postNo);
     post.tags = tags;
 
@@ -187,7 +187,7 @@ module.exports.getPost = async (req, res) => {
     `SELECT no, content, author, postNo, writtenTime, nickname, imgFileName
     FROM COMMENT C, USER U
     WHERE postNo = ? AND C.author = U.username
-    ORDER BY writtenTime`;
+    ORDER BY writtenTime DESC`;
     let [comments] = await con.query(sql, postNo);
     post.comments = comments;
 

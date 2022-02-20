@@ -1,15 +1,15 @@
 import React, { useCallback, useEffect, useState } from 'react';
+import Post from './Post';
 import useRequest from '../../lib/useRequest';
 import LoadingSpinner from '../LoadingSpinner';
-import Post from './Post';
 import { patchFavorite } from '../../lib/api';
 import './PostList.scss';
 
 const PostList = ({ api, params }) => {
-  const request = useRequest();
   const [posts, setPosts] = useState([]);
+  const request = useRequest();
 
-  const getPosts = useCallback(async () => {
+  const onLoad = useCallback(async () => {
     try {
       const data = await request.call(api, params.username, params.tag, params.favorite);
       setPosts(data.posts);
@@ -19,9 +19,10 @@ const PostList = ({ api, params }) => {
   }, [request, params, api]);
 
   useEffect(() => {
-    getPosts();
+    onLoad();
   }, [params]);
 
+  // 좋아요 버튼 클릭시
   const onFavorite = async (postNo) => {
     try {
       const res = await request.call(patchFavorite, postNo);

@@ -1,9 +1,8 @@
 import React, { useCallback } from 'react';
-import { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import TagSearchBar from '../components/tag/search/TagSearchBar';
+import { useSelector, useDispatch } from 'react-redux';
 import { changeInput, insertActive, setActivePos } from '../modules/tagTab';
+import TagSearchBar from '../components/tag/search/TagSearchBar';
 
 const TagSearchBarContainer = () => {
   const navigate = useNavigate();

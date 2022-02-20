@@ -23,7 +23,7 @@ const UserPage = () => {
 
   useEffect(() => {
     onLoad();
-  }, []);
+  }, [username]);
 
   return (
     <PageTemplate className="UserPage">

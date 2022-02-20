@@ -1,15 +1,15 @@
-import React, { createRef, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import React, { createRef, useCallback, useEffect, useMemo, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import produce from 'immer';
+import PageTemplate from '../templates/PageTemplate';
 import Button from '../components/input/Button';
 import Input from '../components/input/Input';
-import PageTemplate from '../templates/PageTemplate';
-import produce from 'immer';
+import LoadingSpinner from '../components/LoadingSpinner';
+import useRequest from '../lib/useRequest';
 import * as formUtil from '../lib/form';
 import * as api from '../lib/api';
 import * as auth from '../lib/auth';
 import './UserSettingPage.scss';
-import useRequest from '../lib/useRequest';
-import LoadingSpinner from '../components/LoadingSpinner';
-import { useNavigate } from 'react-router-dom';
 
 const inputs = [
   {
@@ -156,7 +156,7 @@ const UserSettingPage = () => {
   // 폼 전송시
   const onSubmit = async (e) => {
     e.preventDefault();
-    const data = await request.call(api.putLoggedUser, form);
+    await request.call(api.putLoggedUser, form);
     return navigate(`/user/${auth.getUsername()}`);
   }
 

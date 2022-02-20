@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import './TagTab.scss';
+import React from 'react';
 import TagTabItem from './TagTabItem';
+import './TagTab.scss';
 
 const TagTab = ({ tags, refs, activePos, getURL, onActive, onRemove }) => {
   return (

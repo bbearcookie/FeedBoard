@@ -1,13 +1,13 @@
 import React from 'react';
+import qs from 'qs';
+import { useLocation } from 'react-router-dom';
+import PageTemplate from '../templates/PageTemplate';
 import TrendTagList from '../components/tag/TrendTagList';
 import HomeTitleBar from '../components/titlebar/HomeTitleBar';
 import TagTabContainer from '../containers/TagTabContainer';
 import TagSearchBarContainer from '../containers/TagSearchBarContainer';
-import PageTemplate from '../templates/PageTemplate';
 import PostList from '../components/post/PostList';
-import qs from 'qs';
 import * as api from '../lib/api';
-import { useLocation } from 'react-router-dom';
 import './Home.scss';
 
 const Home = () => {

@@ -1,11 +1,10 @@
 import React, { useCallback } from 'react';
+import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimesCircle } from '@fortawesome/free-solid-svg-icons';
+import classnames from 'classnames';
 import styled, { keyframes } from 'styled-components'
 import "./TagTabItem.scss";
-import classnames from 'classnames';
-import qs from 'qs';
-import { Link } from 'react-router-dom';
 
 const active = (activePos) => keyframes`
   0% {

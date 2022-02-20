@@ -83,7 +83,12 @@ module.exports.logout = async (req, res) => {
 /** @type {import("express").RequestHandler} */
 module.exports.check = async (req, res) => {
   if (req.user) {
-    res.status(200).json({ message: '로그인이 되어있는 상태에요.', username: req.user.username, nickname: req.user.nickname });
+    res.status(200).json({
+      message: '로그인이 되어있는 상태에요.',
+      username: req.user.username,
+      nickname: req.user.nickname,
+      imgFileName: req.user.imgFileName
+    });
   } else {
     res.status(401).json({ message: '로그인이 되어있지 않은 상태에요.' });
   }

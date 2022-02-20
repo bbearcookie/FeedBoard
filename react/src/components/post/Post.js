@@ -1,13 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import './Post.scss';
+import TagContainer from '../../containers/TagContainer';
+import Tag from '../tag/Tag';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCommentDots, faHeart } from '@fortawesome/free-solid-svg-icons';
-import { BACKEND } from '../../lib/api';
-import Tag from '../tag/Tag';
 import classNames from 'classnames';
 import * as auth from '../../lib/auth';
-import TagContainer from '../../containers/TagContainer';
+import { BACKEND } from '../../lib/api';
+import './Post.scss';
 
 function dateFormat(date) {
   date = new Date(date);
@@ -19,7 +19,13 @@ function dateFormat(date) {
   return `${year}년 ${month}월 ${day}일`;
 }
 
-const Post = ({ postNo, title, content, author, nickname, writtenTime, imgFileName, tags, favoriteUsers, commentCnt, onFavorite }) => {
+const Post = ({
+  postNo, title, content, author, nickname, writtenTime, imgFileName,
+  tags,
+  favoriteUsers,
+  commentCnt,
+  onFavorite }) => {
+
   const [overflowed, setOverflowed] = useState(false);
   const contentRef = useRef(null);
 
