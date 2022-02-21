@@ -6,6 +6,7 @@ import { faEdit } from '@fortawesome/free-solid-svg-icons';
 import useRequest from '../lib/useRequest';
 import * as auth from '../lib/auth';
 import './NavBar.scss';
+import Dropdown from './dropdown/Dropdown';
 
 const NavBar = () => {
   const navigate = useNavigate();
@@ -30,13 +31,13 @@ const NavBar = () => {
               <FontAwesomeIcon icon={faEdit} />
               <p className="label">글쓰기</p>
             </NavLink>
-            <div className={classNames("dropdown", {"active": new RegExp(user.username).exec(location.pathname)})}>
-              <p className="dropdown-btn">{user.nickname}</p>
-              <div className="dropdown-items">
-                <Link className="dropdown-item" to={"/user/" + user.username}>마이 페이지</Link>
-                <Link className="dropdown-item" to="./" onClick={onLogout}>로그아웃</Link>
-              </div>
-            </div>
+            <Dropdown
+              className={classNames({"active": new RegExp(user.username).exec(location.pathname)})}
+              dropdownBtn={<div>{user.nickname}</div>}
+            >
+              <Link className="Dropdown-item" to={"/user/" + user.username}>마이 페이지</Link>
+              <Link className="Dropdown-item" to="./" onClick={onLogout}>로그아웃</Link>
+            </Dropdown>
           </> :
           <>
             <NavLink className="nav-item" to="/">메인</NavLink>

@@ -1,6 +1,8 @@
 import React from 'react';
-import './Comment.scss';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEllipsisV } from '@fortawesome/free-solid-svg-icons';
 import { BACKEND } from '../../lib/api';
+import './Comment.scss';
 
 const Comment = ({ author, nickname, content, writtenTime, imgFileName }) => {
   return (
@@ -16,6 +18,7 @@ const Comment = ({ author, nickname, content, writtenTime, imgFileName }) => {
         />
         <p className="nickname">{nickname}</p>
         <p className="written-time">{writtenTime}</p>
+        <FontAwesomeIcon icon={faEllipsisV} />
       </div>
     </div>
   );
