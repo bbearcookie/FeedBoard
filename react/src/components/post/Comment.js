@@ -1,5 +1,7 @@
 import React, { useState, useCallback } from 'react';
+import Button from '../input/Button';
 import Dropdown from '../dropdown/Dropdown';
+import Modal from '../modal/Modal';
 import CommentWriter from './CommentWriter';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEllipsisV } from '@fortawesome/free-solid-svg-icons';
@@ -9,19 +11,37 @@ import './Comment.scss';
 
 const Comment = ({ commentNo, author, nickname, content, writtenTime, modifiedTime, modified, imgFileName }) => {
   const [modify, setModify] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
   const onClickModify = useCallback(e => {
     setModify(!modify);
   }, [modify]);
 
-  const onClickRemove = useCallback(e => {
-    console.log('remove');
+  const openModal = useCallback(e => {
+    setShowModal(true);
   }, []);
+
+  const closeModal = useCallback(e => {
+    setShowModal(false);
+  }, [])
 
   return (
     <>
     {!modify ?
     <div className="Comment">
+
+      {showModal ?
+      <Modal title="댓글 삭제" setShow={setShowModal}>
+        <div className="Modal-body">
+          <p>댓글을 정말로 삭제하겠어요?</p>
+        </div>
+        <div className="Modal-footer">
+          <Button theme="secondary" onClick={closeModal}>취소</Button>
+          <Button>삭제</Button>
+        </div>
+      </Modal>
+      : null}
+
       <div className="content-area">{content}</div>
       <div className="bottom-area">
         <img
@@ -41,7 +61,7 @@ const Comment = ({ commentNo, author, nickname, content, writtenTime, modifiedTi
             dropdownBtn={<FontAwesomeIcon className="option-btn" icon={faEllipsisV} />}
           >
             <div className="Dropdown-item" onClick={onClickModify}>수정</div>
-            <div className="Dropdown-item" onClick={onClickRemove}>삭제</div>
+            <div className="Dropdown-item" onClick={openModal}>삭제</div>
           </Dropdown> : null}
         </div>
       </div>
