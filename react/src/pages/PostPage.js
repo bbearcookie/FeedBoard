@@ -53,11 +53,14 @@ const PostPage = () => {
           {post.comments && post.comments.map(comment => 
             (<Comment
               key={comment.no}
+              commentNo={comment.no}
               author={comment.author}
               nickname={comment.nickname}
               content={comment.content}
-              imgFileName={comment.imgFileName}
               writtenTime={getFormattedDate(comment.writtenTime)}
+              modifiedTime={getFormattedDate(comment.modifiedTime)}
+              modified={comment.modified}
+              imgFileName={comment.imgFileName}
             />)
           )}
         </div>

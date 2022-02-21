@@ -124,6 +124,7 @@ const InputWrapper = ({ form, setForm, tags, setTags, input, onChange, setError 
             return (
               <Textarea
                 name={input.name}
+                value={form[input.name]}
                 className="Input"
                 placeholder={input.placeholder}
                 inputRef={input.ref}

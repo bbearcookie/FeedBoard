@@ -13,6 +13,7 @@
   .bottom-area {
     padding: 10px 20px 10px 20px;
     display: flex;
+    align-items: center;
     background: #F3F3F3;
 
     img {
@@ -21,7 +22,7 @@
     }
 
     p {
-      padding: 7px 0 0 10px;
+      padding: 0 0 0 10px;
     }
 
     .nickname {
@@ -31,6 +32,39 @@
     .written-time {
       color: #adb5bd;
       font-size: 12px;
+    }
+
+    .right-area {
+      flex-grow: 1;
+      display: flex;
+      justify-content: flex-end;
+
+      .Dropdown {
+        cursor: pointer;
+
+        .Dropdown-btn {
+          margin: 5px;
+          padding: 5px;
+          border-radius: 50px;
+        }
+
+        .Dropdown-menu {
+          top: 20px;
+          left: 20px;
+          min-width: 50px;
+
+          .Dropdown-item {
+            padding: 8px;
+          }
+        }
+      }
+
+      .Dropdown:hover {
+        .Dropdown-btn {
+          background-color: gray;
+          transition: all 0.3s;
+        }
+      }
     }
   }
 }

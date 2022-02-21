@@ -3,11 +3,12 @@ import TextareaAutosize from 'react-textarea-autosize';
 import classNames from 'classnames';
 import './Textarea.scss';
 
-const Textarea = ({ className, name, placeholder, inputRef, onChange, onFocus, onBlur }) => {
+const Textarea = ({ className, name, value, placeholder, inputRef, onChange, onFocus, onBlur }) => {
   return (
     <TextareaAutosize
       className={classNames("Textarea", className)}
       name={name}
+      value={value ? value : ''}
       placeholder={placeholder}
       onChange={onChange}
       onFocus={onFocus}
@@ -20,6 +21,7 @@ const Textarea = ({ className, name, placeholder, inputRef, onChange, onFocus, o
 Textarea.defaultProps = {
   className: '',
   name: '',
+  value: '',
   placeholder: '',
   inputRef: undefined,
   onChange: () => {},

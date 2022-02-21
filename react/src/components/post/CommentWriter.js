@@ -9,10 +9,10 @@ import { BACKEND } from '../../lib/api';
 import * as api from '../../lib/api';
 import { useNavigate, useParams } from 'react-router-dom';
 
-const CommentWriter = ({ nickname, imgFileName }) => {
+const CommentWriter = ({ nickname, imgFileName, commentNo, value, onClickClose }) => {
   const { postNo } = useParams();
   const [focus, setFocus] = useState(false);
-  const [content, setContent] = useState('');
+  const [content, setContent] = useState(value);
   const request = useRequest();
   const navigate = useNavigate();
 
@@ -31,8 +31,15 @@ const CommentWriter = ({ nickname, imgFileName }) => {
     }
 
     try {
-      const data = await request.call(api.postComment, postNo, content);
-      console.log(data);
+      // 댓글 수정 처리
+      if (commentNo) {
+        const data = await request.call(api.putComment, commentNo, content);
+        console.log(data);
+      // 댓글 작성 처리
+      } else {
+        const data = await request.call(api.postComment, postNo, content);
+        console.log(data);
+      }
       return navigate(0);
     } catch (err) {
       console.error(err);
@@ -44,7 +51,7 @@ const CommentWriter = ({ nickname, imgFileName }) => {
       className={classNames("CommentWriter", {"focus": focus})}
       onSubmit={onSubmit}
     >
-      <TextArea placeholder="댓글을 입력해주세요" onFocus={onFocus} onBlur={onBlur} onChange={onChange}/>
+      <TextArea value={content} placeholder="댓글을 입력해주세요" onFocus={onFocus} onBlur={onBlur} onChange={onChange}/>
       <div className="bottom-area">
         <img
           src={imgFileName ? `${BACKEND}/user/image/${imgFileName}` : '/user.png'}
@@ -56,7 +63,8 @@ const CommentWriter = ({ nickname, imgFileName }) => {
         <p className="nickname">{nickname}</p>
         <div className="right-area">
           {request.loading && <LoadingSpinner />}
-          <Button type="submit">작성</Button>
+          {commentNo ? <Button type="button" theme="secondary" onClick={onClickClose}>취소</Button> : null}
+          <Button type="submit">{commentNo ? '수정' : '작성'}</Button>
         </div>
       </div>
     </form>
@@ -65,7 +73,10 @@ const CommentWriter = ({ nickname, imgFileName }) => {
 
 CommentWriter.defaultProps = {
   nickname: '',
-  imgFileName: ''
+  imgFileName: '',
+  commentNo: 0,
+  value: '',
+  onClickClose: () => {}
 };
 
 export default CommentWriter;

@@ -18,6 +18,7 @@ module.exports = (app) => {
   app.patch('/favorite/:postNo', postCtrl.patchFavorite); // 특정 게시글의 좋아요 처리
   app.post('/writer', postCtrl.writePost); // 게시글 등록 처리
   app.post('/comment', postCtrl.writeComment); // 댓글 등록 처리
+  app.put('/comment/:commentNo', postCtrl.putComment) // 댓글 수정 처리
   
   app.get('/user/:username', userCtrl.getUser); // 해당 사용자의 정보를 반환
 }

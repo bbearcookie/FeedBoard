@@ -56,7 +56,7 @@ module.exports.getPosts = async (req, res) => {
 
         if (postNums && postNums.length > 0) {
           sql = `
-          SELECT no, title, content, author, nickname, writtenTime, imgFileName
+          SELECT no, title, content, author, nickname, writtenTime, modifiedTime, imgFileName
           FROM POST P, USER U
           WHERE P.AUTHOR = U.USERNAME AND P.no IN (?)
           ORDER BY writtenTime DESC`;
@@ -66,7 +66,7 @@ module.exports.getPosts = async (req, res) => {
       // 특정 사용자가 작성한 게시글 조회
       } else {
         sql = `
-        SELECT no, title, content, author, nickname, writtenTime, imgFileName
+        SELECT no, title, content, author, nickname, writtenTime, modifiedTime, imgFileName
         FROM POST P, USER U
         WHERE P.AUTHOR = U.USERNAME AND P.AUTHOR = ?
         ORDER BY writtenTime DESC`;
@@ -86,7 +86,7 @@ module.exports.getPosts = async (req, res) => {
         postNums = postNums.map(item => item.postNo);
         if (postNums.length > 0) {
           sql = `
-          SELECT no, title, content, author, nickname, writtenTime, imgFileName
+          SELECT no, title, content, author, nickname, writtenTime, modifiedTime, imgFileName
           FROM POST P, USER U
           WHERE P.AUTHOR = U.USERNAME AND P.NO IN (?)
           ORDER BY writtenTime DESC`;
@@ -95,7 +95,7 @@ module.exports.getPosts = async (req, res) => {
       // 모든 게시글 조회
       } else {
         sql = `
-        SELECT no, title, content, author, nickname, writtenTime, imgFileName
+        SELECT no, title, content, author, nickname, writtenTime, modifiedTime, imgFileName
         FROM POST P, USER U
         WHERE P.AUTHOR = U.USERNAME
         ORDER BY writtenTime DESC`;
@@ -168,7 +168,7 @@ module.exports.getPost = async (req, res) => {
   try {
     // 게시글 내용 조회
     let sql =
-    `SELECT no, title, content, author, nickname, writtenTime, imgFileName
+    `SELECT no, title, content, author, nickname, writtenTime, modifiedTime, imgFileName
     FROM POST P, USER U
     WHERE P.author=U.username AND no = ?`;
     let [[post]] = await con.query(sql, postNo);
@@ -184,7 +184,7 @@ module.exports.getPost = async (req, res) => {
 
     // 댓글 조회
     sql =
-    `SELECT no, content, author, postNo, writtenTime, nickname, imgFileName
+    `SELECT no, content, author, postNo, nickname, modified, writtenTime, modifiedTime, imgFileName
     FROM COMMENT C, USER U
     WHERE postNo = ? AND C.author = U.username
     ORDER BY writtenTime DESC`;
@@ -273,3 +273,41 @@ module.exports.writeComment = async (req, res) => {
 
   res.status(200).json({ message: '댓글 작성 처리' });
 };
+
+/** @type {import("express").RequestHandler} */
+module.exports.putComment = async (req, res) => {
+  const { commentNo } = req.params;
+  const { content } = req.body;
+
+  if (!req.isAuthenticated()) {
+    return res.status(401).json({ message: '로그인 상태가 아니에요.' });
+  }
+
+  const con = await db.getConnection();
+  try {
+    let sql = `SELECT * FROM COMMENT WHERE no = ?`;
+    let [[comment]] = await con.query(sql, commentNo);
+
+    if (!comment) {
+      return res.status(404).json({ message: '해당 댓글이 없어요.' });
+    }
+
+    if (comment.author !== req.user.username) {
+      return res.status(401).json({ message: '댓글 수정 권한이 없어요.' });
+    }
+
+    sql =
+    `UPDATE comment
+    SET content='${content}', modified=1, modifiedTime=CURRENT_TIMESTAMP
+    WHERE no=${commentNo}`;
+    await con.execute(sql);
+
+    return res.status(200).json({ message: '댓글 수정 완료' });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ message: '데이터베이스 문제 발생' });
+  } finally {
+    con.release();
+  }
+
+}

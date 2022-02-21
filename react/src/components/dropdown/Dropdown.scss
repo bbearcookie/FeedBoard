@@ -31,7 +31,17 @@
   }
 }
 
-.Dropdown:hover {
+.Dropdown.hoverType {
+  &:hover {
+    .Dropdown-menu {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+  }
+}
+
+.Dropdown.toggleType.toggle {
   .Dropdown-menu {
     display: flex;
     flex-direction: column;
