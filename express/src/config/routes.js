@@ -19,6 +19,7 @@ module.exports = (app) => {
   app.post('/writer', postCtrl.writePost); // 게시글 등록 처리
   app.post('/comment', postCtrl.writeComment); // 댓글 등록 처리
   app.put('/comment/:commentNo', postCtrl.putComment) // 댓글 수정 처리
+  app.delete('/comment/:commentNo', postCtrl.deleteComment) // 댓글 삭제 처리
   
   app.get('/user/:username', userCtrl.getUser); // 해당 사용자의 정보를 반환
 }

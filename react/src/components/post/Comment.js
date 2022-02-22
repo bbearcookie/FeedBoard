@@ -1,29 +1,44 @@
 import React, { useState, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Button from '../input/Button';
 import Dropdown from '../dropdown/Dropdown';
 import Modal from '../modal/Modal';
+import useRequest from '../../lib/useRequest';
 import CommentWriter from './CommentWriter';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEllipsisV } from '@fortawesome/free-solid-svg-icons';
 import { BACKEND } from '../../lib/api';
 import * as auth from '../../lib/auth';
+import * as api from '../../lib/api';
 import './Comment.scss';
 
 const Comment = ({ commentNo, author, nickname, content, writtenTime, modifiedTime, modified, imgFileName }) => {
   const [modify, setModify] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const request = useRequest();
+  const navigate = useNavigate();
 
+  // 댓글 수정 모드 on/off
   const onClickModify = useCallback(e => {
     setModify(!modify);
   }, [modify]);
 
+  // 댓글 삭제 모달 열기
   const openModal = useCallback(e => {
     setShowModal(true);
   }, []);
 
+  // 댓글 삭제 모달 닫기
   const closeModal = useCallback(e => {
     setShowModal(false);
-  }, [])
+  }, []);
+
+  // 댓글 삭제 처리
+  const onClickRemove = useCallback(async e => {
+    await request.call(api.deleteComment, commentNo);
+    setShowModal(false);
+    return navigate(0);
+  }, []);
 
   return (
     <>
@@ -37,7 +52,7 @@ const Comment = ({ commentNo, author, nickname, content, writtenTime, modifiedTi
         </div>
         <div className="Modal-footer">
           <Button theme="secondary" onClick={closeModal}>취소</Button>
-          <Button>삭제</Button>
+          <Button onClick={onClickRemove}>삭제</Button>
         </div>
       </Modal>
       : null}

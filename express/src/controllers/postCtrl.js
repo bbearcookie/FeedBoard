@@ -311,3 +311,35 @@ module.exports.putComment = async (req, res) => {
   }
 
 }
+
+/** @type {import("express").RequestHandler} */
+module.exports.deleteComment = async (req, res) => {
+  const { commentNo } = req.params;
+
+  if (!req.isAuthenticated()) {
+    return res.status(401).json({ message: '로그인 상태가 아니에요.' });
+  }
+
+  const con = await db.getConnection();
+  try {
+    let sql = `SELECT * FROM COMMENT WHERE no = ?`;
+    let [[comment]] = await con.query(sql, commentNo);
+
+    if (!comment) {
+      return res.status(404).json({ message: '해당 댓글이 없어요.' });
+    }
+
+    if (comment.author !== req.user.username) {
+      return res.status(401).json({ message: '댓글 수정 권한이 없어요.' });
+    }
+
+    sql = `DELETE FROM comment WHERE no=${commentNo}`;
+    await con.execute(sql);
+    return res.status(200).json({ message: '댓글 삭제 완료' });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ message: '데이터베이스 문제 발생' });
+  } finally {
+    con.release();
+  }
+};

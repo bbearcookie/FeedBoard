@@ -46,15 +46,18 @@ export const getPosts = (author='', tag='', favorite='') =>
   options
 );
 export const getPost = (postNo) => axios.get(`${BACKEND}/post/${postNo}`, options);
+export const patchFavorite = (postNo) => axios.patch(`${BACKEND}/favorite/${postNo}`, {}, options);
+
+// 댓글 관련
 export const postComment = (postNo, content) => axios.post(`${BACKEND}/comment`,
-  { postNo, content },
-  options
+{ postNo, content },
+options
 );
 export const putComment = (commentNo, content) => axios.put(`${BACKEND}/comment/${commentNo}`,
-  { content },
-  options
+{ content },
+options
 );
-export const patchFavorite = (postNo) => axios.patch(`${BACKEND}/favorite/${postNo}`, {}, options);
+export const deleteComment = (commentNo) => axios.delete(`${BACKEND}/comment/${commentNo}`, options);
 
 // 사용자 관련
 export const getUser = (username) => axios.get(`${BACKEND}/user/${username}`, options);
