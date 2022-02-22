@@ -8,6 +8,21 @@
   background: #333333;
   text-align: left;
 
+  .Modal {
+    width: 400px;
+
+    p {
+      margin: 0;
+      padding: 0;
+    }
+
+    .Button {
+      margin-left: 15px;
+      width: 50px;
+      height: 30px;
+    }
+  }
+
   .title-area {
     margin-bottom: 30px;
     display: flex;

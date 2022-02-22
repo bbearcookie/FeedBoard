@@ -48,7 +48,7 @@ module.exports.putPost = async (req, res) => {
     await con.beginTransaction();
 
     // 게시글 확인
-    let sql = `SELECT * FROM post WHERE no=${postNo}`;
+    let sql = `SELECT * FROM post WHERE no=${postNo} AND deleted=0`;
     let [[post]] = await con.query(sql);
 
     if (!post) {
@@ -112,7 +112,7 @@ module.exports.getPosts = async (req, res) => {
           sql = `
           SELECT no, title, content, author, nickname, writtenTime, modifiedTime, imgFileName
           FROM POST P, USER U
-          WHERE P.AUTHOR = U.USERNAME AND P.no IN (?)
+          WHERE P.AUTHOR = U.USERNAME AND P.no IN (?) AND P.deleted=0
           ORDER BY writtenTime DESC`;
           [posts] = await con.query(sql, [postNums]);
         }
@@ -122,7 +122,7 @@ module.exports.getPosts = async (req, res) => {
         sql = `
         SELECT no, title, content, author, nickname, writtenTime, modifiedTime, imgFileName
         FROM POST P, USER U
-        WHERE P.AUTHOR = U.USERNAME AND P.AUTHOR = ?
+        WHERE P.AUTHOR = U.USERNAME AND P.AUTHOR = ? AND P.deleted=0
         ORDER BY writtenTime DESC`;
         [posts] = await con.query(sql, author);
       }
@@ -142,7 +142,7 @@ module.exports.getPosts = async (req, res) => {
           sql = `
           SELECT no, title, content, author, nickname, writtenTime, modifiedTime, imgFileName
           FROM POST P, USER U
-          WHERE P.AUTHOR = U.USERNAME AND P.NO IN (?)
+          WHERE P.AUTHOR = U.USERNAME AND P.NO IN (?) AND P.deleted=0
           ORDER BY writtenTime DESC`;
           [posts] = await con.query(sql, [postNums]);
         }
@@ -151,7 +151,7 @@ module.exports.getPosts = async (req, res) => {
         sql = `
         SELECT no, title, content, author, nickname, writtenTime, modifiedTime, imgFileName
         FROM POST P, USER U
-        WHERE P.AUTHOR = U.USERNAME
+        WHERE P.AUTHOR = U.USERNAME AND P.deleted=0
         ORDER BY writtenTime DESC`;
         [posts] = await con.query(sql);
       }
@@ -186,7 +186,7 @@ module.exports.getPosts = async (req, res) => {
       sql =
       `SELECT postNo, COUNT(*) AS commentCnt
       FROM comment
-      WHERE postNo IN (?)
+      WHERE postNo IN (?) AND deleted=0
       GROUP BY postNo`
       const [commentCnt] = await con.query(sql, [postNums]);
 
@@ -224,7 +224,7 @@ module.exports.getPost = async (req, res) => {
     let sql =
     `SELECT no, title, content, author, nickname, modified, writtenTime, modifiedTime, imgFileName
     FROM POST P, USER U
-    WHERE P.author=U.username AND no = ?`;
+    WHERE P.author=U.username AND no = ? AND P.deleted=0`;
     let [[post]] = await con.query(sql, postNo);
 
     if (!post) {
@@ -240,7 +240,7 @@ module.exports.getPost = async (req, res) => {
     sql =
     `SELECT no, content, author, postNo, nickname, modified, writtenTime, modifiedTime, imgFileName
     FROM COMMENT C, USER U
-    WHERE postNo = ? AND C.author = U.username
+    WHERE postNo = ? AND C.author = U.username AND C.deleted=0
     ORDER BY writtenTime DESC`;
     let [comments] = await con.query(sql, postNo);
     post.comments = comments;
@@ -387,9 +387,42 @@ module.exports.deleteComment = async (req, res) => {
       return res.status(401).json({ message: '댓글 수정 권한이 없어요.' });
     }
 
-    sql = `DELETE FROM comment WHERE no=${commentNo}`;
+    // sql = `DELETE FROM comment WHERE no=${commentNo}`;
+    sql = `UPDATE comment SET deleted=1 WHERE no=${commentNo}`;
     await con.execute(sql);
     return res.status(200).json({ message: '댓글 삭제 완료' });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ message: '데이터베이스 문제 발생' });
+  } finally {
+    con.release();
+  }
+};
+
+/** @type {import("express").RequestHandler} */
+module.exports.deletePost = async (req, res) => {
+  const { postNo } = req.params;
+
+  if (!req.isAuthenticated()) {
+    return res.status(401).json({ message: '로그인 상태가 아니에요.' });
+  }
+
+  const con = await db.getConnection();
+  try {
+    let sql = `SELECT * FROM post WHERE no = ?`;
+    let [[post]] = await con.query(sql, postNo);
+
+    if (!post) {
+      return res.status(404).json({ message: '해당 게시글이 없어요.' });
+    }
+
+    if (post.author !== req.user.username) {
+      return res.status(401).json({ message: '게시글 수정 권한이 없어요.' });
+    }
+
+    sql = `UPDATE post SET deleted=1 WHERE no=${postNo}`;
+    await con.execute(sql);
+    return res.status(200).json({ message: '게시글 삭제 완료' });
   } catch (err) {
     console.error(err);
     return res.status(500).json({ message: '데이터베이스 문제 발생' });

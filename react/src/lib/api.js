@@ -47,6 +47,7 @@ export const putPost = (postNo, form, tags) => axios.put(`${BACKEND}/post/${post
     tags },
     options
 );
+export const deletePost = (postNo) => axios.delete(`${BACKEND}/post/${postNo}`, options);
 export const getPosts = (author='', tag='', favorite='') =>
   axios.get(`${BACKEND}/post?author=${author}&tag=${tag}&favorite=${favorite}`,
   options
