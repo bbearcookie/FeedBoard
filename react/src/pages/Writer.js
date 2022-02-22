@@ -1,4 +1,5 @@
-import React, { useState, createRef, useMemo, useCallback, useRef } from 'react';
+import React, { useState, useEffect, useMemo, useCallback, useRef, createRef } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import PageTemplate from '../templates/PageTemplate';
 import Tag from '../components/tag/Tag';
 import Button from '../components/input/Button';
@@ -7,7 +8,6 @@ import Textarea from '../components/input/Textarea';
 import * as api from '../lib/api';
 import * as formUtil from '../lib/form';
 import useRequest from '../lib/useRequest';
-import { useNavigate } from 'react-router-dom';
 import './Writer.scss';
 
 const inputs = [
@@ -36,10 +36,12 @@ const inputs = [
     ref: createRef()
   },
 ];
+const tagId = createRef(0);
 
 // input의 type에 따라서 렌더링할 컴포넌트가 다르므로 래퍼로 묶어서 사용했음.
 const InputWrapper = ({ form, setForm, tags, setTags, input, onChange, setError }) => {
-  const tagId = useRef(0);
+  // const tagId = useRef(0);
+  // tagId.current = tags.length + 1;
 
   // 새 태그 추가하고 태그 input 초기화
   function addNewTag() {
@@ -143,6 +145,7 @@ const Writer = () => {
   const [error, setError] = useState('');
   const [form, setForm] = useState(useMemo(() => formUtil.getInitialValues(inputs), []));
   const [tags, setTags] = useState([]);
+  const { postNo } = useParams();
   const request = useRequest();
   const navigate = useNavigate();
 
@@ -168,7 +171,13 @@ const Writer = () => {
     }
     
     try {
-      await request.call(api.postWrite, form, tags.map(tag => tag.value));
+      // 게시글 수정 처리
+      if (postNo) {
+        await request.call(api.putPost, postNo, form, tags.map(tag => tag.value));
+      // 게시글 작성 처리
+      } else {
+        await request.call(api.postPost, form, tags.map(tag => tag.value));
+      }
       return navigate('/');
     } catch (err) {
       if (err.response) {
@@ -191,6 +200,33 @@ const Writer = () => {
   const onCancelClick = () => {
     return navigate(-1);
   }
+
+  const onLoad = useCallback(async () => {
+    const data = await request.call(api.getPost, postNo);
+    const post = data.post;
+
+    // 게시글 수정시 게시글 내용 기본 값으로 설정
+    setForm({
+      ...form,
+      title: post.title,
+      content: post.content,
+    });
+
+    // 게시글 수정시 게시글에 포함된 태그들 기본 값으로 설정
+    setTags(
+      post.tags.map(tag => 
+        ({ id: tag.sequence, value: tag.value })
+      )
+    );
+    tagId.current = post.tags.length + 1;
+
+  }, []);
+  
+  useEffect(() => {
+    if (postNo) {
+      onLoad();
+    }
+  }, []);
 
   return (
     <PageTemplate className="Writer">

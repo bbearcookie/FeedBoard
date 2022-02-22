@@ -19,6 +19,7 @@ function App() {
         <Route path="/user/:username" element={<UserPage />} />
         <Route path="/setting/user" element={<UserSettingPage />} />
         <Route path="/writer" element={<Writer />} />
+        <Route path="/writer/:postNo" element={<Writer />} />
         <Route path="/post/:postNo" element={<PostPage />} />
       </Routes>
     </div>

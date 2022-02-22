@@ -73,7 +73,7 @@ const Comment = ({ commentNo, author, nickname, content, writtenTime, modifiedTi
           {auth.getUsername() === author ? 
           <Dropdown
             type="hover"
-            dropdownBtn={<FontAwesomeIcon className="option-btn" icon={faEllipsisV} />}
+            dropdownBtn={<FontAwesomeIcon icon={faEllipsisV} />}
           >
             <div className="Dropdown-item" onClick={onClickModify}>수정</div>
             <div className="Dropdown-item" onClick={openModal}>삭제</div>

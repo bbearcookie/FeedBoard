@@ -15,8 +15,9 @@ module.exports = (app) => {
 
   app.get('/post', postCtrl.getPosts); // 전체 게시글 반환
   app.get('/post/:postNo', postCtrl.getPost); // 특정 게시글 반환
+  app.post('/post', postCtrl.postPost); // 게시글 등록 처리
+  app.put('/post/:postNo', postCtrl.putPost); // 게시글 수정 처리
   app.patch('/favorite/:postNo', postCtrl.patchFavorite); // 특정 게시글의 좋아요 처리
-  app.post('/writer', postCtrl.writePost); // 게시글 등록 처리
   app.post('/comment', postCtrl.writeComment); // 댓글 등록 처리
   app.put('/comment/:commentNo', postCtrl.putComment) // 댓글 수정 처리
   app.delete('/comment/:commentNo', postCtrl.deleteComment) // 댓글 삭제 처리

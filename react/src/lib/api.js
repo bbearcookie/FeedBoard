@@ -35,7 +35,13 @@ export const putLoggedUser = (form) => {
 }
 
 // 게시글 관련
-export const postWrite = (form, tags) => axios.post(`${BACKEND}/writer`,
+export const postPost = (form, tags) => axios.post(`${BACKEND}/post`,
+  { title: form.title,
+    content: form.content,
+    tags },
+    options
+);
+export const putPost = (postNo, form, tags) => axios.put(`${BACKEND}/post/${postNo}`,
   { title: form.title,
     content: form.content,
     tags },

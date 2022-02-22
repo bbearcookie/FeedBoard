@@ -1,8 +1,7 @@
 const db = require('../config/database');
-const { post } = require('./testCtrl');
 
 /** @type {import("express").RequestHandler} */
-module.exports.writePost = async (req, res) => {
+module.exports.postPost = async (req, res) => {
   const { title, content, tags } = req.body;
 
   if (!req.isAuthenticated()) {
@@ -34,6 +33,61 @@ module.exports.writePost = async (req, res) => {
     con.release();
   }
 }
+
+/** @type {import("express").RequestHandler} */
+module.exports.putPost = async (req, res) => {
+  const { title, content, tags } = req.body;
+  const { postNo } = req.params;
+  
+  if (!req.isAuthenticated()) {
+    return res.status(401).json({ message: '로그인 상태가 아니에요.' });
+  }
+
+  const con = await db.getConnection();
+  try {
+    await con.beginTransaction();
+
+    // 게시글 확인
+    let sql = `SELECT * FROM post WHERE no=${postNo}`;
+    let [[post]] = await con.query(sql);
+
+    if (!post) {
+      con.rollback();
+      return res.status(404).json({ message: '해당 게시글이 없어요.' });
+    }
+
+    if (post.author !== req.user.username) {
+      con.rollback();
+      return res.status(401).json({ message: '게시글 수정 권한이 없어요.' });
+    }
+
+    // 기존 태그 삭제
+    sql = `DELETE FROM tag WHERE postNo=${postNo}`;
+    await con.execute(sql);
+
+    // 새로운 태그 추가
+    sql = 'INSERT INTO tag (postNo, value, sequence) VALUES (?, ?, ?)';
+    for (i in tags) {
+      await con.execute(sql, [postNo, tags[i], i]);
+    }
+
+    // 글 내용 수정
+    sql =
+    `UPDATE post
+    SET title='${title}', content='${content}', modified=1, modifiedTime=CURRENT_TIMESTAMP
+    WHERE no=${postNo}`;
+    await con.execute(sql);
+
+  } catch (err) {
+    console.error(err);
+    con.rollback();
+    res.status(500).json({ message: '데이터베이스 문제 발생' });
+  } finally {
+    con.release();
+  }
+
+  res.status(200).json({ message: '하하' });
+};
 
 /** @type {import("express").RequestHandler} */
 module.exports.getPosts = async (req, res) => {
@@ -168,7 +222,7 @@ module.exports.getPost = async (req, res) => {
   try {
     // 게시글 내용 조회
     let sql =
-    `SELECT no, title, content, author, nickname, writtenTime, modifiedTime, imgFileName
+    `SELECT no, title, content, author, nickname, modified, writtenTime, modifiedTime, imgFileName
     FROM POST P, USER U
     WHERE P.author=U.username AND no = ?`;
     let [[post]] = await con.query(sql, postNo);

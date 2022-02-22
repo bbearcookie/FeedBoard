@@ -10,7 +10,6 @@
 
   .title-area {
     margin-bottom: 30px;
-    // padding-left: 50px;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -21,8 +20,10 @@
     }
 
     .author-area {
+      width: 100%;
       margin-top: 20px;
       display: flex;
+      align-items: center;
 
       img {
         border-radius: 50px;
@@ -45,6 +46,13 @@
           color: gray;
           font-size: 14px;
         }
+      }
+
+      .right-area {
+        flex-grow: 1;
+        align-self: flex-end;
+        display: flex;
+        justify-content: flex-end;
       }
     }
   }

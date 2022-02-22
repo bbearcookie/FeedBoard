@@ -33,9 +33,12 @@ const PostPage = () => {
     <PageTemplate className="PostPage">
       <PostTitleBar
         title={post.title}
+        author={post.author}
         nickname={post.nickname}
         imgFileName={post.imgFileName}
         writtenTime={getFormattedDate(post.writtenTime)}
+        modified={post.modified}
+        modifiedTime={getFormattedDate(post.modifiedTime)}
       />
       <div className="inner-area">
         <p className="content">{post.content}</p>
