@@ -1,4 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useContext } from 'react';
+import UserContext from '../../contexts/user';
 import { Link } from 'react-router-dom';
 import TagContainer from '../../containers/TagContainer';
 import Tag from '../tag/Tag';
@@ -28,6 +29,7 @@ const Post = ({
 
   const [overflowed, setOverflowed] = useState(false);
   const contentRef = useRef(null);
+  const { user } = useContext(UserContext);
 
   // 내용이 많아서 잘리면 내용 더보기 라벨을 보여줌.
   useEffect(() => {
@@ -64,7 +66,7 @@ const Post = ({
           <li
             className={classNames(
               'button',
-              {'active': favoriteUsers.includes(auth.getUsername())}
+              {'active': favoriteUsers.includes(user.username)}
             )}
             onClick={() => onFavorite(postNo)}
           >

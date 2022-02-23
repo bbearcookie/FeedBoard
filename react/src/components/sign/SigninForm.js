@@ -1,4 +1,5 @@
-import React, { useState, useCallback, createRef, useEffect, useMemo } from 'react';
+import React, { useState, useCallback, createRef, useEffect, useMemo, useContext } from 'react';
+import UserContext from '../../contexts/user';
 import useRequest from '../../lib/useRequest';
 import { faAddressCard, faLock } from '@fortawesome/free-solid-svg-icons';
 import SignForm from './SignForm';
@@ -28,6 +29,7 @@ const inputs = [
 const SigninForm = () => {
   const [error, setError] = useState(''); // 화면에 보여줄 오류 메시지
   const [form, setForm] = useState(useMemo(() => formUtil.getInitialValues(inputs), []));
+  const { user, login, setUser } = useContext(UserContext);
   const request = useRequest();
   const navigate = useNavigate();
 
@@ -41,7 +43,7 @@ const SigninForm = () => {
     e.preventDefault();
 
     // 이미 로그인 되어있으면 return.
-    if (auth.getUser()) return setError('이미 로그인 되어있어요.');
+    if (user.username) return setError('이미 로그인 되어있어요.');
 
     let name = 'username';
     if (form[name] === '') {
@@ -57,7 +59,8 @@ const SigninForm = () => {
 
     try {
       setError('');
-      await auth.login(request, form);
+      await login(request, form);
+      // await auth.login(request, form);
       return navigate("/"); // redirect
     } catch (err) {
       if (err.response) {
@@ -66,7 +69,8 @@ const SigninForm = () => {
 
         switch (status) {
           case 400: // 이미 로그인 되어있는 경우
-            auth.setUser(username, nickname);
+            setUser({ ...user, username, nickname });
+            // auth.setUser(username, nickname);
             return navigate('/');
           case 401:
             setError(message);
@@ -78,7 +82,7 @@ const SigninForm = () => {
       return setError('요청 오류');
     }
 
-  }, [request, navigate, form]);
+  }, [request, navigate, form, login, user, setUser]);
 
   return (
     <SignForm

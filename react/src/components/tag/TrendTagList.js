@@ -1,5 +1,6 @@
 import React from 'react';
 import Tag from './Tag';
+import TagContainer from '../../containers/TagContainer';
 import './TrendTagList.scss';
 
 const TrendTagList = () => {
@@ -7,9 +8,7 @@ const TrendTagList = () => {
     <div className="TrendTagList">
       <p className="title-label">최근 트렌드 태그</p>
       <div className="item-area">
-        <Tag value="이런태그는런태그는런태그는런태그는런a태그는런태그는런태그는런태그는런태그는런태그는런태그는런태그는런태그는런태그는런태그는런태그는?" />
-        <Tag value="bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb한글ba한글한글만되네" />
-        <Tag value="아이템1" />
+        <TagContainer value="아이템1" />
         <Tag value="아이템2" />
         <Tag value="아이템3" />
         <Tag value="태그태그" />

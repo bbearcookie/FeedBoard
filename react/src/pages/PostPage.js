@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
+import UserContext from '../contexts/user';
 import { useParams } from 'react-router-dom';
 import PostTitleBar from '../components/titlebar/PostTitleBar';
 import PageTemplate from '../templates/PageTemplate';
@@ -14,6 +15,7 @@ import "./PostPage.scss";
 const PostPage = () => {
   const { postNo } = useParams();
   const [post, setPost] = useState({});
+  const { user } = useContext(UserContext);
   const request = useRequest();
 
   const onLoad = async () => {
@@ -50,8 +52,8 @@ const PostPage = () => {
         <hr className="divider" />
         <div className="comment-area">
           <h2 className="label">댓글 목록</h2>
-          {auth.getUser() ?
-            <CommentWriter nickname={auth.getNickname()} imgFileName={auth.getImgFileName()} /> :
+          {user.username ?
+            <CommentWriter nickname={user.nickname} imgFileName={user.imgFileName} /> :
           null}
           {post.comments && post.comments.map(comment => 
             (<Comment

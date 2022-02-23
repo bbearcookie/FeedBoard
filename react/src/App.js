@@ -7,22 +7,25 @@ import Signup from './pages/Signup';
 import Writer from './pages/Writer';
 import PostPage from './pages/PostPage';
 import UserSettingPage from './pages/UserSettingPage';
+import { UserProvider } from './contexts/user';
 
 function App() {
   return (
-    <div className="App">
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/hello" element={<div>반갑습</div>} />
-        <Route path="/signin" element={<Signin />} />
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/user/:username" element={<UserPage />} />
-        <Route path="/setting/user" element={<UserSettingPage />} />
-        <Route path="/writer" element={<Writer />} />
-        <Route path="/writer/:postNo" element={<Writer />} />
-        <Route path="/post/:postNo" element={<PostPage />} />
-      </Routes>
-    </div>
+    <UserProvider>
+      <div className="App">
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/hello" element={<div>반갑습</div>} />
+          <Route path="/signin" element={<Signin />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/user/:username" element={<UserPage />} />
+          <Route path="/setting/user" element={<UserSettingPage />} />
+          <Route path="/writer" element={<Writer />} />
+          <Route path="/writer/:postNo" element={<Writer />} />
+          <Route path="/post/:postNo" element={<PostPage />} />
+        </Routes>
+      </div>
+    </UserProvider>
   );
 }
 

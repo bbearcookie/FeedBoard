@@ -1,4 +1,5 @@
-import React, { createRef, useCallback, useEffect, useMemo, useState } from 'react';
+import React, { createRef, useCallback, useEffect, useMemo, useState, useContext } from 'react';
+import UserContext from '../contexts/user';
 import { useNavigate } from 'react-router-dom';
 import produce from 'immer';
 import PageTemplate from '../templates/PageTemplate';
@@ -121,6 +122,7 @@ const InputWrapper = ({ input, form, setForm, onChange }) => {
 
 const UserSettingPage = () => {
   const [form, setForm] = useState(useMemo(() => formUtil.getInitialValues(inputs), []));
+  const { user, setUser } = useContext(UserContext);
   const navigate = useNavigate();
   const request = useRequest();
   
@@ -156,8 +158,18 @@ const UserSettingPage = () => {
   // 폼 전송시
   const onSubmit = async (e) => {
     e.preventDefault();
-    await request.call(api.putLoggedUser, form);
-    return navigate(`/user/${auth.getUsername()}`);
+    try {
+      const res = await request.call(api.putLoggedUser, form);
+      setUser({
+        ...user,
+        username: res.username,
+        nickname: res.nickname,
+        imgFileName: res.imgFileName
+      });
+    } catch (err) {
+      console.error(err);
+    }
+    return navigate(`/user/${user.username}`);
   }
 
   return (

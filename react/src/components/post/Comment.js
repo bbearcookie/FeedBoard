@@ -1,4 +1,5 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useContext } from 'react';
+import UserContext from '../../contexts/user';
 import { useNavigate } from 'react-router-dom';
 import Button from '../input/Button';
 import Dropdown from '../dropdown/Dropdown';
@@ -15,6 +16,7 @@ import './Comment.scss';
 const Comment = ({ commentNo, author, nickname, content, writtenTime, modifiedTime, modified, imgFileName }) => {
   const [modify, setModify] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const { user } = useContext(UserContext);
   const request = useRequest();
   const navigate = useNavigate();
 
@@ -70,7 +72,7 @@ const Comment = ({ commentNo, author, nickname, content, writtenTime, modifiedTi
         <p className="written-time">{modified ? modifiedTime : writtenTime}</p>
         {modified ? <p className="written-time">(수정됨)</p> : null}
         <div className="right-area">
-          {auth.getUsername() === author ? 
+          {user && user.username === author ? 
           <Dropdown
             type="hover"
             dropdownBtn={<FontAwesomeIcon icon={faEllipsisV} />}

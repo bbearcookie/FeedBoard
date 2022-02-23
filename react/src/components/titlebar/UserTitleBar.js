@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import UserContext from '../../contexts/user';
 import { Link, useParams } from 'react-router-dom';
 import TitleBarTemplate from '../../templates/TitleBarTemplate';
 import { faPen } from '@fortawesome/free-solid-svg-icons';
@@ -9,6 +10,7 @@ import './UserTitleBar.scss';
 
 const UserTitleBar = ({ user }) => {
   const { username } = useParams();
+  const { user: loggedUser } = useContext(UserContext);
 
   return (
     <TitleBarTemplate className="UserTitleBar">
@@ -21,7 +23,7 @@ const UserTitleBar = ({ user }) => {
         />
         <p className="nickname">{user.nickname}</p>
         <p className="introduce">{user.introduce}</p>
-        {username === auth.getUsername() ?
+        {loggedUser && username === loggedUser.username ?
         <Link className="edit-button" to="/setting/user">
           <Button theme="primary-outline" icon={faPen}>내 정보 수정</Button>
         </Link>

@@ -83,12 +83,28 @@ module.exports.logout = async (req, res) => {
 /** @type {import("express").RequestHandler} */
 module.exports.check = async (req, res) => {
   if (req.user) {
-    res.status(200).json({
-      message: '로그인이 되어있는 상태에요.',
-      username: req.user.username,
-      nickname: req.user.nickname,
-      imgFileName: req.user.imgFileName
-    });
+
+    const con = await db.getConnection();
+
+    try {
+      let sql =
+      `SELECT username, nickname, imgFileName
+      FROM user
+      WHERE username='${req.user.username}'`
+      let [[user]] = await con.query(sql);
+
+      res.status(200).json({
+        message: '로그인이 되어있는 상태에요.',
+        username: user.username,
+        nickname: user.nickname,
+        imgFileName: user.imgFileName
+      });
+    } catch (err) {
+      console.error(err);
+      return res.status(500).json({ message: '데이터베이스 문제 발생' });
+    } finally {
+      con.release();
+    }
   } else {
     res.status(401).json({ message: '로그인이 되어있지 않은 상태에요.' });
   }
@@ -135,14 +151,25 @@ module.exports.putLoggedUser = async (req, res) => {
       sql += `, imgFileName='${req.file.filename}'`;
     // 프로필 이미지의 초기화를 원하면 초기화
     } else if (imageReset) {
-      sql += `, imgFileName=NULL `;
+      sql += `, imgFileName=NULL`;
     }
     
-    sql += `WHERE username='${req.user.username}'`;
+    sql += ` WHERE username='${req.user.username}'`;
 
     await con.execute(sql);
+    
+    sql =
+    `SELECT username, nickname, imgFileName
+    FROM user
+    WHERE username='${req.user.username}'`;
+    [[user]] = await con.query(sql);
 
-    return res.status(200).json({ message: '하하' });
+    return res.status(200).json({
+      message: '사용자 정보 수정 완료',
+      username: user.username,
+      nickname: user.nickname,
+      imgFileName: user.imgFileName
+    });
   } catch (err) {
     console.error(err);
     return res.status(500).json({ message: '데이터베이스 문제 발생' });

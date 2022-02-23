@@ -1,4 +1,5 @@
-import React, { createRef, useCallback, useState, useMemo } from 'react';
+import React, { createRef, useCallback, useState, useMemo, useContext } from 'react';
+import UserContext from '../../contexts/user';
 import SignForm from './SignForm';
 import { faAddressCard, faLock, faUser } from '@fortawesome/free-solid-svg-icons';
 import useRequest from '../../lib/useRequest';
@@ -45,6 +46,7 @@ const inputs = [
 const SignupForm = () => {
   const [error, setError] = useState(''); // 화면에 보여줄 오류 메시지
   const [form, setForm] = useState(useMemo(() => formUtil.getInitialValues(inputs), []));
+  const { user, login } = useContext(UserContext);
   const request = useRequest();
   const navigate = useNavigate();
 
@@ -58,7 +60,7 @@ const SignupForm = () => {
     e.preventDefault();
 
     // 이미 로그인 되어있으면 return.
-    if (auth.getUser()) return setError('로그인이 되어있는 상태에는 가입할 수 없어요.');
+    if (user.username) return setError('로그인이 되어있는 상태에는 가입할 수 없어요.');
     
     let name = 'username';
     if (form[name] === '') {
@@ -98,7 +100,8 @@ const SignupForm = () => {
     
     try {
       await request.call(api.postSignup, form); // 회원가입 처리
-      await auth.login(request, form); // 로그인 처리
+      // await auth.login(request, form); // 로그인 처리
+      await login(request, form);
       inputs.forEach(input => e.target[input.name].value = ''); // 폼 초기화
       return navigate('/'); // 메인 화면으로 리다이렉션
     } catch (err) {
@@ -118,7 +121,7 @@ const SignupForm = () => {
         }
       }
     }
-  }, [request, navigate, form]);
+  }, [request, navigate, form, user, login]);
 
   return (
     <SignForm

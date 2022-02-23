@@ -1,4 +1,5 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useContext } from 'react';
+import UserContext from '../../contexts/user';
 import { useNavigate, useParams } from 'react-router-dom';
 import Modal from '../modal/Modal';
 import Button from '../input/Button';
@@ -15,6 +16,7 @@ import './PostTitleBar.scss';
 const PostTitleBar = ({ title, author, nickname, writtenTime, modified, modifiedTime, imgFileName }) => {
   const [showModal, setShowModal] = useState(false);
   const { postNo } = useParams();
+  const { user } = useContext(UserContext);
   const navigate = useNavigate();
   const request = useRequest();
 
@@ -65,7 +67,7 @@ const PostTitleBar = ({ title, author, nickname, writtenTime, modified, modified
             <p className="written-time">{writtenTime} {modified ? `(수정: ${modifiedTime})` : null}</p>
           </div>
           <div className="right-area">
-            {auth.getUsername() === author ?
+            {user && user.username === author ?
             <Dropdown
               type="toggle"
               dropdownBtn={<FontAwesomeIcon icon={faEllipsisV} size="lg" />}

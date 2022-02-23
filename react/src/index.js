@@ -18,10 +18,14 @@ import * as api from './lib/api';
   // 앱 처음 실행시 서버로부터 로그인 상태를 확인함.
   try {
     const res = await api.getCheckLogged();
-    if (res.data.nickname) auth.setUser(res.data.username, res.data.nickname, res.data.imgFileName);
+    if (res.data.nickname) {
+      const user = auth.createUser(res.data.username, res.data.nickname, res.data.imgFileName);
+      auth.saveToStoarage(user);
+    }
   } catch (err) {
     console.error(err);
-    auth.removeUser();
+    // auth.removeUser();
+    auth.removeFromStoarage();
   }
   
   ReactDOM.render(

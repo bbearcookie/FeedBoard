@@ -11,7 +11,10 @@ module.exports.getUser = async (req, res) => {
     FROM user
     WHERE username = ?`;
     let [[user]] = await con.query(sql, username);
-    res.status(200).json({ message: '사용자 조회 성공', user });
+    res.status(200).json({
+      message: '사용자 조회 성공',
+      user
+     });
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: '데이터베이스 문제 발생' });
