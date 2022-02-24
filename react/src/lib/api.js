@@ -68,3 +68,6 @@ export const deleteComment = (commentNo) => axios.delete(`${BACKEND}/comment/${c
 
 // 사용자 관련
 export const getUser = (username) => axios.get(`${BACKEND}/user/${username}`, options);
+
+// 태그 관련
+export const getTrendTags = () => axios.get(`${BACKEND}/trendTags`, options);

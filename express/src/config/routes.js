@@ -1,6 +1,7 @@
 const authCtrl = require('../controllers/authCtrl');
 const postCtrl = require('../controllers/postCtrl');
 const userCtrl = require('../controllers/userCtrl');
+const tagCtrl = require('../controllers/tagCtrl');
 const { userImageUpload } = require('../config/multer');
 
 module.exports = (app) => {
@@ -23,6 +24,8 @@ module.exports = (app) => {
   app.post('/comment', postCtrl.writeComment); // 댓글 등록 처리
   app.put('/comment/:commentNo', postCtrl.putComment) // 댓글 수정 처리
   app.delete('/comment/:commentNo', postCtrl.deleteComment) // 댓글 삭제 처리
+
+  app.get('/trendTags', tagCtrl.getTrendTags); // 최근 트렌드 태그들 반환
   
   app.get('/user/:username', userCtrl.getUser); // 해당 사용자의 정보를 반환
 }

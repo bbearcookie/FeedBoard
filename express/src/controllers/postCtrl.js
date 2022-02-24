@@ -78,15 +78,15 @@ module.exports.putPost = async (req, res) => {
     WHERE no=${postNo}`;
     await con.execute(sql);
 
+    con.commit();
+    return res.status(200).json({ message: '게시글 수정 완료' });
   } catch (err) {
     console.error(err);
     con.rollback();
-    res.status(500).json({ message: '데이터베이스 문제 발생' });
+    return res.status(500).json({ message: '데이터베이스 문제 발생' });
   } finally {
     con.release();
   }
-
-  res.status(200).json({ message: '하하' });
 };
 
 /** @type {import("express").RequestHandler} */
