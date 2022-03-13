@@ -10,6 +10,7 @@ module.exports = (app) => {
   app.post('/auth/signin', authCtrl.signin);
   app.post('/auth/signup', authCtrl.signup);
   app.post('/auth/logout', authCtrl.logout);
+  app.get('/auth/signin/kakao', authCtrl.kakaoSignin);
   app.get('/auth/check', authCtrl.check);
   app.get('/auth/user', authCtrl.getLoggedUser); // 로그인된 사용자의 정보를 반환함.
   app.put('/auth/user', userImageUpload.single('image'), authCtrl.putLoggedUser); // 로그인된 사용자의 정보를 수정함.

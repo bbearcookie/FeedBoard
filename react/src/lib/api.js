@@ -3,6 +3,8 @@ import axios from "axios";
 export const BACKEND = 'http://localhost:5000';
 const options = { withCredentials: true };
 
+export const kakaoLogin = `${BACKEND}/auth/signin/kakao`;
+
 // 사용자 인증 관련
 export const postSignin = (form) => axios.post(`${BACKEND}/auth/signin`,
   { username: form.username,

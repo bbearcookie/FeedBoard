@@ -24,3 +24,4 @@ react/yarn-error.log*
 
 express/node_modules
 express/public
+express/.env

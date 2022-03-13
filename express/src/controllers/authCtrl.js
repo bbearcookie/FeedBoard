@@ -1,3 +1,4 @@
+const axios = require('axios');
 const db = require('../config/database');
 const { makeSalt, encrypt, passport } = require('../config/passport');
 
@@ -18,13 +19,33 @@ module.exports.signin = async (req, res) => {
           nickname: user.nickname,
           imgFileName: user.imgFileName
         });
-      })
+      });
     } else {
       console.log('로그인 실패: ' + info.message);
       res.status(401).json(info);
     }
 
   })(req, res); // authenticate 내부의 콜백 함수에 req, res 객체를 사용할수 있게 보냄.
+}
+
+/** @type {import("express").RequestHandler} */
+module.exports.kakaoSignin = async (req, res) => {
+  if (req.isAuthenticated()) {
+    return res.status(400).json({message: '이미 로그인 되어있어요.', nickname: req.user.nickname});
+  }
+
+  passport.authenticate('kakao', (err, user, info) => {
+    if (err) console.error(err);
+    if (user) {
+      req.login(user, (err) => {
+        if (err) console.error(err);
+        res.redirect('http://localhost:3000/');
+      });
+    } else {
+      console.log('로그인 실패: ' + info.message);
+      res.status(401).json(info);
+    }
+  })(req, res);
 }
 
 /** @type {import("express").RequestHandler} */
@@ -76,7 +97,19 @@ module.exports.signup = async (req, res) => {
 
 /** @type {import("express").RequestHandler} */
 module.exports.logout = async (req, res) => {
+  // 카카오 로그아웃 요청인데 잘 작동 안하는듯 함.
+  // /v1/user/unlink로 완전 해제시키는건 가능함.
+  if (req.user.provider === 'kakao') {
+    await axios({
+      method: 'post',
+      url: 'https://kapi.kakao.com/v1/user/logout',
+      headers: {
+        'Authorization': `Bearer ${req.user.accessToken}`
+      }
+    });
+  }
   req.logout();
+  req.session.destroy();
   res.send();
 }
 
