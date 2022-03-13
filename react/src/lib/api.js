@@ -4,6 +4,7 @@ export const BACKEND = 'http://localhost:5000';
 const options = { withCredentials: true };
 
 export const kakaoLogin = `${BACKEND}/auth/signin/kakao`;
+export const googleLogin = `${BACKEND}/auth/signin/google`;
 
 // 사용자 인증 관련
 export const postSignin = (form) => axios.post(`${BACKEND}/auth/signin`,

@@ -1,6 +1,7 @@
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const KakaoStrategy = require('passport-kakao').Strategy;
+const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const crypto = require('crypto');
 const db = require('../config/database');
 
@@ -72,27 +73,29 @@ module.exports = (app) => {
     clientID: process.env.KAKAO_RESTAPI_KEY,
     callbackURL: '/auth/signin/kakao'
   }, async (accessToken, refreshToken, profile, done) => {
+    const provider = 'google';
     const conn = await db.getConnection();
+
     try {
       let query = `
       SELECT * FROM USER
       WHERE USERNAME='${profile.id}_kakao'
-      AND provider='kakao'
+      AND provider='${provider}'
       `;
 
       let [[user]] = await conn.query(query);
 
       // 처음 가입하는 계정이면 DB에 등록
       if (!user) {
-        const username = profile.id + "_kakao";
+        const username = profile.id + "_" + provider;
         const nickname = profile.username;
         query = 'INSERT INTO user (provider, username, nickname) VALUES (?, ?, ?)';
-        await conn.execute(query, ['kakao', username, nickname]);
+        await conn.execute(query, [provider, username, nickname]);
         user = { username, nickname, imgFileName: '' };
       }
       
       user = {
-        provider: 'kakao',
+        provider,
         accessToken,
         refreshToken,
         username: user.username,
@@ -101,6 +104,53 @@ module.exports = (app) => {
       };
 
       return done(null, user);
+    } catch (err) {
+      console.error(err);
+      return done(null, false, { message: '시스템 에러' });
+    } finally {
+      conn.release();
+    }
+  }));
+
+  // GoogleStrategy
+  passport.use(new GoogleStrategy({
+    clientID: process.env.GOOGLE_CLIENT_ID,
+    clientSecret: process.env.GOOGLE_SECRET_KEY,
+    callbackURL: '/auth/signin/google',
+    passReqToCallback: true
+  }, async (request, accessToken, refreshToken, profile, done) => {
+    const provider = 'google';
+
+    const conn = await db.getConnection();
+    try {
+      let sql = `
+      SELECT * FROM USER
+      WHERE USERNAME='${profile.id}_google'
+      AND provider='${provider}'
+      `;
+
+      let [[user]] = await conn.query(sql);
+
+      // 처음 가입하는 계정이면 DB에 등록
+      if (!user) {
+        const username = profile.id + "_" + provider;
+        const nickname = profile._json.email.split('@')[0];
+        query = 'INSERT INTO user (provider, username, nickname) VALUES (?, ?, ?)';
+        await conn.execute(query, [provider, username, nickname]);
+        user = { username, nickname, imgFileName: '' };
+      }
+
+      user = {
+        provider,
+        accessToken,
+        refreshToken,
+        username: user.username,
+        nickname: user.nickname,
+        imgFileName: user.imgFileName
+      };
+
+      return done(null, user);
+
     } catch (err) {
       console.error(err);
       return done(null, false, { message: '시스템 에러' });

@@ -49,6 +49,26 @@ module.exports.kakaoSignin = async (req, res) => {
 }
 
 /** @type {import("express").RequestHandler} */
+module.exports.googleSignin = async (req, res) => {
+  if (req.isAuthenticated()) {
+    return res.status(400).json({message: '이미 로그인 되어있어요.', nickname: req.user.nickname});
+  }
+
+  passport.authenticate('google', { scope: ['email'] }, (err, user, info) => {
+    if (err) console.error(err);
+    if (user) {
+      req.login(user, (err) => {
+        if (err) console.error(err);
+        res.redirect('http://localhost:3000/');
+      });
+    } else {
+      console.log('로그인 실패: ' + info.message);
+      res.status(401).json(info);
+    }
+  })(req, res);
+}
+
+/** @type {import("express").RequestHandler} */
 module.exports.signup = async (req, res) => {
   const { username, password, passwordConfirm, nickname } = req.body;
 

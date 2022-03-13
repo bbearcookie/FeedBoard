@@ -16,7 +16,10 @@ const Signup = () => {
           <Link className="link" to="/signin">이미 가입하셨나요?</Link>
           <SignupForm />
           <a href={api.kakaoLogin}>
-            <Button className="kakao-button" theme="kakao">카카오로 로그인</Button>
+            <Button className="login-button" theme="kakao">카카오로 로그인</Button>
+          </a>
+          <a href={api.googleLogin}>
+            <Button className="login-button" theme="secondary">구글로 로그인</Button>
           </a>
         </div>
       </SignTemplate>
